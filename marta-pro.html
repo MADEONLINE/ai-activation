@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Marta Pro — Allenamento Consapevole</title>
+<meta name="description" content="Marta Pro: pianificatore settimanale con schede video, selezione distretti su base scientifica, nutrizione bulk/cut personalizzata. Uomo e donna." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f1ea; --bg-2:#eae5d8; --ink:#0f1115; --ink-2:#1f2430; --mute:#5b5f67;
+    --rule:rgba(15,17,21,.12); --rule-2:rgba(15,17,21,.22);
+    --brand:#1f6b68; --brand-2:#0e4541; --gold:#d9a441; --gold-deep:#a3761e;
+    --coral:#ea5844; --paper:#ffffff; --paper-2:#fdfbf4;
+    --ok:#2e7d32; --warn:#c25a00; --err:#b3261e;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:"Satoshi",system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block;max-width:100%}
+  button{font-family:inherit;cursor:pointer}
+  input,select{font-family:inherit}
+
+  .wrap{max-width:1320px;margin:0 auto;padding:0 32px}
+  .wrap-tight{max-width:1080px;margin:0 auto;padding:0 32px}
+
+  .display{font-family:"Satoshi",sans-serif;font-weight:900;letter-spacing:-.035em;line-height:.92}
+  .serif{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 100}
+  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);font-weight:500;display:inline-flex;align-items:center;gap:10px}
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--brand)}
+  .mute{color:var(--mute)}
+  .mono{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:500}
+
+  /* NAV */
+  nav.top{position:sticky;top:0;z-index:100;background:rgba(244,241,234,.92);backdrop-filter:saturate(140%) blur(12px);border-bottom:1px solid var(--rule)}
+  nav.top .row{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;max-width:1320px;margin:0 auto;gap:24px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .logo{width:38px;height:38px;display:grid;place-items:center;background:var(--ink);border-radius:10px}
+  .brand .logo svg{width:22px;height:22px;color:var(--gold)}
+  .brand .name{font-weight:900;font-size:15px;letter-spacing:.04em}
+  .brand .name .sub{display:block;font-weight:500;font-size:10.5px;letter-spacing:.22em;color:var(--mute);text-transform:uppercase;margin-top:1px}
+  nav .links{display:flex;gap:26px;font-size:13.5px;color:var(--ink-2);font-weight:500}
+  nav .links a{position:relative;padding:6px 0}
+  nav .links a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--brand);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+  nav .links a:hover::after{transform:scaleX(1)}
+  .pill-pro{display:inline-flex;gap:6px;align-items:center;background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#1a1200;font-weight:900;font-size:10.5px;letter-spacing:.18em;padding:4px 8px;border-radius:4px;text-transform:uppercase}
+
+  /* HERO / PROFILE */
+  header.hero{padding:56px 0 24px}
+  header.hero h1{font-size:clamp(38px,6vw,72px);margin:14px 0 12px}
+  header.hero p.lede{font-size:1.2rem;max-width:70ch;color:var(--ink-2)}
+  .profile{margin-top:36px;background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px 20px;align-items:end}
+  .profile label{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--mute);margin-bottom:6px}
+  .profile input, .profile select{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--rule-2);background:var(--paper-2);font-size:14.5px;color:var(--ink);font-weight:500}
+  .profile input:focus, .profile select:focus{outline:none;border-color:var(--brand)}
+  .seg{display:inline-flex;background:var(--bg-2);border-radius:10px;padding:4px;gap:2px;width:100%}
+  .seg button{flex:1;background:transparent;border:0;padding:8px 6px;border-radius:8px;font-weight:600;font-size:13px;color:var(--ink-2)}
+  .seg button.on{background:var(--ink);color:var(--bg)}
+
+  /* SECTIONS */
+  section{padding:60px 0;border-top:1px solid var(--rule)}
+  section h2{font-size:clamp(28px,4vw,44px);margin:0 0 8px;letter-spacing:-.02em;line-height:1}
+  section h2 .serif{font-style:italic;color:var(--brand)}
+  section .kicker{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:28px;flex-wrap:wrap}
+  section p.sub{color:var(--ink-2);max-width:72ch;font-size:1.05rem;margin:0}
+
+  /* WEEK PLANNER */
+  .week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px;margin-top:8px}
+  .day{background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:14px 12px;min-height:150px;display:flex;flex-direction:column;gap:10px;position:relative;transition:transform .15s, border-color .15s}
+  .day.today{border-color:var(--brand);box-shadow:0 0 0 3px rgba(31,107,104,.12)}
+  .day.drag-over{border-color:var(--gold);background:#fff9ea}
+  .day .dname{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);font-weight:700}
+  .day .dnum{font-family:"Fraunces",serif;font-weight:600;font-size:26px;line-height:1;letter-spacing:-.02em}
+  .day .slot{margin-top:auto;border-radius:10px;padding:10px 10px;background:var(--bg-2);font-size:12.5px;font-weight:600;color:var(--ink-2);min-height:52px;display:flex;flex-direction:column;justify-content:center;gap:2px}
+  .day .slot.filled{background:var(--ink);color:var(--bg)}
+  .day .slot .tag{font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.7;font-weight:600}
+  .day .rest{opacity:.55}
+  .day .clear{position:absolute;top:8px;right:8px;background:transparent;border:0;color:var(--mute);font-size:16px;opacity:0;transition:opacity .15s}
+  .day:hover .clear{opacity:1}
+  .day .clear:hover{color:var(--err)}
+  @media (max-width:900px){ .week{grid-template-columns:repeat(2,1fr)} }
+
+  /* SCHEDA LIBRARY */
+  .library{margin-top:28px}
+  .lib-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;flex-wrap:wrap;gap:12px}
+  .lib-head h3{font-size:18px;margin:0;letter-spacing:-.01em}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .card{background:var(--paper);border:1px solid var(--rule);border-radius:16px;padding:18px;cursor:grab;transition:transform .15s, box-shadow .15s, border-color .15s;position:relative;overflow:hidden}
+  .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(15,17,21,.08);border-color:var(--rule-2)}
+  .card:active{cursor:grabbing}
+  .card.selected{border-color:var(--brand);box-shadow:0 0 0 3px rgba(31,107,104,.14)}
+  .card .accent{position:absolute;top:0;left:0;width:6px;height:100%;background:var(--brand)}
+  .card .accent.push{background:#c25a00}
+  .card .accent.pull{background:#1f6b68}
+  .card .accent.legs{background:#4a3b8a}
+  .card .accent.full{background:#0e4541}
+  .card .accent.core{background:#d9a441}
+  .card .accent.mob{background:#5b5f67}
+  .card .accent.hiit{background:#ea5844}
+  .card .tag{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--mute);margin-bottom:8px}
+  .card .name{font-family:"Fraunces",serif;font-weight:600;font-size:22px;letter-spacing:-.02em;line-height:1.05;margin-bottom:6px}
+  .card .desc{font-size:13px;color:var(--ink-2);margin-bottom:12px}
+  .card .meta{display:flex;gap:14px;font-size:11.5px;color:var(--mute);font-weight:600}
+  .card .meta span b{color:var(--ink)}
+  .card .open-btn{margin-top:12px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);display:inline-flex;align-items:center;gap:6px}
+
+  /* SCHEDA DETAIL (expanded) */
+  .scheda-detail{margin-top:24px;background:linear-gradient(180deg,var(--paper) 0%, var(--paper-2) 100%);border:1px solid var(--rule);border-radius:20px;padding:28px;display:none}
+  .scheda-detail.open{display:block}
+  .scheda-detail .sd-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+  .scheda-detail h3{font-size:30px;font-family:"Fraunces",serif;font-weight:500;letter-spacing:-.02em;margin:0 0 6px}
+  .scheda-detail .sd-meta{font-size:13px;color:var(--mute)}
+  .scheda-detail .sd-meta b{color:var(--ink)}
+  .scheda-detail .sd-close{background:transparent;border:1px solid var(--rule-2);border-radius:999px;padding:8px 14px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--ink-2)}
+  .exercises{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .ex{background:var(--paper);border:1px solid var(--rule);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+  .ex .video{position:relative;aspect-ratio:16/10;background:#0f1115;display:grid;place-items:center;color:#fff}
+  .ex .video .placeholder{text-align:center;padding:14px}
+  .ex .video .placeholder .glyph{width:52px;height:52px;border-radius:999px;background:rgba(255,255,255,.14);display:grid;place-items:center;margin:0 auto 8px}
+  .ex .video .placeholder .glyph svg{width:20px;height:20px;fill:#fff;margin-left:2px}
+  .ex .video .placeholder .lbl{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;opacity:.75}
+  .ex .video .placeholder .name{font-family:"Fraunces",serif;font-size:20px;font-weight:500;line-height:1.1;margin-top:2px}
+  .ex .video::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%, rgba(217,164,65,.28), transparent 55%), radial-gradient(circle at 80% 90%, rgba(31,107,104,.4), transparent 55%);pointer-events:none}
+  .ex .play{position:absolute;inset:0;width:100%;height:100%;background:transparent;border:0;cursor:pointer;z-index:2}
+  .ex .body{padding:14px 16px 16px}
+  .ex .body .n{font-weight:700;font-size:15.5px;margin-bottom:4px}
+  .ex .body .m{font-size:12px;color:var(--mute);margin-bottom:10px}
+  .ex .body .stats{display:flex;gap:12px;font-size:12px;color:var(--ink-2);flex-wrap:wrap}
+  .ex .body .stats span{background:var(--bg-2);padding:4px 8px;border-radius:6px;font-weight:600}
+  .ex .body .cue{font-size:12.5px;color:var(--ink-2);margin-top:10px;padding-top:10px;border-top:1px dashed var(--rule)}
+  .ex .body .cue b{color:var(--ink)}
+
+  /* DISTRICTS */
+  .districts-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:32px;align-items:start}
+  @media (max-width:900px){ .districts-grid{grid-template-columns:1fr} }
+  .body-map{background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:22px;position:sticky;top:96px}
+  .body-map .view-toggle{display:flex;justify-content:center;margin-bottom:12px;gap:6px}
+  .body-map .view-toggle button{background:var(--bg-2);border:0;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+  .body-map .view-toggle button.on{background:var(--ink);color:var(--bg)}
+  .body-map svg{width:100%;height:auto;max-height:520px}
+  .body-map .region{fill:var(--bg-2);stroke:var(--ink);stroke-width:1.4;cursor:pointer;transition:fill .15s}
+  .body-map .region:hover{fill:var(--gold)}
+  .body-map .region.active{fill:var(--brand);stroke:var(--brand-2)}
+  .body-map .outline{fill:none;stroke:var(--ink);stroke-width:1.5}
+  .body-map .legend{margin-top:14px;font-size:12px;color:var(--mute);text-align:center}
+  .district-panel{background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:26px;min-height:400px}
+  .district-panel .empty{color:var(--mute);font-style:italic;padding:40px 0;text-align:center}
+  .district-panel h3{font-family:"Fraunces",serif;font-size:32px;font-weight:500;margin:0 0 6px;letter-spacing:-.02em}
+  .district-panel .protocol{background:var(--bg-2);border-left:4px solid var(--brand);padding:14px 16px;border-radius:0 10px 10px 0;margin:16px 0 24px;font-size:13.5px;color:var(--ink-2)}
+  .district-panel .protocol b{color:var(--ink)}
+  .district-panel .protocol .ref{display:inline-block;background:var(--paper);color:var(--brand);padding:1px 6px;border-radius:4px;font-size:11px;font-weight:700;margin-left:4px}
+  .district-panel h4{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:18px 0 10px}
+  .ex-list{display:flex;flex-direction:column;gap:10px}
+  .ex-list .row{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--paper-2);border:1px solid var(--rule);border-radius:10px;font-size:14px}
+  .ex-list .row b{font-weight:700}
+  .ex-list .row .why{color:var(--mute);font-size:12px;margin-top:2px}
+  .ex-list .row .badge{background:var(--brand);color:#fff;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:3px 8px;border-radius:999px}
+
+  /* NUTRITION */
+  .nut-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:32px;align-items:start}
+  @media (max-width:900px){ .nut-grid{grid-template-columns:1fr} }
+  .nut-form{background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:24px;display:grid;gap:14px}
+  .nut-form label{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--mute);margin-bottom:6px}
+  .nut-form input,.nut-form select{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--rule-2);background:var(--paper-2);font-size:14.5px;font-weight:500}
+  .nut-form .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .nut-results{background:linear-gradient(180deg, var(--ink) 0%, #14181f 100%);color:var(--bg);border-radius:20px;padding:28px}
+  .nut-results .phase-tag{display:inline-block;background:var(--gold);color:#1a1200;font-weight:900;letter-spacing:.16em;text-transform:uppercase;font-size:11px;padding:5px 10px;border-radius:4px;margin-bottom:14px}
+  .nut-results h3{font-family:"Fraunces",serif;font-weight:500;font-size:34px;margin:0 0 6px;letter-spacing:-.02em}
+  .nut-results .num{font-family:"Fraunces",serif;font-size:52px;font-weight:600;letter-spacing:-.03em;line-height:1;margin-top:14px}
+  .nut-results .num small{font-size:14px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;opacity:.6;display:block;margin-top:6px;font-family:"Satoshi",sans-serif}
+  .macros{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+  .macro{background:rgba(255,255,255,.06);border-radius:12px;padding:14px}
+  .macro .lbl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.6;font-weight:700}
+  .macro .v{font-family:"Fraunces",serif;font-size:26px;font-weight:600;margin-top:4px}
+  .macro .g{opacity:.6;font-size:12px;margin-top:2px}
+  .macro.pro{border-left:3px solid #4dd0e1}
+  .macro.carb{border-left:3px solid var(--gold)}
+  .macro.fat{border-left:3px solid #ff9e80}
+  .rationale{margin-top:24px;font-size:13px;line-height:1.6;color:rgba(244,241,234,.75);border-top:1px solid rgba(255,255,255,.12);padding-top:16px}
+  .rationale b{color:var(--gold)}
+
+  .meals{margin-top:32px}
+  .meal-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+  .meal{background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:16px}
+  .meal .h{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand);font-weight:800;margin-bottom:6px}
+  .meal .n{font-family:"Fraunces",serif;font-size:19px;font-weight:500;margin-bottom:6px;letter-spacing:-.01em}
+  .meal ul{margin:0;padding-left:18px;font-size:13px;color:var(--ink-2)}
+  .meal ul li{margin:3px 0}
+  .meal .mm{margin-top:10px;font-size:11.5px;color:var(--mute)}
+
+  /* REFERENCES */
+  .refs{background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:28px}
+  .refs ol{padding-left:22px;margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.7}
+  .refs ol li{margin:8px 0}
+  .refs ol li b{color:var(--ink)}
+  .refs ol li em{color:var(--brand)}
+
+  /* MODAL */
+  .modal{position:fixed;inset:0;background:rgba(15,17,21,.75);display:none;align-items:center;justify-content:center;z-index:200;padding:24px}
+  .modal.on{display:flex}
+  .modal .box{background:var(--paper);border-radius:20px;max-width:820px;width:100%;overflow:hidden}
+  .modal .video-wrap{aspect-ratio:16/9;background:#000;position:relative}
+  .modal .video-wrap iframe{width:100%;height:100%;border:0}
+  .modal .empty-video{width:100%;height:100%;display:grid;place-items:center;color:#fff;padding:20px;text-align:center}
+  .modal .body{padding:22px 26px}
+  .modal .body h4{font-family:"Fraunces",serif;font-size:26px;font-weight:500;margin:0 0 6px}
+  .modal .body p{color:var(--ink-2);margin:6px 0 0;font-size:14px}
+  .modal .close{position:absolute;top:14px;right:14px;background:#000;color:#fff;border:0;width:36px;height:36px;border-radius:999px;font-size:18px;z-index:3}
+
+  /* FOOTER */
+  footer{padding:44px 0;border-top:1px solid var(--rule);color:var(--mute);font-size:13px}
+  footer .row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  footer a{color:var(--ink-2);font-weight:600}
+
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="row">
+    <div class="brand">
+      <div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 12h3l2-5 3 10 3-8 2 3h3"/></svg></div>
+      <div class="name">MARTA <span class="pill-pro">Pro</span><span class="sub">Allenamento consapevole</span></div>
+    </div>
+    <div class="links">
+      <a href="#settimana">Settimana</a>
+      <a href="#distretti">Distretti</a>
+      <a href="#nutrizione">Nutrizione</a>
+      <a href="#riferimenti">Riferimenti</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow"><span class="dot"></span>Versione Pro · Uomo · Donna</span>
+    <h1 class="display">Allena la <span class="serif" style="color:var(--brand);font-style:italic;font-weight:400">settimana</span>,<br/>non l'entusiasmo.</h1>
+    <p class="lede">Pianifica sette giorni con schede pronte, apri ogni scheda per vedere subito il video dell'esecuzione corretta, scegli i distretti da lavorare e ricevi consigli nutrizionali per bulk o cut basati su protocolli scientifici. Uomo e donna, stesso metodo.</p>
+
+    <div class="profile" id="profile">
+      <div>
+        <label>Nome</label>
+        <input id="p-name" type="text" placeholder="il tuo nome" value="Marta" />
+      </div>
+      <div>
+        <label>Sesso</label>
+        <div class="seg" id="p-sex">
+          <button data-v="F" class="on">Donna</button>
+          <button data-v="M">Uomo</button>
+        </div>
+      </div>
+      <div>
+        <label>Età</label>
+        <input id="p-age" type="number" min="14" max="90" value="34" />
+      </div>
+      <div>
+        <label>Peso · kg</label>
+        <input id="p-weight" type="number" min="30" max="200" step="0.1" value="62" />
+      </div>
+      <div>
+        <label>Altezza · cm</label>
+        <input id="p-height" type="number" min="140" max="220" value="168" />
+      </div>
+      <div>
+        <label>Livello</label>
+        <select id="p-level">
+          <option value="beg">Principiante</option>
+          <option value="int" selected>Intermedio</option>
+          <option value="adv">Avanzato</option>
+        </select>
+      </div>
+      <div>
+        <label>Attività quotidiana</label>
+        <select id="p-activity">
+          <option value="1.375">Leggera (1-3 all./sett.)</option>
+          <option value="1.55" selected>Moderata (4-5 all./sett.)</option>
+          <option value="1.725">Intensa (6-7 all./sett.)</option>
+        </select>
+      </div>
+      <div>
+        <label>Fase</label>
+        <div class="seg" id="p-phase">
+          <button data-v="cut">Cut</button>
+          <button data-v="maint" class="on">Manten.</button>
+          <button data-v="bulk">Bulk</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- SETTIMANA -->
+<section id="settimana">
+  <div class="wrap">
+    <div class="kicker">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>Pianificatore</span>
+        <h2>La tua <span class="serif">settimana</span>.</h2>
+      </div>
+      <p class="sub">Trascina una scheda dalla libreria sul giorno, oppure clicca la scheda per aprirla e vedere subito i video degli esercizi. Il giorno di oggi è evidenziato.</p>
+    </div>
+
+    <div class="week" id="week"></div>
+
+    <div class="library">
+      <div class="lib-head">
+        <h3>Libreria schede</h3>
+        <span class="mono mute">Clicca per espandere · trascina per assegnare</span>
+      </div>
+      <div class="cards" id="cards"></div>
+    </div>
+
+    <div class="scheda-detail" id="scheda-detail"></div>
+  </div>
+</section>
+
+<!-- DISTRETTI -->
+<section id="distretti">
+  <div class="wrap">
+    <div class="kicker">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>Distretti muscolari</span>
+        <h2>Scegli <span class="serif">cosa</span> allenare.</h2>
+      </div>
+      <p class="sub">Clicca un distretto sulla mappa. Ricevi il protocollo evidence-based (volume, intensità, frequenza) e gli esercizi più efficaci — selezionati sulla base di studi EMG e meta-analisi di ipertrofia.</p>
+    </div>
+
+    <div class="districts-grid">
+      <div class="body-map">
+        <div class="view-toggle">
+          <button data-view="front" class="on">Anteriore</button>
+          <button data-view="back">Posteriore</button>
+        </div>
+        <div id="body-svg"></div>
+        <div class="legend">Tocca un'area per vedere protocollo ed esercizi</div>
+      </div>
+      <div class="district-panel" id="district-panel">
+        <div class="empty">Seleziona un distretto dalla mappa per iniziare.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NUTRIZIONE -->
+<section id="nutrizione">
+  <div class="wrap">
+    <div class="kicker">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>Nutrizione</span>
+        <h2>Bulk o <span class="serif">cut</span> — con metodo.</h2>
+      </div>
+      <p class="sub">Fabbisogno calcolato con Mifflin-St Jeor (2005), macros dalle posizioni ISSN. Le fasce cambiano automaticamente con sesso, peso, età, attività e fase. I meal ideas si adattano.</p>
+    </div>
+
+    <div class="nut-grid">
+      <div class="nut-form">
+        <div>
+          <label>Fase</label>
+          <div class="seg" id="n-phase">
+            <button data-v="cut">Cut</button>
+            <button data-v="maint" class="on">Manten.</button>
+            <button data-v="bulk">Bulk</button>
+          </div>
+        </div>
+        <div class="row2">
+          <div>
+            <label>Deficit / Surplus %</label>
+            <input id="n-delta" type="number" min="-30" max="30" step="1" value="0" />
+          </div>
+          <div>
+            <label>Proteine g/kg</label>
+            <input id="n-pro" type="number" min="1.2" max="3.0" step="0.1" value="1.8" />
+          </div>
+        </div>
+        <div class="row2">
+          <div>
+            <label>Grassi g/kg</label>
+            <input id="n-fat" type="number" min="0.5" max="1.5" step="0.1" value="1.0" />
+          </div>
+          <div>
+            <label>Pasti / giorno</label>
+            <select id="n-meals">
+              <option>3</option>
+              <option selected>4</option>
+              <option>5</option>
+            </select>
+          </div>
+        </div>
+        <p class="mute" style="font-size:12px;margin:6px 0 0">I valori seguono le linee guida ISSN <em>[3][5]</em>: 1.6–2.2 g/kg proteine per l'ipertrofia, 0.8–1.2 g/kg grassi per l'equilibrio ormonale.</p>
+      </div>
+
+      <div class="nut-results" id="nut-results"></div>
+    </div>
+
+    <div class="meals">
+      <div class="lib-head" style="margin:22px 0 10px">
+        <h3 style="margin:0">Meal ideas — <span id="meal-phase">manten.</span></h3>
+        <span class="mono mute">Adattati alla fase e alla quota proteica</span>
+      </div>
+      <div class="meal-cards" id="meal-cards"></div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="riferimenti">
+  <div class="wrap">
+    <div class="kicker">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>Base scientifica</span>
+        <h2>Da dove viene <span class="serif">tutto questo</span>.</h2>
+      </div>
+      <p class="sub">Ogni protocollo, volume di allenamento e range nutrizionale citato nell'app è ancorato a una di queste fonti.</p>
+    </div>
+
+    <div class="refs">
+      <ol>
+        <li><b>[1] Schoenfeld BJ, Grgic J, Van Every DW, Plotkin DL.</b> <em>Loading recommendations for muscle strength, hypertrophy, and local endurance: a re-examination of the repetition continuum.</em> Sports (Basel) 2021;9(2):32. — Fondamento dei range 6–12 rep per ipertrofia, 1–5 per forza, 15+ per endurance.</li>
+        <li><b>[2] Schoenfeld BJ, Ogborn D, Krieger JW.</b> <em>Dose-response relationship between weekly resistance training volume and increases in muscle mass: A systematic review and meta-analysis.</em> J Sports Sci 2017;35(11):1073-82. — Da qui viene la soglia 10+ serie/settimana per gruppo muscolare per massimizzare l'ipertrofia.</li>
+        <li><b>[3] Jäger R, Kerksick CM, Campbell BI, et al.</b> <em>International Society of Sports Nutrition Position Stand: protein and exercise.</em> J Int Soc Sports Nutr 2017;14:20. — Range 1.4–2.0 g/kg/die; fino a 2.2 g/kg in cut per preservare massa magra.</li>
+        <li><b>[4] Aragon AA, Schoenfeld BJ, Wildman R, et al.</b> <em>ISSN diet & body composition position stand.</em> J Int Soc Sports Nutr 2017;14:16. — Deficit 500–750 kcal/die in cut; surplus 10–20% in lean bulk.</li>
+        <li><b>[5] Helms ER, Aragon AA, Fitschen PJ.</b> <em>Evidence-based recommendations for natural bodybuilding contest preparation: nutrition and supplementation.</em> J Int Soc Sports Nutr 2014;11:20. — Fondamento del calo lento (0.5–1% peso/settimana) per preservare la massa magra.</li>
+        <li><b>[6] Grgic J, Schoenfeld BJ, Davies TB, et al.</b> <em>Effect of resistance training frequency on gains in muscular strength.</em> Sports Med 2018;48(5):1207–20. — Da 2 sedute/settimana per gruppo muscolare come minimo efficace.</li>
+        <li><b>[7] Krzysztofik M, Wilk M, Wojdała G, Gołaś A.</b> <em>Maximizing muscle hypertrophy: a systematic review of advanced resistance training techniques.</em> Int J Environ Res Public Health 2019;16(24):4897. — Base delle scelte esercizi multi-articolari + isolamento.</li>
+        <li><b>[8] Mifflin MD, St Jeor ST, et al.</b> <em>A new predictive equation for resting energy expenditure in healthy individuals.</em> Am J Clin Nutr 1990;51(2):241-7. — Formula BMR usata nel calcolatore.</li>
+        <li><b>[9] Kerksick CM, Wilborn CD, Roberts MD, et al.</b> <em>ISSN exercise & sports nutrition review update: research & recommendations.</em> J Int Soc Sports Nutr 2018;15:38. — Timing e distribuzione proteica su 3–5 pasti.</li>
+        <li><b>[10] Ratamess NA, Alvar BA, et al. ACSM.</b> <em>Progression models in resistance training for healthy adults.</em> Med Sci Sports Exerc 2009;41(3):687-708. — Posizione ACSM su carichi, volumi, riposo intra-serie.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <div><b>Marta Pro</b> — allenamento consapevole per uomo e donna. Prototipo interno · nessun dato viene inviato online.</div>
+      <div><a href="#settimana">Torna su ↑</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- VIDEO MODAL -->
+<div class="modal" id="modal">
+  <div class="box">
+    <div class="video-wrap" style="position:relative">
+      <button class="close" id="modal-close" aria-label="Chiudi">×</button>
+      <div id="video-slot"></div>
+    </div>
+    <div class="body">
+      <h4 id="modal-title">Esercizio</h4>
+      <p id="modal-body">Focus tecnico.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------- DATA ----------
+
+// Schede: id, nome, tag, colore, descrizione, target, esercizi
+const SCHEDE = [
+  { id:'push-a', name:'Push A', tag:'push', color:'push',
+    desc:'Petto · Spalle · Tricipiti. Focus spinta orizzontale.',
+    dur:55, exN:6, level:'int',
+    ex:[
+      {n:'Panca piana bilanciere', m:'Petto · Tricipiti · Delt. ant.', sets:'4 × 6-8', rest:'2-3 min', cue:'Scapole retratte, gomiti ~45°, bilanciere sullo sterno.', vid:'rT7DgCr-3pg'},
+      {n:'Panca inclinata manubri', m:'Petto alto · Delt. ant.', sets:'3 × 8-10', rest:'90 s', cue:'Inclinazione 30°, arco basso, polsi neutri.', vid:'8iPEnn-ltC8'},
+      {n:'Military press manubri', m:'Delt. ant./lat · Tricipiti', sets:'3 × 8-10', rest:'90 s', cue:'Core attivo, non iperestendere lombare.', vid:'B-aVuyhvLHU'},
+      {n:'Alzate laterali', m:'Deltoide laterale', sets:'3 × 12-15', rest:'60 s', cue:'Gomiti leggermente flessi, guidati dai gomiti non dai polsi.', vid:'geenhiHju-o'},
+      {n:'French press ez', m:'Tricipiti (capo lungo)', sets:'3 × 10-12', rest:'75 s', cue:'Gomiti fermi vicino alla testa, allunga il capo lungo.', vid:'YbX7Wd8jQ-Q'},
+      {n:'Push-down cavo', m:'Tricipiti', sets:'3 × 12-15', rest:'60 s', cue:'Gomiti attaccati al busto, contrazione a fine ROM.', vid:'2-LAMcpzODU'}
+    ]},
+  { id:'pull-a', name:'Pull A', tag:'pull', color:'pull',
+    desc:'Dorso · Bicipiti · Trapezio. Trazione verticale + orizzontale.',
+    dur:55, exN:6, level:'int',
+    ex:[
+      {n:'Trazioni presa larga', m:'Gran dorsale · Romboidi', sets:'4 × max', rest:'2-3 min', cue:'Petto in fuori, mento sopra la sbarra.', vid:'eGo4IYlbE5g'},
+      {n:'Rematore bilanciere', m:'Dorso spesso · Trapezio medio', sets:'4 × 8-10', rest:'2 min', cue:'Busto 45°, tira all\'ombelico.', vid:'kBWAon7ItDw'},
+      {n:'Lat machine presa neutra', m:'Gran dorsale', sets:'3 × 10-12', rest:'90 s', cue:'Scendi tirando i gomiti verso i fianchi.', vid:'JGeRYIZdojU'},
+      {n:'Face pull', m:'Delt. post · Trapezio inf.', sets:'3 × 15', rest:'60 s', cue:'Alto verso il viso, apri le mani a fine ROM.', vid:'V8dZ3pyiCBo'},
+      {n:'Curl bilanciere', m:'Bicipite brachiale', sets:'3 × 8-12', rest:'75 s', cue:'Gomiti fermi, no swing lombare.', vid:'kwG2ipFRgfo'},
+      {n:'Hammer curl', m:'Brachiale · Brachioradiale', sets:'3 × 10-12', rest:'60 s', cue:'Polsi neutri, controllo eccentrica 2-3 s.', vid:'zC3nLlEvin4'}
+    ]},
+  { id:'legs-a', name:'Legs A', tag:'legs', color:'legs',
+    desc:'Quadricipiti · Glutei · Polpacci. Focus forza multi-articolare.',
+    dur:60, exN:6, level:'int',
+    ex:[
+      {n:'Squat bilanciere', m:'Quad · Glutei · Core', sets:'5 × 5', rest:'3 min', cue:'Piedi larghi come le spalle, ginocchia in linea con le punte.', vid:'ultWZbUMPL8'},
+      {n:'Stacco rumeno', m:'Femorali · Glutei', sets:'4 × 8', rest:'2 min', cue:'Anche indietro, bilanciere lungo le cosce.', vid:'CN_7cz3P-1U'},
+      {n:'Affondi camminati manubri', m:'Quad · Glutei', sets:'3 × 10/lato', rest:'90 s', cue:'Passo lungo per glutei, corto per quadricipiti.', vid:'D7KaRcUTQeE'},
+      {n:'Leg extension', m:'Quadricipite', sets:'3 × 12-15', rest:'60 s', cue:'Pausa 1 s in contrazione massima.', vid:'YyvSfVjQeL0'},
+      {n:'Leg curl sdraiato', m:'Femorali', sets:'3 × 10-12', rest:'75 s', cue:'Non staccare il bacino, eccentrica 3 s.', vid:'ELOCsoDSmrg'},
+      {n:'Calf raise in piedi', m:'Gastrocnemio', sets:'4 × 12-15', rest:'45 s', cue:'ROM completo, pausa 1 s in alto.', vid:'-M4-G8p8fmc'}
+    ]},
+  { id:'full', name:'Full body', tag:'full', color:'full',
+    desc:'Total-body per chi si allena 2-3 volte a settimana.',
+    dur:50, exN:5, level:'beg',
+    ex:[
+      {n:'Goblet squat manubrio', m:'Quad · Glutei · Core', sets:'3 × 10', rest:'90 s', cue:'Manubrio al petto, schiena neutra.', vid:'MeIiIdhvXT4'},
+      {n:'Panca manubri', m:'Petto · Tricipiti', sets:'3 × 10', rest:'90 s', cue:'Manubri all\'altezza dello sterno.', vid:'VmB1G1K7v94'},
+      {n:'Rematore un braccio', m:'Dorso · Bicipiti', sets:'3 × 10/lato', rest:'75 s', cue:'Appoggio panca, tira all\'anca.', vid:'roCP6wCXPqo'},
+      {n:'Hip thrust bilanciere', m:'Glutei · Femorali', sets:'3 × 12', rest:'90 s', cue:'Spinta con i talloni, mento in dentro.', vid:'LM8XHLYJoYs'},
+      {n:'Plank', m:'Core · Traverso', sets:'3 × 45 s', rest:'60 s', cue:'Bacino in retroversione, glutei attivi.', vid:'ASdvN_XEl_c'}
+    ]},
+  { id:'core', name:'Core & Mobility', tag:'core', color:'core',
+    desc:'Stabilità profonda + mobilità articolare. Recupero attivo.',
+    dur:35, exN:5, level:'beg',
+    ex:[
+      {n:'Dead bug', m:'Core anteriore · Traverso', sets:'3 × 8/lato', rest:'45 s', cue:'Lombare a contatto col pavimento tutto il tempo.', vid:'g_BYB0R-4Ws'},
+      {n:'Bird dog', m:'Core · Erettori spinali', sets:'3 × 8/lato', rest:'45 s', cue:'Braccio e gamba opposti, ferma 2 s.', vid:'wiFNA3sqjCA'},
+      {n:'Pallof press', m:'Anti-rotazione core', sets:'3 × 10/lato', rest:'45 s', cue:'Non ruotare, spingi lontano dal petto.', vid:'AH_QZLm_0-s'},
+      {n:'CAT camel', m:'Mobilità toracica', sets:'2 × 10', rest:'30 s', cue:'Alterna flessione ed estensione lenta.', vid:'K9bK0BwKFjs'},
+      {n:'90/90 hip stretch', m:'Mobilità anca', sets:'2 × 60 s/lato', rest:'30 s', cue:'Busto eretto, respiro nasale.', vid:'sYh2ldTaiCk'}
+    ]},
+  { id:'hiit', name:'HIIT metabolico', tag:'hiit', color:'hiit',
+    desc:'20\' ad alta intensità. Condizionamento cardio-metabolico.',
+    dur:25, exN:5, level:'int',
+    ex:[
+      {n:'Kettlebell swing', m:'Catena posteriore', sets:'8 × 20\'\'/40\'\'', rest:'40 s', cue:'Esplosione d\'anca, non solleva con le braccia.', vid:'sSESGRRZR0Q'},
+      {n:'Burpees', m:'Full body', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Petto a terra, salto verticale a fine.', vid:'auBLPXO8Fww'},
+      {n:'Mountain climbers', m:'Core · cardio', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Anca stabile, ginocchia al petto.', vid:'nmwgirgXLYM'},
+      {n:'Air squat esplosivo', m:'Gambe · cardio', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Piena estensione, atterraggio morbido.', vid:'Azl5tkCzDcc'},
+      {n:'Row / Bike sprint', m:'Cardio metabolico', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Massima potenza, respirazione ritmata.', vid:''}
+    ]}
+];
+
+// Distretti muscolari con protocolli scientifici
+const DISTRICTS = {
+  petto:{ name:'Petto', proto:'Volume settimanale: <b>10-20 serie</b> · Frequenza: <b>2×/sett.</b> · Range rep: <b>6-15</b> [1][2][6]. Grande pettorale attivato al massimo con angoli tra 0° e 30° di inclinazione [7].',
+    ex:[
+      {n:'Panca piana bilanciere', why:'Attivazione EMG massima del pettorale', badge:'Base'},
+      {n:'Panca inclinata 30° manubri', why:'Migliora il capo clavicolare', badge:'Alta prio'},
+      {n:'Croci ai cavi bassi', why:'Isolamento capo sternale', badge:'Isolam.'},
+      {n:'Dip petto (inclinazione avanti)', why:'Attivazione petto basso + tricipiti', badge:'Composto'}
+    ]},
+  spalle:{ name:'Spalle', proto:'Volume: <b>12-20 serie/sett.</b>. Deltoide laterale è il capo più sotto-allenato: <b>+ isolamento diretto</b> è cruciale per larghezza [7].',
+    ex:[
+      {n:'Military press manubri', why:'Composto: ant. + laterale', badge:'Base'},
+      {n:'Alzate laterali', why:'Massima attivazione deltoide medio', badge:'Isolam.'},
+      {n:'Face pull ai cavi', why:'Deltoide posteriore + salute spalla', badge:'Salute'},
+      {n:'Rear delt fly panca inclinata', why:'Isolamento deltoide posteriore', badge:'Isolam.'}
+    ]},
+  braccia:{ name:'Braccia (bicipiti + tricipiti)', proto:'Volume diretto: <b>6-12 serie/sett.</b> per capo. I muscoli del braccio ricevono già stimolo indiretto dai composti: eccesso di volume = ritorni decrescenti [2].',
+    ex:[
+      {n:'Curl EZ bilanciere', why:'Massima carico per bicipite', badge:'Base'},
+      {n:'Curl panca inclinata', why:'Allunga il capo lungo', badge:'Capo lungo'},
+      {n:'French press EZ', why:'Allunga capo lungo tricipite', badge:'Capo lungo'},
+      {n:'Push-down cavo corda', why:'Isolamento capo laterale', badge:'Isolam.'}
+    ]},
+  addome:{ name:'Core / Addome', proto:'Frequenza: <b>2-4×/sett.</b>. Priorità ad esercizi <b>anti-estensione</b> (plank) e <b>anti-rotazione</b> (Pallof) — più funzionali del crunch [10].',
+    ex:[
+      {n:'Plank + varianti', why:'Anti-estensione, isometria core', badge:'Base'},
+      {n:'Dead bug', why:'Attivazione traverso senza carico lombare', badge:'Salute'},
+      {n:'Hanging leg raise', why:'Retto addominale con carico', badge:'Ipertrofia'},
+      {n:'Pallof press', why:'Anti-rotazione, obliqui', badge:'Funzionale'}
+    ]},
+  quad:{ name:'Quadricipiti', proto:'Volume: <b>10-18 serie/sett.</b>. Squat + isolamento (leg extension) danno l\'ipertrofia maggiore vs solo squat [7].',
+    ex:[
+      {n:'Back squat', why:'Carico massimo su quadricipiti', badge:'Base'},
+      {n:'Hack squat / Pressa 45°', why:'Isolamento quadricipiti con meno stress lombare', badge:'Volume'},
+      {n:'Affondi bulgari', why:'Unilaterale, squilibri', badge:'Unilat.'},
+      {n:'Leg extension', why:'Isolamento retto femorale', badge:'Isolam.'}
+    ]},
+  glutei:{ name:'Glutei', proto:'Volume: <b>10-16 serie/sett.</b>. <b>Hip thrust</b> genera EMG del gluteo maggiore superiore a squat parziale [7]. Femmina: risposta ipertrofica marcata a stimolo mirato.',
+    ex:[
+      {n:'Hip thrust bilanciere', why:'EMG massima gluteo maggiore', badge:'Base'},
+      {n:'Stacco rumeno', why:'Allungamento sotto carico', badge:'Composto'},
+      {n:'Affondi camminati passo lungo', why:'Enfasi gluteo su ogni passo', badge:'Unilat.'},
+      {n:'Abduzione anca ai cavi', why:'Gluteo medio (upper glute)', badge:'Isolam.'}
+    ]},
+  fem:{ name:'Femorali (posteriore coscia)', proto:'Volume: <b>6-12 serie/sett.</b>. Bilancia forza quad:ham ~ 60% per prevenzione infortuni [10]. Includere sempre <b>eccentriche</b>.',
+    ex:[
+      {n:'Stacco rumeno', why:'Allungamento con carico', badge:'Base'},
+      {n:'Nordic curl', why:'Massimo eccentrico su femorali', badge:'Prevenz.'},
+      {n:'Leg curl sdraiato', why:'Isolamento con flessione ginocchio', badge:'Isolam.'},
+      {n:'Good morning', why:'Erettori + femorali', badge:'Composto'}
+    ]},
+  polp:{ name:'Polpacci', proto:'Volume: <b>10-20 serie/sett.</b>, alta frequenza (fino a 3-4×). Gastrocnemio a ginocchio esteso, soleo a ginocchio flesso [7].',
+    ex:[
+      {n:'Calf raise in piedi', why:'Attiva gastrocnemio', badge:'Base'},
+      {n:'Calf raise seduto', why:'Attiva soleo', badge:'Fibre lente'},
+      {n:'Calf raise unilat.', why:'Simmetria + range', badge:'Unilat.'},
+      {n:'Salti con caviglia', why:'Componente elastica', badge:'Power'}
+    ]},
+  dorso:{ name:'Dorso (gran dorsale + trapezio)', proto:'Volume: <b>12-22 serie/sett.</b>. Mix di <b>trazione verticale</b> (dorsale) e <b>orizzontale</b> (trapezio medio, romboidi) [7].',
+    ex:[
+      {n:'Trazioni presa larga', why:'Sviluppo larghezza dorsale', badge:'Base'},
+      {n:'Rematore bilanciere', why:'Spessore dorsale + trapezio', badge:'Base'},
+      {n:'Pulley basso presa neutra', why:'Volume in sicurezza', badge:'Volume'},
+      {n:'Chin-up presa supina', why:'Dorsale + bicipite', badge:'Composto'}
+    ]},
+  delt_post:{ name:'Deltoide posteriore', proto:'Il capo più sotto-allenato: <b>8-12 serie/sett.</b> di isolamento diretto. Chiave per postura e salute della spalla [7][10].',
+    ex:[
+      {n:'Face pull', why:'Attivazione + salute spalla', badge:'Salute'},
+      {n:'Rear delt fly panca inclinata', why:'Isolamento diretto', badge:'Isolam.'},
+      {n:'Reverse pec deck', why:'Volume in sicurezza', badge:'Volume'},
+      {n:'Band pull-apart', why:'Attivazione, riscaldamento', badge:'Warm-up'}
+    ]}
+};
+
+// SVG body outline con hitbox per regione (front/back)
+function bodySVG(view){
+  const front = `
+  <svg viewBox="0 0 200 420" xmlns="http://www.w3.org/2000/svg">
+    <!-- outline -->
+    <g class="outline">
+      <ellipse cx="100" cy="30" rx="20" ry="24"/>
+      <path d="M85,55 Q60,68 55,120 L58,175 Q60,210 68,240 Q72,270 74,300 Q72,340 68,395 L88,395 Q92,340 94,300 L98,300 M102,300 L106,300 Q108,340 112,395 L132,395 Q128,340 126,300 Q128,270 132,240 Q140,210 142,175 L145,120 Q140,68 115,55 Z"/>
+      <path d="M55,120 Q30,150 22,205 L18,270 L28,285 L35,240 Q45,180 55,150 Z"/>
+      <path d="M145,120 Q170,150 178,205 L182,270 L172,285 L165,240 Q155,180 145,150 Z"/>
+    </g>
+    <!-- clickable regions -->
+    <path class="region" data-d="petto" d="M75,80 Q100,72 125,80 L125,120 Q100,128 75,120 Z"/>
+    <ellipse class="region" data-d="spalle" cx="60" cy="90" rx="16" ry="14"/>
+    <ellipse class="region" data-d="spalle" cx="140" cy="90" rx="16" ry="14"/>
+    <path class="region" data-d="braccia" d="M35,145 Q45,175 40,220 L28,225 Q25,180 30,150 Z"/>
+    <path class="region" data-d="braccia" d="M165,145 Q155,175 160,220 L172,225 Q175,180 170,150 Z"/>
+    <rect class="region" data-d="addome" x="80" y="130" width="40" height="70" rx="10"/>
+    <path class="region" data-d="quad" d="M74,220 Q78,270 82,320 L96,320 L96,220 Z"/>
+    <path class="region" data-d="quad" d="M104,220 L104,320 L118,320 Q122,270 126,220 Z"/>
+    <rect class="region" data-d="polp" x="72" y="335" width="24" height="55" rx="6"/>
+    <rect class="region" data-d="polp" x="104" y="335" width="24" height="55" rx="6"/>
+  </svg>`;
+  const back = `
+  <svg viewBox="0 0 200 420" xmlns="http://www.w3.org/2000/svg">
+    <g class="outline">
+      <ellipse cx="100" cy="30" rx="20" ry="24"/>
+      <path d="M85,55 Q60,68 55,120 L58,175 Q60,210 68,240 Q72,270 74,300 Q72,340 68,395 L88,395 Q92,340 94,300 L98,300 M102,300 L106,300 Q108,340 112,395 L132,395 Q128,340 126,300 Q128,270 132,240 Q140,210 142,175 L145,120 Q140,68 115,55 Z"/>
+      <path d="M55,120 Q30,150 22,205 L18,270 L28,285 L35,240 Q45,180 55,150 Z"/>
+      <path d="M145,120 Q170,150 178,205 L182,270 L172,285 L165,240 Q155,180 145,150 Z"/>
+    </g>
+    <ellipse class="region" data-d="delt_post" cx="60" cy="90" rx="16" ry="14"/>
+    <ellipse class="region" data-d="delt_post" cx="140" cy="90" rx="16" ry="14"/>
+    <path class="region" data-d="dorso" d="M72,80 Q100,72 128,80 L130,180 Q100,190 70,180 Z"/>
+    <path class="region" data-d="braccia" d="M35,145 Q45,175 40,220 L28,225 Q25,180 30,150 Z"/>
+    <path class="region" data-d="braccia" d="M165,145 Q155,175 160,220 L172,225 Q175,180 170,150 Z"/>
+    <path class="region" data-d="glutei" d="M72,200 Q100,195 128,200 L128,240 Q100,250 72,240 Z"/>
+    <path class="region" data-d="fem" d="M74,250 Q78,290 82,325 L96,325 L96,250 Z"/>
+    <path class="region" data-d="fem" d="M104,250 L104,325 L118,325 Q122,290 126,250 Z"/>
+    <rect class="region" data-d="polp" x="72" y="335" width="24" height="55" rx="6"/>
+    <rect class="region" data-d="polp" x="104" y="335" width="24" height="55" rx="6"/>
+  </svg>`;
+  return view==='front' ? front : back;
+}
+
+// ---------- STATE ----------
+const state = {
+  sex:'F', phase:'maint', level:'int',
+  age:34, weight:62, height:168, activity:1.55,
+  plan:{ Lun:null, Mar:null, Mer:null, Gio:null, Ven:null, Sab:null, Dom:null },
+  selectedScheda:null, selectedDistrict:null, bodyView:'front',
+  nPhase:'maint', nDelta:0, nPro:1.8, nFat:1.0, nMeals:4
+};
+
+// ---------- WEEK ----------
+const days = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
+function todayIdx(){ const d=new Date().getDay(); return (d+6)%7; }
+function renderWeek(){
+  const week = document.getElementById('week');
+  week.innerHTML = days.map((d,i)=>{
+    const s = state.plan[d];
+    const isToday = i===todayIdx();
+    const scheda = s ? SCHEDE.find(x=>x.id===s) : null;
+    return `<div class="day ${isToday?'today':''}" data-day="${d}">
+      <button class="clear" data-day="${d}" title="Svuota">×</button>
+      <div>
+        <div class="dname">${d}</div>
+        <div class="dnum">${(new Date(Date.now()+(i-todayIdx())*86400000)).getDate()}</div>
+      </div>
+      <div class="slot ${scheda?'filled':'rest'}" data-day="${d}">
+        ${scheda ? `<div class="tag">${scheda.tag}</div><div>${scheda.name}</div>` : `<div class="tag">riposo</div><div>+ trascina scheda</div>`}
+      </div>
+    </div>`;
+  }).join('');
+  // DnD
+  week.querySelectorAll('.day').forEach(el=>{
+    el.addEventListener('dragover', e=>{e.preventDefault(); el.classList.add('drag-over')});
+    el.addEventListener('dragleave', ()=>el.classList.remove('drag-over'));
+    el.addEventListener('drop', e=>{
+      e.preventDefault(); el.classList.remove('drag-over');
+      const id = e.dataTransfer.getData('text/plain');
+      state.plan[el.dataset.day] = id;
+      renderWeek();
+    });
+    el.querySelector('.slot').addEventListener('click',()=>{
+      const s = state.plan[el.dataset.day];
+      if(s){ openScheda(s); }
+    });
+  });
+  week.querySelectorAll('.clear').forEach(b=>{
+    b.addEventListener('click',e=>{ e.stopPropagation(); state.plan[b.dataset.day]=null; renderWeek(); });
+  });
+}
+
+// ---------- LIBRARY ----------
+function renderLibrary(){
+  const wrap = document.getElementById('cards');
+  wrap.innerHTML = SCHEDE.map(s=>`
+    <div class="card ${state.selectedScheda===s.id?'selected':''}" data-id="${s.id}" draggable="true">
+      <div class="accent ${s.color}"></div>
+      <div class="tag">${s.tag}</div>
+      <div class="name">${s.name}</div>
+      <div class="desc">${s.desc}</div>
+      <div class="meta">
+        <span><b>${s.dur}\'</b> durata</span>
+        <span><b>${s.exN}</b> esercizi</span>
+        <span>${s.level==='beg'?'principiante':s.level==='int'?'intermedio':'avanzato'}</span>
+      </div>
+      <div class="open-btn">Apri scheda →</div>
+    </div>
+  `).join('');
+  wrap.querySelectorAll('.card').forEach(el=>{
+    el.addEventListener('dragstart', e=>e.dataTransfer.setData('text/plain', el.dataset.id));
+    el.addEventListener('click',()=>openScheda(el.dataset.id));
+  });
+}
+
+// ---------- SCHEDA DETAIL ----------
+function openScheda(id){
+  state.selectedScheda = id;
+  renderLibrary();
+  const s = SCHEDE.find(x=>x.id===id);
+  const el = document.getElementById('scheda-detail');
+  el.innerHTML = `
+    <div class="sd-head">
+      <div>
+        <div class="mono mute" style="margin-bottom:6px">${s.tag}</div>
+        <h3>${s.name}</h3>
+        <div class="sd-meta"><b>${s.dur}\'</b> · <b>${s.ex.length}</b> esercizi · <b>${s.level==='beg'?'principiante':s.level==='int'?'intermedio':'avanzato'}</b></div>
+      </div>
+      <button class="sd-close" onclick="closeScheda()">Chiudi</button>
+    </div>
+    <div class="exercises">
+      ${s.ex.map((e,i)=>`
+        <div class="ex">
+          <div class="video">
+            <button class="play" data-vid="${e.vid||''}" data-title="${e.n}" data-body="${e.cue}"></button>
+            <div class="placeholder">
+              <div class="glyph"><svg viewBox="0 0 20 20"><path d="M6 4l10 6-10 6V4z"/></svg></div>
+              <div class="lbl">Esercizio ${String(i+1).padStart(2,'0')}</div>
+              <div class="name">${e.n}</div>
+            </div>
+          </div>
+          <div class="body">
+            <div class="n">${e.n}</div>
+            <div class="m">${e.m}</div>
+            <div class="stats">
+              <span>${e.sets}</span>
+              <span>rec. ${e.rest}</span>
+            </div>
+            <div class="cue"><b>Tecnica:</b> ${e.cue}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  el.classList.add('open');
+  el.querySelectorAll('.play').forEach(b=> b.addEventListener('click', ()=> openVideo(b.dataset.vid, b.dataset.title, b.dataset.body)));
+  el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function closeScheda(){ state.selectedScheda=null; renderLibrary(); document.getElementById('scheda-detail').classList.remove('open'); }
+
+// ---------- VIDEO MODAL ----------
+function openVideo(vid, title, body){
+  document.getElementById('modal-title').textContent = title||'Esercizio';
+  document.getElementById('modal-body').textContent = body||'';
+  const slot = document.getElementById('video-slot');
+  if(vid){
+    slot.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0&modestbranding=1" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+  } else {
+    slot.innerHTML = `<div class="empty-video"><div><b style="font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:#d9a441">Video demo</b><br/><br/>Slot pronto per la tua clip.<br/><span style="opacity:.6;font-size:13px">Aggiungi ID YouTube / URL Vimeo nel data-model.</span></div></div>`;
+  }
+  document.getElementById('modal').classList.add('on');
+}
+document.getElementById('modal-close').onclick = ()=>{ document.getElementById('modal').classList.remove('on'); document.getElementById('video-slot').innerHTML=''; };
+document.getElementById('modal').addEventListener('click', e=>{ if(e.target.id==='modal'){ document.getElementById('modal').classList.remove('on'); document.getElementById('video-slot').innerHTML=''; } });
+
+// ---------- BODY MAP ----------
+function renderBody(){
+  document.getElementById('body-svg').innerHTML = bodySVG(state.bodyView);
+  document.querySelectorAll('#body-svg .region').forEach(r=>{
+    if(r.dataset.d===state.selectedDistrict) r.classList.add('active');
+    r.addEventListener('click', ()=> selectDistrict(r.dataset.d));
+  });
+}
+function selectDistrict(id){
+  state.selectedDistrict = id;
+  const d = DISTRICTS[id];
+  const el = document.getElementById('district-panel');
+  if(!d){ el.innerHTML = '<div class="empty">Distretto non ancora configurato.</div>'; return; }
+  el.innerHTML = `
+    <div class="mono mute" style="margin-bottom:8px">distretto selezionato</div>
+    <h3>${d.name}</h3>
+    <div class="protocol"><b>Protocollo evidence-based:</b> ${d.proto}</div>
+    <h4>Esercizi consigliati</h4>
+    <div class="ex-list">
+      ${d.ex.map(e=>`
+        <div class="row">
+          <div>
+            <b>${e.n}</b>
+            <div class="why">${e.why}</div>
+          </div>
+          <div><span class="badge">${e.badge}</span></div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  renderBody();
+}
+document.querySelectorAll('.view-toggle button').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('.view-toggle button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    state.bodyView = b.dataset.view;
+    renderBody();
+  });
+});
+
+// ---------- NUTRITION ----------
+function bmr(){
+  // Mifflin-St Jeor
+  const {sex,weight,height,age} = state;
+  return sex==='M'
+    ? 10*weight + 6.25*height - 5*age + 5
+    : 10*weight + 6.25*height - 5*age - 161;
+}
+function computeNutrition(){
+  const B = bmr();
+  const TDEE = B * state.activity;
+  // Auto delta per fase (se input a 0)
+  let delta = state.nDelta;
+  if(delta === 0){
+    if(state.nPhase==='cut') delta = -20;
+    if(state.nPhase==='bulk') delta = 12;
+  }
+  const kcal = Math.round(TDEE * (1 + delta/100));
+  const pro = Math.round(state.weight * state.nPro);
+  const fat = Math.round(state.weight * state.nFat);
+  const kcalPro = pro*4;
+  const kcalFat = fat*9;
+  const carb = Math.max(0, Math.round((kcal - kcalPro - kcalFat) / 4));
+
+  const box = document.getElementById('nut-results');
+  const phaseLabel = state.nPhase==='cut' ? 'Cut' : state.nPhase==='bulk' ? 'Bulk (lean)' : 'Mantenimento';
+  const rationale = state.nPhase==='cut'
+    ? `Deficit del <b>${Math.abs(delta)}%</b> sul TDEE per un calo di ~<b>0.5-1% peso/settimana</b> [4][5]. Proteine alte per preservare massa magra in ipocalorico [3].`
+    : state.nPhase==='bulk'
+      ? `Surplus del <b>${delta}%</b> sul TDEE per una <b>lean bulk</b> — <b>0.25-0.5% peso/settimana</b> massimizza muscolo, minimizza grasso [4].`
+      : `Zero delta. Manteniamo il TDEE per stabilizzare peso e recuperare tra fasi.`;
+
+  box.innerHTML = `
+    <span class="phase-tag">${phaseLabel}</span>
+    <h3>${state.nPhase==='cut'?'Definire':'Costruire'}, senza improvvisare</h3>
+    <div class="mute" style="font-size:13px;color:rgba(244,241,234,.65)">Basato su BMR Mifflin-St Jeor · TDEE ${Math.round(TDEE)} kcal · ${state.sex==='F'?'Donna':'Uomo'}, ${state.age} a., ${state.weight} kg</div>
+
+    <div class="num">${kcal.toLocaleString('it')}<small>kcal / giorno</small></div>
+
+    <div class="macros">
+      <div class="macro pro">
+        <div class="lbl">Proteine</div>
+        <div class="v">${pro}<span style="font-size:14px;opacity:.6"> g</span></div>
+        <div class="g">${state.nPro} g/kg · ${kcalPro} kcal</div>
+      </div>
+      <div class="macro carb">
+        <div class="lbl">Carboidrati</div>
+        <div class="v">${carb}<span style="font-size:14px;opacity:.6"> g</span></div>
+        <div class="g">${carb*4} kcal · adattabile</div>
+      </div>
+      <div class="macro fat">
+        <div class="lbl">Grassi</div>
+        <div class="v">${fat}<span style="font-size:14px;opacity:.6"> g</span></div>
+        <div class="g">${state.nFat} g/kg · ${kcalFat} kcal</div>
+      </div>
+    </div>
+
+    <div class="rationale">${rationale}</div>
+  `;
+  document.getElementById('meal-phase').textContent = phaseLabel.toLowerCase();
+  renderMeals(pro, carb, fat, kcal);
+}
+
+const MEAL_TEMPLATES = {
+  cut: [
+    {h:'Colazione', n:'Yogurt greco 0% + frutti rossi', it:['200 g yogurt greco 0%','120 g frutti di bosco','20 g fiocchi d\'avena','10 g mandorle']},
+    {h:'Pranzo', n:'Petto di pollo + riso + verdure', it:['150 g petto di pollo','70 g riso basmati (crudo)','200 g verdure grigliate','5 g olio EVO']},
+    {h:'Spuntino', n:'Skyr + banana', it:['200 g skyr','1 banana media','10 g burro d\'arachidi']},
+    {h:'Cena', n:'Salmone + patate + spinaci', it:['140 g salmone','200 g patate al forno','150 g spinaci','5 g olio EVO']}
+  ],
+  maint: [
+    {h:'Colazione', n:'Porridge d\'avena + uova', it:['60 g fiocchi d\'avena','250 ml latte parz. scremato','2 uova intere','1 frutto']},
+    {h:'Pranzo', n:'Pasta integrale + tonno + verdure', it:['90 g pasta integrale','100 g tonno al naturale','200 g verdure','10 g olio EVO']},
+    {h:'Spuntino', n:'Yogurt + noci + miele', it:['200 g yogurt greco','20 g noci','15 g miele']},
+    {h:'Cena', n:'Manzo + quinoa + verdure', it:['150 g manzo magro','80 g quinoa (crudo)','200 g verdure','10 g olio EVO']}
+  ],
+  bulk: [
+    {h:'Colazione', n:'Porridge overnight rinforzato', it:['80 g avena','300 ml latte intero','1 scoop whey','30 g burro d\'arachidi','1 banana']},
+    {h:'Pranzo', n:'Riso + petto pollo + avocado', it:['120 g riso basmati','180 g petto di pollo','1/2 avocado','200 g verdure']},
+    {h:'Spuntino', n:'Toast + tacchino + uova sode', it:['80 g pane di segale','80 g tacchino','2 uova sode','15 g olio EVO in insalata']},
+    {h:'Cena', n:'Salmone + patate dolci + broccoli', it:['180 g salmone','250 g patate dolci','200 g broccoli','15 g olio EVO']},
+    {h:'Pre-nanna', n:'Ricotta + frutta secca', it:['150 g ricotta','25 g mandorle','10 g miele']}
+  ]
+};
+function renderMeals(pro,carb,fat,kcal){
+  const set = MEAL_TEMPLATES[state.nPhase] || MEAL_TEMPLATES.maint;
+  const wrap = document.getElementById('meal-cards');
+  wrap.innerHTML = set.slice(0, state.nMeals).map(m=>`
+    <div class="meal">
+      <div class="h">${m.h}</div>
+      <div class="n">${m.n}</div>
+      <ul>${m.it.map(x=>`<li>${x}</li>`).join('')}</ul>
+      <div class="mm">Sostituisci in base a preferenze — <em>tenendo la quota proteica</em>.</div>
+    </div>
+  `).join('');
+}
+
+// ---------- WIRING ----------
+function wireProfile(){
+  const set = (id, k, cast=v=>v)=>{
+    const el = document.getElementById(id);
+    el.addEventListener('input', ()=>{ state[k] = cast(el.value); refresh(); });
+  };
+  set('p-name','name');
+  set('p-age','age', Number);
+  set('p-weight','weight', Number);
+  set('p-height','height', Number);
+  set('p-activity','activity', Number);
+  document.getElementById('p-level').addEventListener('change', e=>{ state.level = e.target.value; });
+
+  document.querySelectorAll('#p-sex button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('#p-sex button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on'); state.sex = b.dataset.v; refresh();
+    });
+  });
+  document.querySelectorAll('#p-phase button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('#p-phase button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on'); state.phase = b.dataset.v;
+      // sync nutrition
+      state.nPhase = b.dataset.v;
+      document.querySelectorAll('#n-phase button').forEach(x=>{ x.classList.toggle('on', x.dataset.v===state.nPhase); });
+      state.nDelta = 0; document.getElementById('n-delta').value = 0;
+      computeNutrition();
+    });
+  });
+
+  document.querySelectorAll('#n-phase button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('#n-phase button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on'); state.nPhase = b.dataset.v;
+      state.nDelta = 0; document.getElementById('n-delta').value = 0;
+      computeNutrition();
+    });
+  });
+  ['n-delta','n-pro','n-fat','n-meals'].forEach(id=>{
+    document.getElementById(id).addEventListener('input', ()=>{
+      state.nDelta = Number(document.getElementById('n-delta').value);
+      state.nPro = Number(document.getElementById('n-pro').value);
+      state.nFat = Number(document.getElementById('n-fat').value);
+      state.nMeals = Number(document.getElementById('n-meals').value);
+      computeNutrition();
+    });
+  });
+}
+
+function refresh(){ computeNutrition(); }
+
+// ---------- SEED ----------
+state.plan.Lun = 'push-a';
+state.plan.Mar = 'pull-a';
+state.plan.Gio = 'legs-a';
+state.plan.Ven = 'core';
+state.plan.Sab = 'hiit';
+
+renderWeek();
+renderLibrary();
+renderBody();
+computeNutrition();
+wireProfile();
+</script>
+</body>
+</html>
