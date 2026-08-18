@@ -2,254 +2,490 @@
 <html lang="it">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Marta Pro — Allenamento Consapevole</title>
-<meta name="description" content="Marta Pro: pianificatore settimanale con schede video, selezione distretti su base scientifica, nutrizione bulk/cut personalizzata. Uomo e donna." />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#ff6b57" />
+<title>Marta Pro — My Wellness Journey</title>
+<meta name="description" content="Marta Pro: piani A/B/C/D, video esercizi, distretti evidence-based, nutrizione bulk/cut, NutriPlan Telegram. Uomo e donna." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://api.fontshare.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&display=swap" rel="stylesheet">
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#f4f1ea; --bg-2:#eae5d8; --ink:#0f1115; --ink-2:#1f2430; --mute:#5b5f67;
-    --rule:rgba(15,17,21,.12); --rule-2:rgba(15,17,21,.22);
-    --brand:#1f6b68; --brand-2:#0e4541; --gold:#d9a441; --gold-deep:#a3761e;
-    --coral:#ea5844; --paper:#ffffff; --paper-2:#fdfbf4;
-    --ok:#2e7d32; --warn:#c25a00; --err:#b3261e;
+    --bg:#f5f6f8; --paper:#ffffff; --paper-2:#fafbfc;
+    --ink:#1a1f2e; --ink-2:#2c3444; --mute:#6d7684; --mute-2:#a3aab5;
+    --rule:#eaecef; --rule-2:#dfe2e6;
+    --coral:#ff6b57; --coral-2:#ff8975; --coral-soft:#ffece7;
+    --peach:#ffb08b; --peach-soft:#fff2e9;
+    --teal:#00b894; --teal-soft:#daf6ef;
+    --gold:#f4a300; --gold-soft:#fff2d1;
+    --blue:#3f7dd6; --blue-soft:#e5eefb;
+    --violet:#7c5cdb; --violet-soft:#eee9ff;
+    --err:#e63946;
+    --shadow-sm:0 1px 2px rgba(15,20,30,.04), 0 2px 8px rgba(15,20,30,.04);
+    --shadow-md:0 6px 24px rgba(15,20,30,.06), 0 1px 3px rgba(15,20,30,.04);
+    --shadow-lg:0 12px 40px rgba(15,20,30,.08);
   }
-  *{box-sizing:border-box}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--ink);font-family:"Satoshi",system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+  body{background:#e8ebef;color:var(--ink);font-family:"Inter",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;min-height:100vh}
+  button{font-family:inherit;cursor:pointer;border:0;background:transparent}
+  input,select{font-family:inherit}
   a{color:inherit;text-decoration:none}
   img,svg{display:block;max-width:100%}
-  button{font-family:inherit;cursor:pointer}
-  input,select{font-family:inherit}
+  .serif{font-family:"DM Serif Display",serif;font-weight:400}
 
-  .wrap{max-width:1320px;margin:0 auto;padding:0 32px}
-  .wrap-tight{max-width:1080px;margin:0 auto;padding:0 32px}
+  /* PHONE SHELL */
+  .phone{
+    max-width:428px;margin:0 auto;background:var(--bg);
+    min-height:100vh;position:relative;overflow:hidden;
+    box-shadow:0 24px 80px rgba(0,0,0,.18);
+    padding-bottom:96px;
+  }
+  @media (min-width:700px){
+    body{padding:24px 0;background:linear-gradient(180deg,#e2e6ec 0%, #d6dbe1 100%)}
+    .phone{min-height:920px;border-radius:44px;border:10px solid #1a1f2e;box-shadow:0 40px 100px rgba(0,0,0,.35), 0 0 0 1px rgba(0,0,0,.4);overflow:hidden}
+  }
 
-  .display{font-family:"Satoshi",sans-serif;font-weight:900;letter-spacing:-.035em;line-height:.92}
-  .serif{font-family:"Fraunces",serif;font-variation-settings:"opsz" 144,"SOFT" 100}
-  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);font-weight:500;display:inline-flex;align-items:center;gap:10px}
-  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--brand)}
-  .mute{color:var(--mute)}
-  .mono{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:500}
+  /* STATUS BAR */
+  .status{display:flex;justify-content:space-between;align-items:center;padding:16px 22px 6px;font-size:14px;font-weight:700;color:var(--ink)}
+  .status .right{display:inline-flex;gap:4px;align-items:center;opacity:.85}
+  .status .right svg{width:16px;height:16px}
 
-  /* NAV */
-  nav.top{position:sticky;top:0;z-index:100;background:rgba(244,241,234,.92);backdrop-filter:saturate(140%) blur(12px);border-bottom:1px solid var(--rule)}
-  nav.top .row{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;max-width:1320px;margin:0 auto;gap:24px}
-  .brand{display:flex;align-items:center;gap:12px}
-  .brand .logo{width:38px;height:38px;display:grid;place-items:center;background:var(--ink);border-radius:10px}
-  .brand .logo svg{width:22px;height:22px;color:var(--gold)}
-  .brand .name{font-weight:900;font-size:15px;letter-spacing:.04em}
-  .brand .name .sub{display:block;font-weight:500;font-size:10.5px;letter-spacing:.22em;color:var(--mute);text-transform:uppercase;margin-top:1px}
-  nav .links{display:flex;gap:26px;font-size:13.5px;color:var(--ink-2);font-weight:500}
-  nav .links a{position:relative;padding:6px 0}
-  nav .links a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--brand);transform:scaleX(0);transform-origin:left;transition:transform .3s}
-  nav .links a:hover::after{transform:scaleX(1)}
-  .pill-pro{display:inline-flex;gap:6px;align-items:center;background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#1a1200;font-weight:900;font-size:10.5px;letter-spacing:.18em;padding:4px 8px;border-radius:4px;text-transform:uppercase}
+  /* PAGE HEADER */
+  .page{padding:8px 22px 24px}
+  .page h1{font-size:34px;font-weight:900;letter-spacing:-.02em;line-height:1.05;margin:0 0 6px}
+  .page .h1-accent{color:var(--coral)}
+  .page .sub{color:var(--mute);font-size:15px;display:flex;align-items:center;gap:8px;margin-bottom:20px}
+  .page .sub svg{width:16px;height:16px;color:var(--mute-2)}
 
-  /* HERO / PROFILE */
-  header.hero{padding:56px 0 24px}
-  header.hero h1{font-size:clamp(38px,6vw,72px);margin:14px 0 12px}
-  header.hero p.lede{font-size:1.2rem;max-width:70ch;color:var(--ink-2)}
-  .profile{margin-top:36px;background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px 20px;align-items:end}
-  .profile label{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--mute);margin-bottom:6px}
-  .profile input, .profile select{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--rule-2);background:var(--paper-2);font-size:14.5px;color:var(--ink);font-weight:500}
-  .profile input:focus, .profile select:focus{outline:none;border-color:var(--brand)}
-  .seg{display:inline-flex;background:var(--bg-2);border-radius:10px;padding:4px;gap:2px;width:100%}
-  .seg button{flex:1;background:transparent;border:0;padding:8px 6px;border-radius:8px;font-weight:600;font-size:13px;color:var(--ink-2)}
-  .seg button.on{background:var(--ink);color:var(--bg)}
+  /* QUOTE */
+  .quote{background:var(--peach-soft);border-left:4px solid var(--peach);padding:16px 18px;border-radius:12px;font-style:italic;font-size:14.5px;color:var(--ink-2);margin-bottom:26px}
 
-  /* SECTIONS */
-  section{padding:60px 0;border-top:1px solid var(--rule)}
-  section h2{font-size:clamp(28px,4vw,44px);margin:0 0 8px;letter-spacing:-.02em;line-height:1}
-  section h2 .serif{font-style:italic;color:var(--brand)}
-  section .kicker{display:flex;align-items:baseline;justify-content:space-between;gap:24px;margin-bottom:28px;flex-wrap:wrap}
-  section p.sub{color:var(--ink-2);max-width:72ch;font-size:1.05rem;margin:0}
+  /* SECTION LABEL */
+  .lbl{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--mute);margin:0 0 12px}
+  .lbl.on-dark{color:rgba(255,255,255,.7)}
 
-  /* WEEK PLANNER */
-  .week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px;margin-top:8px}
-  .day{background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:14px 12px;min-height:150px;display:flex;flex-direction:column;gap:10px;position:relative;transition:transform .15s, border-color .15s}
-  .day.today{border-color:var(--brand);box-shadow:0 0 0 3px rgba(31,107,104,.12)}
-  .day.drag-over{border-color:var(--gold);background:#fff9ea}
-  .day .dname{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);font-weight:700}
-  .day .dnum{font-family:"Fraunces",serif;font-weight:600;font-size:26px;line-height:1;letter-spacing:-.02em}
-  .day .slot{margin-top:auto;border-radius:10px;padding:10px 10px;background:var(--bg-2);font-size:12.5px;font-weight:600;color:var(--ink-2);min-height:52px;display:flex;flex-direction:column;justify-content:center;gap:2px}
-  .day .slot.filled{background:var(--ink);color:var(--bg)}
-  .day .slot .tag{font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.7;font-weight:600}
-  .day .rest{opacity:.55}
-  .day .clear{position:absolute;top:8px;right:8px;background:transparent;border:0;color:var(--mute);font-size:16px;opacity:0;transition:opacity .15s}
-  .day:hover .clear{opacity:1}
-  .day .clear:hover{color:var(--err)}
-  @media (max-width:900px){ .week{grid-template-columns:repeat(2,1fr)} }
+  /* TIME PICKER PILLS 2x2 */
+  .time-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:26px}
+  .time{display:flex;align-items:center;gap:10px;background:var(--paper);border-radius:999px;padding:14px 16px;font-weight:700;font-size:14.5px;color:var(--ink);box-shadow:var(--shadow-sm);border:1.5px solid transparent;transition:all .18s;text-align:left;justify-content:flex-start}
+  .time svg{width:18px;height:18px;color:var(--mute)}
+  .time.on{background:var(--coral);color:#fff;border-color:var(--coral)}
+  .time.on svg{color:#fff}
 
-  /* SCHEDA LIBRARY */
-  .library{margin-top:28px}
-  .lib-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;flex-wrap:wrap;gap:12px}
-  .lib-head h3{font-size:18px;margin:0;letter-spacing:-.01em}
-  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-  .card{background:var(--paper);border:1px solid var(--rule);border-radius:16px;padding:18px;cursor:grab;transition:transform .15s, box-shadow .15s, border-color .15s;position:relative;overflow:hidden}
-  .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(15,17,21,.08);border-color:var(--rule-2)}
-  .card:active{cursor:grabbing}
-  .card.selected{border-color:var(--brand);box-shadow:0 0 0 3px rgba(31,107,104,.14)}
-  .card .accent{position:absolute;top:0;left:0;width:6px;height:100%;background:var(--brand)}
-  .card .accent.push{background:#c25a00}
-  .card .accent.pull{background:#1f6b68}
-  .card .accent.legs{background:#4a3b8a}
-  .card .accent.full{background:#0e4541}
-  .card .accent.core{background:#d9a441}
-  .card .accent.mob{background:#5b5f67}
-  .card .accent.hiit{background:#ea5844}
-  .card .tag{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--mute);margin-bottom:8px}
-  .card .name{font-family:"Fraunces",serif;font-weight:600;font-size:22px;letter-spacing:-.02em;line-height:1.05;margin-bottom:6px}
-  .card .desc{font-size:13px;color:var(--ink-2);margin-bottom:12px}
-  .card .meta{display:flex;gap:14px;font-size:11.5px;color:var(--mute);font-weight:600}
-  .card .meta span b{color:var(--ink)}
-  .card .open-btn{margin-top:12px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);display:inline-flex;align-items:center;gap:6px}
+  /* SESSION SUGGESTION CARD */
+  .suggest{background:var(--coral-soft);border:1.5px solid var(--coral);border-left-width:6px;border-radius:16px;padding:18px 18px 20px;margin-bottom:26px;position:relative;display:flex;justify-content:space-between;align-items:center}
+  .suggest h3{margin:0 0 6px;font-size:22px;font-weight:900;letter-spacing:-.01em}
+  .suggest .tag{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);font-weight:800;margin-bottom:10px}
+  .suggest .meta{display:flex;gap:14px;font-size:13px;color:var(--mute);font-weight:600;align-items:center}
+  .suggest .meta span{display:inline-flex;gap:5px;align-items:center}
+  .suggest .meta svg{width:14px;height:14px}
+  .suggest .icon{width:46px;height:46px;border-radius:50%;background:var(--coral-soft);border:1.5px solid var(--coral);display:grid;place-items:center;color:var(--coral)}
+  .suggest .icon svg{width:22px;height:22px}
 
-  /* SCHEDA DETAIL (expanded) */
-  .scheda-detail{margin-top:24px;background:linear-gradient(180deg,var(--paper) 0%, var(--paper-2) 100%);border:1px solid var(--rule);border-radius:20px;padding:28px;display:none}
-  .scheda-detail.open{display:block}
-  .scheda-detail .sd-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:20px}
-  .scheda-detail h3{font-size:30px;font-family:"Fraunces",serif;font-weight:500;letter-spacing:-.02em;margin:0 0 6px}
-  .scheda-detail .sd-meta{font-size:13px;color:var(--mute)}
-  .scheda-detail .sd-meta b{color:var(--ink)}
-  .scheda-detail .sd-close{background:transparent;border:1px solid var(--rule-2);border-radius:999px;padding:8px 14px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--ink-2)}
-  .exercises{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-  .ex{background:var(--paper);border:1px solid var(--rule);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
-  .ex .video{position:relative;aspect-ratio:16/10;background:#0f1115;display:grid;place-items:center;color:#fff}
-  .ex .video .placeholder{text-align:center;padding:14px}
-  .ex .video .placeholder .glyph{width:52px;height:52px;border-radius:999px;background:rgba(255,255,255,.14);display:grid;place-items:center;margin:0 auto 8px}
-  .ex .video .placeholder .glyph svg{width:20px;height:20px;fill:#fff;margin-left:2px}
-  .ex .video .placeholder .lbl{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;opacity:.75}
-  .ex .video .placeholder .name{font-family:"Fraunces",serif;font-size:20px;font-weight:500;line-height:1.1;margin-top:2px}
-  .ex .video::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%, rgba(217,164,65,.28), transparent 55%), radial-gradient(circle at 80% 90%, rgba(31,107,104,.4), transparent 55%);pointer-events:none}
-  .ex .play{position:absolute;inset:0;width:100%;height:100%;background:transparent;border:0;cursor:pointer;z-index:2}
-  .ex .body{padding:14px 16px 16px}
-  .ex .body .n{font-weight:700;font-size:15.5px;margin-bottom:4px}
+  /* HYDRATION */
+  .hydro{background:var(--paper);border-radius:16px;padding:18px;margin-bottom:26px;box-shadow:var(--shadow-sm)}
+  .hydro .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+  .hydro .top .l{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:700}
+  .hydro .top .r{font-size:15px;font-weight:800;color:var(--teal)}
+  .hydro .bars{display:flex;gap:4px;height:10px;margin-bottom:20px}
+  .hydro .bar{flex:1;background:var(--rule);border-radius:4px;transition:background .2s}
+  .hydro .bar.on{background:var(--teal)}
+  .hydro .ctrl{display:flex;justify-content:center;align-items:center;gap:20px}
+  .hydro .ctrl .cbtn{width:44px;height:44px;border-radius:50%;background:var(--paper-2);border:1px solid var(--rule);color:var(--mute);font-size:22px;font-weight:600}
+  .hydro .ctrl .cbtn.plus{background:var(--teal-soft);border-color:var(--teal-soft);color:var(--teal)}
+  .hydro .ctrl .drop{text-align:center}
+  .hydro .ctrl .drop svg{width:28px;height:28px;margin:0 auto;color:var(--mute-2)}
+  .hydro .ctrl .drop b{display:block;font-size:22px;font-weight:800;margin-top:2px}
+
+  /* MEALS OGGI PREVIEW */
+  .meals-strip{margin-bottom:20px}
+  .meals-strip .head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .meals-strip .head a{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--gold);border-bottom:2px solid var(--gold);padding-bottom:1px}
+  .mini-meal{background:var(--paper);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow-sm);display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .mini-meal .l .h{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);font-weight:800;margin-bottom:2px}
+  .mini-meal .l .n{font-size:14.5px;font-weight:700;color:var(--ink)}
+  .mini-meal .l .kcal{font-size:12px;color:var(--mute);margin-top:2px}
+  .mini-meal .r{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--mute)}
+
+  /* BOTTOM NAV */
+  .tabbar{position:fixed;bottom:0;left:0;right:0;z-index:50;pointer-events:none;display:flex;justify-content:center}
+  @media (min-width:700px){ .tabbar{position:absolute;bottom:0;left:0;right:0} }
+  .tabbar-inner{max-width:428px;width:100%;background:var(--paper);border-top:1px solid var(--rule);padding:10px 8px calc(14px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,1fr);gap:2px;pointer-events:all;box-shadow:0 -8px 24px rgba(0,0,0,.04)}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 4px;color:var(--mute);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:800;position:relative;background:transparent;border:0}
+  .tab svg{width:24px;height:24px}
+  .tab.on{color:var(--coral)}
+  .tab .dot-notif{position:absolute;top:4px;right:calc(50% - 18px);width:8px;height:8px;background:var(--err);border-radius:50%;border:2px solid var(--paper)}
+
+  /* PLAN TOGGLE (WORK header) */
+  .plan-toggle{background:var(--paper);border-radius:999px;padding:4px;display:inline-flex;box-shadow:var(--shadow-sm);gap:2px}
+  .plan-toggle button{width:38px;height:34px;border-radius:999px;font-weight:800;color:var(--mute);font-size:14px}
+  .plan-toggle button.on{background:var(--paper-2);color:var(--coral);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+
+  /* SCHEDA CARDS */
+  .schede{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .scheda{background:var(--paper);border-radius:18px;padding:16px;box-shadow:var(--shadow-sm);border:2px solid transparent;cursor:pointer;transition:transform .15s, box-shadow .15s, border-color .15s;position:relative;text-align:left}
+  .scheda:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
+  .scheda.today{border-color:var(--coral);box-shadow:0 0 0 4px var(--coral-soft), var(--shadow-sm)}
+  .scheda .avatar{width:44px;height:44px;border-radius:50%;background:var(--paper-2);color:var(--mute);display:grid;place-items:center;font-weight:900;font-size:20px;margin-bottom:14px;border:1px solid var(--rule)}
+  .scheda.today .avatar{background:var(--coral);color:#fff;border-color:var(--coral)}
+  .scheda .today-badge{position:absolute;top:16px;right:16px;background:var(--coral-soft);color:var(--coral);font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;padding:4px 8px;border-radius:6px}
+  .scheda .name{font-size:16px;font-weight:800;letter-spacing:-.01em;line-height:1.15;margin-bottom:8px;color:var(--ink)}
+  .scheda .pills{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+  .scheda .pill{background:var(--paper-2);color:var(--ink-2);font-size:10.5px;font-weight:700;padding:4px 8px;border-radius:6px;border:1px solid var(--rule)}
+  .scheda .meta{font-size:11.5px;color:var(--mute);font-weight:600}
+
+  /* SCHEDA DETAIL SHEET */
+  .sheet{position:fixed;inset:0;background:rgba(15,20,30,.55);z-index:200;display:none;align-items:flex-end;justify-content:center}
+  .sheet.on{display:flex}
+  @media (min-width:700px){ .sheet{position:absolute;align-items:center} }
+  .sheet-box{background:var(--paper);width:100%;max-width:428px;max-height:88vh;overflow:auto;border-radius:24px 24px 0 0;padding:22px;position:relative}
+  @media (min-width:700px){ .sheet-box{border-radius:24px;max-height:80vh} }
+  .sheet-handle{width:44px;height:5px;background:var(--rule-2);border-radius:999px;margin:0 auto 14px}
+  .sheet-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
+  .sheet-head h3{font-size:24px;font-weight:900;letter-spacing:-.01em;margin:0}
+  .sheet-head .close{width:36px;height:36px;border-radius:50%;background:var(--paper-2);color:var(--ink-2);font-size:20px;font-weight:600;display:grid;place-items:center;flex-shrink:0}
+  .sheet-meta{display:flex;gap:12px;font-size:12.5px;color:var(--mute);font-weight:600;margin-bottom:18px;flex-wrap:wrap}
+  .sheet-meta span{display:inline-flex;gap:5px;align-items:center;background:var(--paper-2);padding:5px 10px;border-radius:8px}
+  .sheet-meta svg{width:13px;height:13px}
+
+  .ex{background:var(--paper);border:1px solid var(--rule);border-radius:14px;overflow:hidden;margin-bottom:10px}
+  .ex .video{position:relative;aspect-ratio:16/10;background:#0f141c;display:grid;place-items:center;color:#fff;overflow:hidden}
+  .ex .video::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 25% 30%, rgba(255,107,87,.28), transparent 55%), radial-gradient(circle at 85% 85%, rgba(0,184,148,.28), transparent 55%);pointer-events:none}
+  .ex .video .p{text-align:center;padding:10px;position:relative;z-index:1}
+  .ex .video .p .glyph{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.14);display:grid;place-items:center;margin:0 auto 8px}
+  .ex .video .p .glyph svg{width:18px;height:18px;fill:#fff;margin-left:2px}
+  .ex .video .p .lbl{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;opacity:.72}
+  .ex .video .play{position:absolute;inset:0;width:100%;height:100%;z-index:2}
+  .ex .body{padding:12px 14px 14px}
+  .ex .body .n{font-weight:800;font-size:15px;margin-bottom:3px}
   .ex .body .m{font-size:12px;color:var(--mute);margin-bottom:10px}
-  .ex .body .stats{display:flex;gap:12px;font-size:12px;color:var(--ink-2);flex-wrap:wrap}
-  .ex .body .stats span{background:var(--bg-2);padding:4px 8px;border-radius:6px;font-weight:600}
-  .ex .body .cue{font-size:12.5px;color:var(--ink-2);margin-top:10px;padding-top:10px;border-top:1px dashed var(--rule)}
+  .ex .body .stats{display:flex;gap:8px;font-size:11.5px;color:var(--ink-2);flex-wrap:wrap}
+  .ex .body .stats span{background:var(--paper-2);padding:4px 8px;border-radius:6px;font-weight:700;border:1px solid var(--rule)}
+  .ex .body .cue{font-size:12.5px;color:var(--ink-2);margin-top:10px;padding-top:10px;border-top:1px dashed var(--rule);line-height:1.5}
   .ex .body .cue b{color:var(--ink)}
 
-  /* DISTRICTS */
-  .districts-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:32px;align-items:start}
-  @media (max-width:900px){ .districts-grid{grid-template-columns:1fr} }
-  .body-map{background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:22px;position:sticky;top:96px}
+  /* DISTRICTS (WORK Pro card + full sheet) */
+  .pro-tile{background:linear-gradient(135deg, #1a1f2e 0%, #2c3444 100%);color:#fff;border-radius:20px;padding:20px;margin:26px 0 20px;position:relative;overflow:hidden}
+  .pro-tile::after{content:"";position:absolute;right:-20px;bottom:-30px;width:160px;height:160px;background:radial-gradient(circle,var(--coral),transparent 70%);opacity:.55}
+  .pro-tile .pro-badge{display:inline-block;background:var(--gold);color:#3a2600;font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;padding:4px 8px;border-radius:4px;margin-bottom:10px}
+  .pro-tile h3{margin:0 0 4px;font-size:22px;font-weight:900;letter-spacing:-.01em}
+  .pro-tile p{margin:0;font-size:13.5px;color:rgba(255,255,255,.75);line-height:1.5}
+  .pro-tile .go{margin-top:14px;display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--ink);font-weight:800;font-size:13px;padding:10px 16px;border-radius:999px;position:relative;z-index:1}
+
+  /* BODY MAP */
+  .body-map{background:var(--paper);border-radius:20px;padding:18px;box-shadow:var(--shadow-sm);margin-bottom:16px}
   .body-map .view-toggle{display:flex;justify-content:center;margin-bottom:12px;gap:6px}
-  .body-map .view-toggle button{background:var(--bg-2);border:0;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
-  .body-map .view-toggle button.on{background:var(--ink);color:var(--bg)}
-  .body-map svg{width:100%;height:auto;max-height:520px}
-  .body-map .region{fill:var(--bg-2);stroke:var(--ink);stroke-width:1.4;cursor:pointer;transition:fill .15s}
-  .body-map .region:hover{fill:var(--gold)}
-  .body-map .region.active{fill:var(--brand);stroke:var(--brand-2)}
-  .body-map .region.priority{stroke:var(--gold);stroke-width:2.4;stroke-dasharray:4 3}
-  .body-map .region.priority.active{stroke:var(--gold-deep);stroke-dasharray:none}
-  .body-map .outline{fill:none;stroke:var(--ink);stroke-width:1.5}
-  .body-map .legend{margin-top:14px;font-size:12px;color:var(--mute);text-align:center}
-  .district-panel{background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:26px;min-height:400px}
-  .district-panel .empty{color:var(--mute);font-style:italic;padding:40px 0;text-align:center}
-  .district-panel h3{font-family:"Fraunces",serif;font-size:32px;font-weight:500;margin:0 0 6px;letter-spacing:-.02em}
-  .district-panel .protocol{background:var(--bg-2);border-left:4px solid var(--brand);padding:14px 16px;border-radius:0 10px 10px 0;margin:16px 0 24px;font-size:13.5px;color:var(--ink-2)}
+  .body-map .view-toggle button{background:var(--paper-2);padding:6px 14px;border-radius:999px;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);border:1px solid var(--rule)}
+  .body-map .view-toggle button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .body-map svg{width:100%;max-width:280px;height:auto;max-height:420px;margin:0 auto}
+  .body-map .region{fill:var(--paper-2);stroke:var(--mute);stroke-width:1.3;cursor:pointer;transition:fill .15s}
+  .body-map .region:hover{fill:var(--gold-soft)}
+  .body-map .region.active{fill:var(--coral);stroke:var(--coral)}
+  .body-map .region.priority{stroke:var(--gold);stroke-width:2.2;stroke-dasharray:4 3}
+  .body-map .region.priority.active{stroke:var(--gold);stroke-dasharray:none}
+  .body-map .outline{fill:none;stroke:var(--ink-2);stroke-width:1.4}
+  .body-map .legend{margin-top:12px;text-align:center;font-size:12px;color:var(--mute);line-height:1.5}
+  .body-map .legend b{color:var(--coral)}
+
+  .district-panel{background:var(--paper);border-radius:20px;padding:20px;box-shadow:var(--shadow-sm)}
+  .district-panel h3{font-family:"DM Serif Display",serif;font-size:26px;font-weight:400;margin:0 0 4px;letter-spacing:-.01em}
+  .district-panel .empty{color:var(--mute);font-style:italic;padding:20px 0;text-align:center;font-size:13px}
+  .district-panel .protocol{background:var(--peach-soft);border-left:3px solid var(--peach);padding:12px 14px;border-radius:0 10px 10px 0;margin:12px 0 20px;font-size:13px;color:var(--ink-2);line-height:1.55}
   .district-panel .protocol b{color:var(--ink)}
-  .district-panel .protocol .ref{display:inline-block;background:var(--paper);color:var(--brand);padding:1px 6px;border-radius:4px;font-size:11px;font-weight:700;margin-left:4px}
-  .district-panel h4{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:18px 0 10px}
-  .ex-list{display:flex;flex-direction:column;gap:10px}
-  .ex-list .row{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:var(--paper-2);border:1px solid var(--rule);border-radius:10px;font-size:14px}
-  .ex-list .row b{font-weight:700}
-  .ex-list .row .why{color:var(--mute);font-size:12px;margin-top:2px}
-  .ex-list .row .badge{background:var(--brand);color:#fff;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:3px 8px;border-radius:999px}
+  .district-panel h4{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:14px 0 8px;font-weight:800}
+  .ex-list{display:flex;flex-direction:column;gap:8px}
+  .ex-list .row{display:flex;justify-content:space-between;align-items:center;padding:11px 13px;background:var(--paper-2);border:1px solid var(--rule);border-radius:10px;font-size:13.5px;gap:10px}
+  .ex-list .row b{font-weight:800;display:block;margin-bottom:2px}
+  .ex-list .row .why{color:var(--mute);font-size:11.5px;line-height:1.4}
+  .ex-list .row .badge{background:var(--coral);color:#fff;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;padding:3px 7px;border-radius:999px;flex-shrink:0}
 
-  /* NUTRITION */
-  .nut-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:32px;align-items:start}
-  @media (max-width:900px){ .nut-grid{grid-template-columns:1fr} }
-  .nut-form{background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:24px;display:grid;gap:14px}
-  .nut-form label{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--mute);margin-bottom:6px}
-  .nut-form input,.nut-form select{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--rule-2);background:var(--paper-2);font-size:14.5px;font-weight:500}
-  .nut-form .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .nut-results{background:linear-gradient(180deg, var(--ink) 0%, #14181f 100%);color:var(--bg);border-radius:20px;padding:28px}
-  .nut-results .phase-tag{display:inline-block;background:var(--gold);color:#1a1200;font-weight:900;letter-spacing:.16em;text-transform:uppercase;font-size:11px;padding:5px 10px;border-radius:4px;margin-bottom:14px}
-  .nut-results h3{font-family:"Fraunces",serif;font-weight:500;font-size:34px;margin:0 0 6px;letter-spacing:-.02em}
-  .nut-results .num{font-family:"Fraunces",serif;font-size:52px;font-weight:600;letter-spacing:-.03em;line-height:1;margin-top:14px}
-  .nut-results .num small{font-size:14px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;opacity:.6;display:block;margin-top:6px;font-family:"Satoshi",sans-serif}
-  .macros{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
-  .macro{background:rgba(255,255,255,.06);border-radius:12px;padding:14px}
-  .macro .lbl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.6;font-weight:700}
-  .macro .v{font-family:"Fraunces",serif;font-size:26px;font-weight:600;margin-top:4px}
-  .macro .g{opacity:.6;font-size:12px;margin-top:2px}
-  .macro.pro{border-left:3px solid #4dd0e1}
-  .macro.carb{border-left:3px solid var(--gold)}
-  .macro.fat{border-left:3px solid #ff9e80}
-  .rationale{margin-top:24px;font-size:13px;line-height:1.6;color:rgba(244,241,234,.75);border-top:1px solid rgba(255,255,255,.12);padding-top:16px}
-  .rationale b{color:var(--gold)}
+  /* CIBO / NUTRITION */
+  .phase-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;background:var(--paper);border-radius:14px;padding:5px;box-shadow:var(--shadow-sm);margin-bottom:22px}
+  .phase-tabs button{padding:11px;border-radius:10px;font-weight:800;font-size:13px;color:var(--mute);letter-spacing:.02em}
+  .phase-tabs button.on{background:var(--coral-soft);color:var(--coral)}
 
-  .meals{margin-top:32px}
-  .meal-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
-  .meal{background:var(--paper);border:1px solid var(--rule);border-radius:14px;padding:16px}
-  .meal .h{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand);font-weight:800;margin-bottom:6px}
-  .meal .n{font-family:"Fraunces",serif;font-size:19px;font-weight:500;margin-bottom:6px;letter-spacing:-.01em}
-  .meal ul{margin:0;padding-left:18px;font-size:13px;color:var(--ink-2)}
-  .meal ul li{margin:3px 0}
-  .meal .mm{margin-top:10px;font-size:11.5px;color:var(--mute)}
+  .macros-hero{background:linear-gradient(135deg,#1a1f2e 0%, #2c3444 100%);color:#fff;border-radius:20px;padding:22px;margin-bottom:22px;position:relative;overflow:hidden}
+  .macros-hero::after{content:"";position:absolute;right:-20px;top:-20px;width:140px;height:140px;background:radial-gradient(circle,var(--coral),transparent 70%);opacity:.4}
+  .macros-hero .phase-tag{display:inline-block;background:var(--gold);color:#3a2600;font-weight:900;letter-spacing:.14em;text-transform:uppercase;font-size:10px;padding:4px 8px;border-radius:4px;margin-bottom:10px}
+  .macros-hero .kcal{font-family:"DM Serif Display",serif;font-size:44px;line-height:1;font-weight:400;letter-spacing:-.02em;margin-top:8px;position:relative;z-index:1}
+  .macros-hero .kcal small{font-family:"Inter",sans-serif;display:block;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;opacity:.55;margin-top:6px}
+  .macros-hero .tdee{font-size:12px;color:rgba(255,255,255,.6);margin-top:6px}
+  .macros-hero .macros{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px;position:relative;z-index:1}
+  .macros-hero .macro{background:rgba(255,255,255,.08);border-radius:12px;padding:12px 10px}
+  .macros-hero .macro .l{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;opacity:.6}
+  .macros-hero .macro .v{font-family:"DM Serif Display",serif;font-size:22px;font-weight:400;margin-top:2px}
+  .macros-hero .macro .g{font-size:10.5px;opacity:.55;margin-top:1px}
+  .macros-hero .macro.pro{border-left:2px solid #6ce4c8}
+  .macros-hero .macro.carb{border-left:2px solid var(--gold)}
+  .macros-hero .macro.fat{border-left:2px solid var(--coral-2)}
+  .macros-hero .rationale{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12);font-size:12.5px;line-height:1.55;color:rgba(255,255,255,.72)}
+  .macros-hero .rationale b{color:var(--gold)}
 
-  /* REFERENCES */
-  .refs{background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:28px}
-  .refs ol{padding-left:22px;margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.7}
-  .refs ol li{margin:8px 0}
+  .card-lite{background:var(--paper);border-radius:16px;padding:16px;box-shadow:var(--shadow-sm);margin-bottom:14px}
+  .card-lite h4{margin:0 0 6px;font-size:14px;font-weight:800;letter-spacing:-.01em}
+  .card-lite .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .card-lite label{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--mute);margin-bottom:5px}
+  .card-lite input, .card-lite select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--rule);background:var(--paper-2);font-size:14px;font-weight:600;color:var(--ink)}
+  .card-lite input:focus,.card-lite select:focus{outline:none;border-color:var(--coral)}
+  .card-lite .note{font-size:11.5px;color:var(--mute);margin-top:8px}
+  .card-lite .note em{color:var(--coral);font-style:normal;font-weight:700}
+
+  .meal{background:var(--paper);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow-sm);margin-bottom:10px}
+  .meal .h{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);font-weight:800;margin-bottom:4px}
+  .meal .n{font-size:15px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
+  .meal ul{margin:0;padding-left:18px;font-size:13px;color:var(--ink-2);line-height:1.55}
+  .meal .mm{margin-top:8px;font-size:11px;color:var(--mute)}
+
+  /* PROFILE INSIDE PRO */
+  .profile{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+  .profile > div{background:var(--paper);border-radius:12px;padding:12px;box-shadow:var(--shadow-sm)}
+  .profile label{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--mute);margin-bottom:4px}
+  .profile input, .profile select{width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--rule);background:var(--paper-2);font-size:14px;font-weight:700}
+  .seg{display:inline-flex;background:var(--paper-2);border-radius:8px;padding:3px;gap:2px;width:100%;border:1px solid var(--rule)}
+  .seg button{flex:1;padding:6px 4px;border-radius:6px;font-weight:800;font-size:12px;color:var(--mute)}
+  .seg button.on{background:var(--ink);color:#fff}
+
+  /* PRO PAGE CARDS */
+  .pro-card{background:var(--paper);border-radius:18px;padding:18px;box-shadow:var(--shadow-sm);margin-bottom:12px;display:flex;align-items:center;gap:14px}
+  .pro-card .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex-shrink:0;color:#fff}
+  .pro-card .ic.coral{background:var(--coral)}
+  .pro-card .ic.teal{background:var(--teal)}
+  .pro-card .ic.violet{background:var(--violet)}
+  .pro-card .ic.blue{background:var(--blue)}
+  .pro-card .ic svg{width:22px;height:22px}
+  .pro-card .txt{flex:1}
+  .pro-card .txt h4{margin:0 0 3px;font-size:15px;font-weight:800;letter-spacing:-.01em}
+  .pro-card .txt p{margin:0;color:var(--mute);font-size:12.5px;line-height:1.4}
+  .pro-card .chevron{color:var(--mute-2)}
+
+  .nutriplan{background:linear-gradient(135deg,#229ED9 0%, #1a7bb0 100%);color:#fff;border-radius:20px;padding:22px;margin-bottom:16px;position:relative;overflow:hidden}
+  .nutriplan::after{content:"";position:absolute;right:-25px;bottom:-25px;width:130px;height:130px;background:radial-gradient(circle,#fff,transparent 70%);opacity:.12}
+  .nutriplan .tg-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);color:#fff;font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border-radius:999px;margin-bottom:12px}
+  .nutriplan .tg-tag svg{width:14px;height:14px}
+  .nutriplan h3{margin:0 0 4px;font-size:22px;font-weight:900;letter-spacing:-.01em}
+  .nutriplan p{margin:0;font-size:13.5px;color:rgba(255,255,255,.85);line-height:1.5}
+  .nutriplan ul{margin:12px 0 0;padding-left:18px;font-size:13px;color:rgba(255,255,255,.9);line-height:1.7}
+  .nutriplan .cta{margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1a7bb0;font-weight:800;font-size:13px;padding:10px 16px;border-radius:999px;position:relative;z-index:1}
+  .nutriplan .cta svg{width:14px;height:14px}
+
+  /* REFS SHEET */
+  .refs{background:var(--paper);border-radius:16px;padding:18px;box-shadow:var(--shadow-sm)}
+  .refs ol{padding-left:18px;margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.65}
+  .refs ol li{margin:6px 0}
   .refs ol li b{color:var(--ink)}
-  .refs ol li em{color:var(--brand)}
+  .refs ol li em{color:var(--coral)}
 
-  /* MODAL */
-  .modal{position:fixed;inset:0;background:rgba(15,17,21,.75);display:none;align-items:center;justify-content:center;z-index:200;padding:24px}
+  /* MODAL VIDEO */
+  .modal{position:fixed;inset:0;background:rgba(15,20,30,.82);display:none;align-items:center;justify-content:center;z-index:300;padding:16px}
   .modal.on{display:flex}
-  .modal .box{background:var(--paper);border-radius:20px;max-width:820px;width:100%;overflow:hidden}
+  .modal .box{background:var(--paper);border-radius:20px;max-width:820px;width:100%;overflow:hidden;position:relative}
   .modal .video-wrap{aspect-ratio:16/9;background:#000;position:relative}
   .modal .video-wrap iframe{width:100%;height:100%;border:0}
-  .modal .empty-video{width:100%;height:100%;display:grid;place-items:center;color:#fff;padding:20px;text-align:center}
-  .modal .body{padding:22px 26px}
-  .modal .body h4{font-family:"Fraunces",serif;font-size:26px;font-weight:500;margin:0 0 6px}
-  .modal .body p{color:var(--ink-2);margin:6px 0 0;font-size:14px}
-  .modal .close{position:absolute;top:14px;right:14px;background:#000;color:#fff;border:0;width:36px;height:36px;border-radius:999px;font-size:18px;z-index:3}
+  .modal .empty-video{width:100%;height:100%;display:grid;place-items:center;color:#fff;padding:20px;text-align:center;font-size:13px;line-height:1.5}
+  .modal .empty-video code{background:#222;padding:5px 8px;border-radius:6px;font-size:11.5px;display:inline-block;margin-top:8px}
+  .modal .b-body{padding:16px 20px}
+  .modal .b-body h4{font-size:18px;font-weight:800;margin:0 0 4px;letter-spacing:-.01em}
+  .modal .b-body p{color:var(--ink-2);margin:0;font-size:13px;line-height:1.5}
+  .modal .close{position:absolute;top:12px;right:12px;background:#000;color:#fff;width:34px;height:34px;border-radius:50%;font-size:17px;z-index:3;display:grid;place-items:center}
 
-  /* FOOTER */
-  footer{padding:44px 0;border-top:1px solid var(--rule);color:var(--mute);font-size:13px}
-  footer .row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-  footer a{color:var(--ink-2);font-weight:600}
+  /* SAVE BADGE */
+  .save-badge{position:fixed;top:16px;right:16px;z-index:60;background:var(--paper);color:var(--teal);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;padding:5px 10px;border-radius:999px;box-shadow:var(--shadow-sm);opacity:0;transition:opacity .3s;pointer-events:none}
+  .save-badge.on{opacity:1}
+  @media (min-width:700px){ .save-badge{position:absolute;top:60px;right:24px} }
 
+  .hidden{display:none !important}
 </style>
 </head>
 <body>
 
-<nav class="top">
-  <div class="row">
-    <div class="brand">
-      <div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 12h3l2-5 3 10 3-8 2 3h3"/></svg></div>
-      <div class="name">MARTA <span class="pill-pro">Pro</span><span class="sub">Allenamento consapevole</span></div>
+<div class="phone" id="phone">
+  <span class="save-badge" id="save-badge">salvato</span>
+
+  <!-- STATUS BAR -->
+  <div class="status">
+    <span id="clock">00:01</span>
+    <span class="right">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M1 12h3v4H1zm5-2h3v6H6zm5-3h3v9h-3zm5-4h3v13h-3z"/></svg>
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 4C5 4 1.5 7 0 9c1.5 2 5 5 10 5s8.5-3 10-5c-1.5-2-5-5-10-5zm0 8a3 3 0 110-6 3 3 0 010 6z" opacity=".85"/></svg>
+      <svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="20" height="10" rx="2"/><rect x="3" y="3" width="13" height="6" fill="currentColor"/><rect x="22" y="4" width="1.5" height="4" fill="currentColor"/></svg>
+    </span>
+  </div>
+
+  <!-- ============ TAB: OGGI ============ -->
+  <div class="page" id="tab-oggi">
+    <h1>Buongiorno <span class="h1-accent" id="greet-name">Marta</span>!</h1>
+    <div class="sub">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>
+      <span id="date-str">Mercoledì 19 agosto 2026</span>
     </div>
-    <div class="links">
-      <a href="#settimana">Settimana</a>
-      <a href="#distretti">Distretti</a>
-      <a href="#nutrizione">Nutrizione</a>
-      <a href="#riferimenti">Riferimenti</a>
-      <span id="save-badge" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);font-weight:700;padding:4px 10px;border:1px solid var(--rule);border-radius:999px">salvato · locale</span>
+
+    <div class="quote">"Ogni ripetizione conta, ogni pasto pulito conta."</div>
+
+    <div class="lbl">A che ora ti alleni oggi?</div>
+    <div class="time-grid" id="time-grid">
+      <button class="time" data-t="rest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        Riposo
+      </button>
+      <button class="time on" data-t="am-early">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+        Mattina Presto
+      </button>
+      <button class="time" data-t="am-late">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
+        Mattina Tardi
+      </button>
+      <button class="time" data-t="pm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5l11 11M17 6h1v1M6 17v1h1"/><circle cx="8" cy="8" r="2"/><circle cx="16" cy="16" r="2"/></svg>
+        Pomeriggio
+      </button>
+    </div>
+
+    <div class="lbl">Suggerimento allenamento</div>
+    <div class="suggest" id="suggest-card">
+      <div>
+        <div class="tag">Sessione A</div>
+        <h3 id="suggest-name">Gambe e Spalle</h3>
+        <div class="meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span id="suggest-dur">~60 min</span></span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>Hypertrophy focus</span>
+        </div>
+      </div>
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5l3 3M14.5 14.5l3 3M4 4l16 16M20 4L4 20"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="6.5" r="2.5"/></svg>
+      </div>
+    </div>
+
+    <div class="hydro">
+      <div class="top">
+        <span class="l">Idratazione <span style="text-transform:none;letter-spacing:0;color:var(--mute-2);font-weight:500">(target: <span id="hydro-target">2</span>-2.5L)</span></span>
+        <span class="r"><span id="hydro-cur">0</span>L / <span id="hydro-tgt-r">2.0</span>L</span>
+      </div>
+      <div class="bars" id="hydro-bars"></div>
+      <div class="ctrl">
+        <button class="cbtn" id="hydro-minus">−</button>
+        <div class="drop">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s-6 8-6 12a6 6 0 0012 0c0-4-6-12-6-12z"/></svg>
+          <b id="hydro-count">0</b>
+        </div>
+        <button class="cbtn plus" id="hydro-plus">+</button>
+      </div>
+    </div>
+
+    <div class="meals-strip">
+      <div class="head">
+        <div class="lbl" style="margin:0">Pasti di oggi</div>
+        <a href="#" onclick="showTab('cibo');return false;">Vedi tutto</a>
+      </div>
+      <div id="today-meals"></div>
     </div>
   </div>
-</nav>
 
-<header class="hero">
-  <div class="wrap">
-    <span class="eyebrow"><span class="dot"></span>Versione Pro · Uomo · Donna</span>
-    <h1 class="display">Allena la <span class="serif" style="color:var(--brand);font-style:italic;font-weight:400">settimana</span>,<br/>non l'entusiasmo.</h1>
-    <p class="lede">Pianifica sette giorni con schede pronte, apri ogni scheda per vedere subito il video dell'esecuzione corretta, scegli i distretti da lavorare e ricevi consigli nutrizionali per bulk o cut basati su protocolli scientifici. Uomo e donna, stesso metodo.</p>
+  <!-- ============ TAB: CIBO ============ -->
+  <div class="page hidden" id="tab-cibo">
+    <h1>Nutrizione</h1>
+    <div class="sub">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M2 12h20"/></svg>
+      <span>Bulk · Cut · Mantenimento — evidence-based</span>
+    </div>
 
+    <div class="phase-tabs" id="phase-tabs">
+      <button data-v="cut">Cut</button>
+      <button data-v="maint" class="on">Manten.</button>
+      <button data-v="bulk">Bulk</button>
+    </div>
+
+    <div class="macros-hero" id="macros-hero"></div>
+
+    <div class="card-lite">
+      <h4>Personalizza calcolo</h4>
+      <div class="row2">
+        <div>
+          <label>Deficit / Surplus %</label>
+          <input id="n-delta" type="number" min="-30" max="30" step="1" value="0" />
+        </div>
+        <div>
+          <label>Proteine g/kg</label>
+          <input id="n-pro" type="number" min="1.2" max="3.0" step="0.1" value="1.8" />
+        </div>
+      </div>
+      <div class="row2">
+        <div>
+          <label>Grassi g/kg</label>
+          <input id="n-fat" type="number" min="0.5" max="1.5" step="0.1" value="1.0" />
+        </div>
+        <div>
+          <label>Pasti / giorno</label>
+          <select id="n-meals">
+            <option>3</option><option selected>4</option><option>5</option>
+          </select>
+        </div>
+      </div>
+      <div class="note">Range ISSN <em>[3][5]</em>: 1.6–2.2 g/kg proteine per ipertrofia, 0.8–1.2 g/kg grassi per equilibrio ormonale.</div>
+    </div>
+
+    <div class="lbl" style="margin-top:22px">Meal ideas — <span id="meal-phase-lbl">mantenimento</span></div>
+    <div id="meal-cards"></div>
+  </div>
+
+  <!-- ============ TAB: WORK ============ -->
+  <div class="page hidden" id="tab-work">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:16px">
+      <div>
+        <h1 style="margin-bottom:2px">Allenamento</h1>
+        <div style="color:var(--mute);font-size:15px">Piano di Forza & Ipertrofia</div>
+      </div>
+      <div class="plan-toggle" id="plan-toggle">
+        <button data-p="A" class="on">A</button>
+        <button data-p="B">B</button>
+        <button data-p="C">C</button>
+        <button data-p="D">D</button>
+      </div>
+    </div>
+
+    <div class="lbl">Le mie schede</div>
+    <div class="schede" id="schede-grid"></div>
+
+    <div class="pro-tile" onclick="showTab('pro');document.getElementById('body-map-anchor').scrollIntoView({behavior:'smooth'})">
+      <span class="pro-badge">Pro</span>
+      <h3>Distretti muscolari</h3>
+      <p>Seleziona un'area del corpo, ottieni il protocollo evidence-based e gli esercizi più efficaci.</p>
+      <span class="go">Apri distretti →</span>
+    </div>
+  </div>
+
+  <!-- ============ TAB: PRO ============ -->
+  <div class="page hidden" id="tab-pro">
+    <h1>Pro</h1>
+    <div class="sub">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 8.5 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 9 8.5 12 2"/></svg>
+      <span>Il tuo profilo · distretti · NutriPlan</span>
+    </div>
+
+    <div class="nutriplan">
+      <span class="tg-tag">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.24 3.64 11.95c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+        Telegram
+      </span>
+      <h3>NutriPlan — il tuo dietologo tascabile</h3>
+      <p>Scrivi al bot, ricevi il piano pasti calibrato sui tuoi macros. Ricorda idratazione, controlla la fase.</p>
+      <ul id="nutriplan-caps">
+        <li>Menu giornaliero calibrato su kcal/macros di questa app</li>
+        <li>Adattamento in base alla fase (cut / manten. / bulk)</li>
+        <li>Reminder idratazione e pre/post workout</li>
+        <li>Diario pasti conversazionale in linguaggio naturale</li>
+      </ul>
+      <a href="#" class="cta" id="nutriplan-cta">
+        Apri NutriPlan
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+
+    <div class="lbl">Il tuo profilo</div>
     <div class="profile" id="profile">
       <div>
         <label>Nome</label>
-        <input id="p-name" type="text" placeholder="il tuo nome" value="Marta" />
+        <input id="p-name" type="text" value="Marta" />
       </div>
       <div>
         <label>Sesso</label>
@@ -279,11 +515,11 @@
         </select>
       </div>
       <div>
-        <label>Attività quotidiana</label>
+        <label>Attività</label>
         <select id="p-activity">
-          <option value="1.375">Leggera (1-3 all./sett.)</option>
-          <option value="1.55" selected>Moderata (4-5 all./sett.)</option>
-          <option value="1.725">Intensa (6-7 all./sett.)</option>
+          <option value="1.375">Leggera</option>
+          <option value="1.55" selected>Moderata</option>
+          <option value="1.725">Intensa</option>
         </select>
       </div>
       <div>
@@ -295,437 +531,341 @@
         </div>
       </div>
     </div>
-  </div>
-</header>
 
-<!-- SETTIMANA -->
-<section id="settimana">
-  <div class="wrap">
-    <div class="kicker">
-      <div>
-        <span class="eyebrow"><span class="dot"></span>Pianificatore</span>
-        <h2>La tua <span class="serif">settimana</span>.</h2>
+    <div id="body-map-anchor" style="scroll-margin-top:20px"></div>
+    <div class="lbl" style="margin-top:20px">Distretti muscolari</div>
+    <div class="body-map">
+      <div class="view-toggle">
+        <button data-view="front" class="on">Anteriore</button>
+        <button data-view="back">Posteriore</button>
       </div>
-      <p class="sub">Trascina una scheda dalla libreria sul giorno, oppure clicca la scheda per aprirla e vedere subito i video degli esercizi. Il giorno di oggi è evidenziato.</p>
+      <div id="body-svg"></div>
+      <div class="legend">Seleziona un distretto</div>
+    </div>
+    <div class="district-panel" id="district-panel">
+      <div class="empty">Tocca un'area della mappa per vedere protocollo ed esercizi.</div>
     </div>
 
-    <div class="week" id="week"></div>
-
-    <div class="library">
-      <div class="lib-head">
-        <h3>Libreria schede</h3>
-        <span class="mono mute">Clicca per espandere · trascina per assegnare</span>
-      </div>
-      <div class="cards" id="cards"></div>
-    </div>
-
-    <div class="scheda-detail" id="scheda-detail"></div>
-  </div>
-</section>
-
-<!-- DISTRETTI -->
-<section id="distretti">
-  <div class="wrap">
-    <div class="kicker">
-      <div>
-        <span class="eyebrow"><span class="dot"></span>Distretti muscolari</span>
-        <h2>Scegli <span class="serif">cosa</span> allenare.</h2>
-      </div>
-      <p class="sub">Clicca un distretto sulla mappa. Ricevi il protocollo evidence-based (volume, intensità, frequenza) e gli esercizi più efficaci — selezionati sulla base di studi EMG e meta-analisi di ipertrofia.</p>
-    </div>
-
-    <div class="districts-grid">
-      <div class="body-map">
-        <div class="view-toggle">
-          <button data-view="front" class="on">Anteriore</button>
-          <button data-view="back">Posteriore</button>
-        </div>
-        <div id="body-svg"></div>
-        <div class="legend">Tocca un'area per vedere protocollo ed esercizi</div>
-      </div>
-      <div class="district-panel" id="district-panel">
-        <div class="empty">Seleziona un distretto dalla mappa per iniziare.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- NUTRIZIONE -->
-<section id="nutrizione">
-  <div class="wrap">
-    <div class="kicker">
-      <div>
-        <span class="eyebrow"><span class="dot"></span>Nutrizione</span>
-        <h2>Bulk o <span class="serif">cut</span> — con metodo.</h2>
-      </div>
-      <p class="sub">Fabbisogno calcolato con Mifflin-St Jeor (2005), macros dalle posizioni ISSN. Le fasce cambiano automaticamente con sesso, peso, età, attività e fase. I meal ideas si adattano.</p>
-    </div>
-
-    <div class="nut-grid">
-      <div class="nut-form">
-        <div>
-          <label>Fase</label>
-          <div class="seg" id="n-phase">
-            <button data-v="cut">Cut</button>
-            <button data-v="maint" class="on">Manten.</button>
-            <button data-v="bulk">Bulk</button>
-          </div>
-        </div>
-        <div class="row2">
-          <div>
-            <label>Deficit / Surplus %</label>
-            <input id="n-delta" type="number" min="-30" max="30" step="1" value="0" />
-          </div>
-          <div>
-            <label>Proteine g/kg</label>
-            <input id="n-pro" type="number" min="1.2" max="3.0" step="0.1" value="1.8" />
-          </div>
-        </div>
-        <div class="row2">
-          <div>
-            <label>Grassi g/kg</label>
-            <input id="n-fat" type="number" min="0.5" max="1.5" step="0.1" value="1.0" />
-          </div>
-          <div>
-            <label>Pasti / giorno</label>
-            <select id="n-meals">
-              <option>3</option>
-              <option selected>4</option>
-              <option>5</option>
-            </select>
-          </div>
-        </div>
-        <p class="mute" style="font-size:12px;margin:6px 0 0">I valori seguono le linee guida ISSN <em>[3][5]</em>: 1.6–2.2 g/kg proteine per l'ipertrofia, 0.8–1.2 g/kg grassi per l'equilibrio ormonale.</p>
-      </div>
-
-      <div class="nut-results" id="nut-results"></div>
-    </div>
-
-    <div class="meals">
-      <div class="lib-head" style="margin:22px 0 10px">
-        <h3 style="margin:0">Meal ideas — <span id="meal-phase">manten.</span></h3>
-        <span class="mono mute">Adattati alla fase e alla quota proteica</span>
-      </div>
-      <div class="meal-cards" id="meal-cards"></div>
-    </div>
-  </div>
-</section>
-
-<!-- REFERENCES -->
-<section id="riferimenti">
-  <div class="wrap">
-    <div class="kicker">
-      <div>
-        <span class="eyebrow"><span class="dot"></span>Base scientifica</span>
-        <h2>Da dove viene <span class="serif">tutto questo</span>.</h2>
-      </div>
-      <p class="sub">Ogni protocollo, volume di allenamento e range nutrizionale citato nell'app è ancorato a una di queste fonti.</p>
-    </div>
-
+    <div class="lbl" style="margin-top:22px">Riferimenti scientifici</div>
     <div class="refs">
       <ol>
-        <li><b>[1] Schoenfeld BJ, Grgic J, Van Every DW, Plotkin DL.</b> <em>Loading recommendations for muscle strength, hypertrophy, and local endurance: a re-examination of the repetition continuum.</em> Sports (Basel) 2021;9(2):32. — Fondamento dei range 6–12 rep per ipertrofia, 1–5 per forza, 15+ per endurance.</li>
-        <li><b>[2] Schoenfeld BJ, Ogborn D, Krieger JW.</b> <em>Dose-response relationship between weekly resistance training volume and increases in muscle mass: A systematic review and meta-analysis.</em> J Sports Sci 2017;35(11):1073-82. — Da qui viene la soglia 10+ serie/settimana per gruppo muscolare per massimizzare l'ipertrofia.</li>
-        <li><b>[3] Jäger R, Kerksick CM, Campbell BI, et al.</b> <em>International Society of Sports Nutrition Position Stand: protein and exercise.</em> J Int Soc Sports Nutr 2017;14:20. — Range 1.4–2.0 g/kg/die; fino a 2.2 g/kg in cut per preservare massa magra.</li>
-        <li><b>[4] Aragon AA, Schoenfeld BJ, Wildman R, et al.</b> <em>ISSN diet & body composition position stand.</em> J Int Soc Sports Nutr 2017;14:16. — Deficit 500–750 kcal/die in cut; surplus 10–20% in lean bulk.</li>
-        <li><b>[5] Helms ER, Aragon AA, Fitschen PJ.</b> <em>Evidence-based recommendations for natural bodybuilding contest preparation: nutrition and supplementation.</em> J Int Soc Sports Nutr 2014;11:20. — Fondamento del calo lento (0.5–1% peso/settimana) per preservare la massa magra.</li>
-        <li><b>[6] Grgic J, Schoenfeld BJ, Davies TB, et al.</b> <em>Effect of resistance training frequency on gains in muscular strength.</em> Sports Med 2018;48(5):1207–20. — Da 2 sedute/settimana per gruppo muscolare come minimo efficace.</li>
-        <li><b>[7] Krzysztofik M, Wilk M, Wojdała G, Gołaś A.</b> <em>Maximizing muscle hypertrophy: a systematic review of advanced resistance training techniques.</em> Int J Environ Res Public Health 2019;16(24):4897. — Base delle scelte esercizi multi-articolari + isolamento.</li>
-        <li><b>[8] Mifflin MD, St Jeor ST, et al.</b> <em>A new predictive equation for resting energy expenditure in healthy individuals.</em> Am J Clin Nutr 1990;51(2):241-7. — Formula BMR usata nel calcolatore.</li>
-        <li><b>[9] Kerksick CM, Wilborn CD, Roberts MD, et al.</b> <em>ISSN exercise & sports nutrition review update: research & recommendations.</em> J Int Soc Sports Nutr 2018;15:38. — Timing e distribuzione proteica su 3–5 pasti.</li>
-        <li><b>[10] Ratamess NA, Alvar BA, et al. ACSM.</b> <em>Progression models in resistance training for healthy adults.</em> Med Sci Sports Exerc 2009;41(3):687-708. — Posizione ACSM su carichi, volumi, riposo intra-serie.</li>
+        <li><b>[1] Schoenfeld BJ, Grgic J, Van Every DW, Plotkin DL.</b> <em>Loading recommendations for muscle strength, hypertrophy and endurance.</em> Sports 2021;9(2):32.</li>
+        <li><b>[2] Schoenfeld BJ, Ogborn D, Krieger JW.</b> <em>Dose-response volume-hypertrophy meta-analysis.</em> J Sports Sci 2017;35(11):1073-82.</li>
+        <li><b>[3] Jäger R, Kerksick CM, Campbell BI, et al.</b> <em>ISSN Position Stand: protein and exercise.</em> J Int Soc Sports Nutr 2017;14:20.</li>
+        <li><b>[4] Aragon AA, Schoenfeld BJ, et al.</b> <em>ISSN diet & body composition position stand.</em> JISSN 2017;14:16.</li>
+        <li><b>[5] Helms ER, Aragon AA, Fitschen PJ.</b> <em>Evidence-based recommendations for natural bodybuilding.</em> JISSN 2014;11:20.</li>
+        <li><b>[6] Grgic J, Schoenfeld BJ, et al.</b> <em>Frequency & strength gains.</em> Sports Med 2018;48(5):1207-20.</li>
+        <li><b>[7] Krzysztofik M, Wilk M, et al.</b> <em>Maximizing muscle hypertrophy: advanced techniques.</em> IJERPH 2019;16:4897.</li>
+        <li><b>[8] Mifflin MD, St Jeor ST, et al.</b> <em>Predictive equation for REE.</em> Am J Clin Nutr 1990;51(2):241-7.</li>
+        <li><b>[9] Kerksick CM, Wilborn CD, et al.</b> <em>ISSN sports nutrition update.</em> JISSN 2018;15:38.</li>
+        <li><b>[10] Ratamess NA, et al. ACSM.</b> <em>Progression models in resistance training.</em> MSSE 2009;41(3):687-708.</li>
       </ol>
     </div>
   </div>
-</section>
 
-<footer>
-  <div class="wrap">
-    <div class="row">
-      <div><b>Marta Pro</b> — allenamento consapevole per uomo e donna. Prototipo interno · nessun dato viene inviato online.</div>
-      <div><a href="#settimana">Torna su ↑</a></div>
+  <!-- BOTTOM NAV -->
+  <div class="tabbar">
+    <div class="tabbar-inner">
+      <button class="tab on" data-tab="oggi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2h-4v-6H10v6H5a2 2 0 01-2-2V9z"/></svg>
+        <span>Oggi</span>
+        <span class="dot-notif"></span>
+      </button>
+      <button class="tab" data-tab="cibo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v6a4 4 0 004 4V2M7 12v10M17 2v20"/><path d="M21 5v6a4 4 0 01-4 4"/></svg>
+        <span>Cibo</span>
+      </button>
+      <button class="tab" data-tab="work">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5l11 11M14.5 14.5l3 3M6.5 6.5l-3-3M4 20l3-3M17 4l3-3M20 20l-3-3"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="6.5" r="2.5"/></svg>
+        <span>Work</span>
+      </button>
+      <button class="tab" data-tab="pro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 6 13.5 14.5 8.5 9.5 2 16"/><polyline points="16 6 22 6 22 12"/></svg>
+        <span>Pro</span>
+      </button>
     </div>
   </div>
-</footer>
 
-<!-- VIDEO MODAL -->
-<div class="modal" id="modal">
-  <div class="box">
-    <div class="video-wrap" style="position:relative">
-      <button class="close" id="modal-close" aria-label="Chiudi">×</button>
-      <div id="video-slot"></div>
-    </div>
-    <div class="body">
-      <h4 id="modal-title">Esercizio</h4>
-      <p id="modal-body">Focus tecnico.</p>
+  <!-- SHEET SCHEDA DETAIL -->
+  <div class="sheet" id="sheet">
+    <div class="sheet-box">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head">
+        <div>
+          <div class="lbl" id="sheet-tag" style="margin-bottom:4px"></div>
+          <h3 id="sheet-name">Scheda</h3>
+        </div>
+        <button class="close" onclick="closeSheet()">×</button>
+      </div>
+      <div class="sheet-meta" id="sheet-meta"></div>
+      <div id="sheet-ex"></div>
     </div>
   </div>
+
+  <!-- MODAL VIDEO -->
+  <div class="modal" id="modal">
+    <div class="box">
+      <div class="video-wrap">
+        <button class="close" id="modal-close">×</button>
+        <div id="video-slot"></div>
+      </div>
+      <div class="b-body">
+        <h4 id="modal-title">Esercizio</h4>
+        <p id="modal-body">Focus tecnico.</p>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
-// ---------- DATA ----------
+// ==================== DATA ====================
+const V = (p,id)=> ({p,id}); // {p:'yt'|'ytshort'|'ig', id:'...'}
 
-// Video schema: {p:'yt'|'ytshort'|'ig', id:'<video-id o codice reel>'}
-// Aggiungi/sostituisci gli id: per YT prendi da youtube.com/watch?v=ID → id=ID; per Reel IG prendi da instagram.com/reel/CODE/ → id=CODE con p:'ig'
-const V = (p,id)=> ({p,id});
-
-// Schede: id, nome, tag, colore, descrizione, target, esercizi. `for` = 'both' | 'F' | 'M' (visibilità per sesso; both di default)
-const SCHEDE = [
-  // ===== PPL (Push · Pull · Legs) 6 giorni =====
-  { id:'push-a', name:'Push A', tag:'push · forza', color:'push', for:'both',
-    desc:'Petto · Spalle · Tricipiti. Focus spinta orizzontale, carichi alti.',
-    dur:55, exN:6, level:'int',
-    ex:[
-      {n:'Panca piana bilanciere', m:'Petto · Tricipiti · Delt. ant.', sets:'4 × 6-8', rest:'2-3 min', cue:'Scapole retratte e depresse, gomiti ~45°, bilanciere sullo sterno.', vid:V('yt','rT7DgCr-3pg')},
-      {n:'Panca inclinata manubri', m:'Petto alto · Delt. ant.', sets:'3 × 8-10', rest:'90 s', cue:'Inclinazione 30°, arco lombare basso, polsi neutri.', vid:V('yt','8iPEnn-ltC8')},
-      {n:'Military press manubri', m:'Delt. ant./lat · Tricipiti', sets:'3 × 8-10', rest:'90 s', cue:'Core attivo, non iperestendere la lombare.', vid:V('yt','B-aVuyhvLHU')},
-      {n:'Alzate laterali', m:'Deltoide laterale', sets:'3 × 12-15', rest:'60 s', cue:'Guidati dai gomiti, non dai polsi. Pausa 1 s in alto.', vid:V('yt','geenhiHju-o')},
-      {n:'French press EZ', m:'Tricipiti (capo lungo)', sets:'3 × 10-12', rest:'75 s', cue:'Gomiti fermi vicino alla testa; allunga il capo lungo.', vid:V('yt','YbX7Wd8jQ-Q')},
-      {n:'Push-down cavo corda', m:'Tricipiti (capo laterale)', sets:'3 × 12-15', rest:'60 s', cue:'Gomiti attaccati al busto; apri la corda a fine ROM.', vid:V('yt','2-LAMcpzODU')}
-    ]},
-  { id:'push-b', name:'Push B', tag:'push · volume', color:'push', for:'both',
-    desc:'Variante ipertrofia: petto alto + isolamento spalle.',
-    dur:55, exN:6, level:'int',
-    ex:[
-      {n:'Panca inclinata bilanciere', m:'Petto alto · Delt. ant.', sets:'4 × 8-10', rest:'2 min', cue:'Panchetta 30°, gomiti ~60°, retrazione scapolare stabile.', vid:V('yt','')},
-      {n:'Chest press macchina', m:'Petto · Tricipiti', sets:'3 × 10-12', rest:'75 s', cue:'Impostazione: presa all\'altezza del capezzolo, ROM completo.', vid:V('yt','')},
-      {n:'Croci ai cavi bassi', m:'Petto (capo sternale + clavicolare)', sets:'3 × 12-15', rest:'60 s', cue:'Movimento a mezzaluna dal basso al centro.', vid:V('yt','')},
-      {n:'Arnold press manubri', m:'Delt. ant./lat', sets:'3 × 10-12', rest:'75 s', cue:'Rotazione fluida, non forzare la spalla.', vid:V('yt','')},
-      {n:'Alzate laterali ai cavi', m:'Deltoide laterale', sets:'3 × 12-15', rest:'60 s', cue:'Costante tensione lungo l\'intero ROM.', vid:V('yt','')},
-      {n:'Overhead extension corda', m:'Tricipiti (capo lungo)', sets:'3 × 12-15', rest:'60 s', cue:'Gomiti fissi in alto, allunga la corda dietro il capo.', vid:V('yt','')}
-    ]},
-  { id:'pull-a', name:'Pull A', tag:'pull · forza', color:'pull', for:'both',
-    desc:'Dorso · Bicipiti. Focus trazione verticale + orizzontale pesante.',
-    dur:55, exN:6, level:'int',
-    ex:[
-      {n:'Trazioni presa larga', m:'Gran dorsale · Romboidi', sets:'4 × max', rest:'2-3 min', cue:'Petto in fuori, mento sopra la sbarra, no kipping.', vid:V('yt','eGo4IYlbE5g')},
-      {n:'Rematore bilanciere', m:'Dorso spesso · Trapezio medio', sets:'4 × 8-10', rest:'2 min', cue:'Busto 45°, tira verso l\'ombelico, mantieni la lombare piatta.', vid:V('yt','kBWAon7ItDw')},
-      {n:'Lat machine presa neutra', m:'Gran dorsale', sets:'3 × 10-12', rest:'90 s', cue:'Scendi guidando con i gomiti verso i fianchi.', vid:V('yt','JGeRYIZdojU')},
-      {n:'Face pull ai cavi', m:'Delt. post · Trapezio inf.', sets:'3 × 15', rest:'60 s', cue:'Tira in alto verso il viso, apri le mani a fine ROM.', vid:V('yt','V8dZ3pyiCBo')},
-      {n:'Curl bilanciere EZ', m:'Bicipite brachiale', sets:'3 × 8-12', rest:'75 s', cue:'Gomiti fermi lungo il busto, no swing lombare.', vid:V('yt','kwG2ipFRgfo')},
-      {n:'Hammer curl', m:'Brachiale · Brachioradiale', sets:'3 × 10-12', rest:'60 s', cue:'Polsi neutri, controllo eccentrica 2-3 s.', vid:V('yt','zC3nLlEvin4')}
-    ]},
-  { id:'pull-b', name:'Pull B', tag:'pull · volume', color:'pull', for:'both',
-    desc:'Variante ipertrofia: dorsali + capo lungo bicipite.',
-    dur:55, exN:6, level:'int',
-    ex:[
-      {n:'Pullover ai cavi', m:'Gran dorsale (allungamento)', sets:'3 × 12-15', rest:'75 s', cue:'Braccia leggermente flesse, sposta il carico col dorsale.', vid:V('yt','')},
-      {n:'Chin-up presa supina', m:'Dorsale + bicipite', sets:'4 × 6-10', rest:'2 min', cue:'Portare il petto alla sbarra.', vid:V('yt','')},
-      {n:'Rematore manubrio 1-braccio', m:'Dorso · Grande rotondo', sets:'3 × 10/lato', rest:'75 s', cue:'Appoggio su panca, tira all\'anca, no rotazione busto.', vid:V('yt','')},
-      {n:'Curl panca inclinata', m:'Bicipite (capo lungo)', sets:'3 × 10-12', rest:'75 s', cue:'Manubri sotto le spalle, massimo allungamento.', vid:V('yt','')},
-      {n:'Concentration curl', m:'Bicipite (picco)', sets:'3 × 10-12', rest:'60 s', cue:'Gomito bloccato sul ginocchio interno.', vid:V('yt','')},
-      {n:'Reverse pec deck', m:'Deltoide posteriore', sets:'3 × 15', rest:'60 s', cue:'Braccia parallele al pavimento, spinta orizzontale.', vid:V('yt','')}
-    ]},
-  { id:'legs-a', name:'Legs A', tag:'gambe · quad', color:'legs', for:'both',
-    desc:'Quadricipiti · Polpacci. Squat-focus, forza multi-articolare.',
-    dur:60, exN:6, level:'int',
-    ex:[
-      {n:'Back squat', m:'Quad · Glutei · Core', sets:'5 × 5', rest:'3 min', cue:'Piedi larghi come le spalle, ginocchia in linea con le punte.', vid:V('yt','ultWZbUMPL8')},
-      {n:'Pressa 45°', m:'Quadricipiti · Glutei', sets:'3 × 10-12', rest:'2 min', cue:'Piedi a metà pedana, ROM controllato senza staccare il bacino.', vid:V('yt','')},
-      {n:'Affondi camminati manubri', m:'Quad · Glutei', sets:'3 × 10/lato', rest:'90 s', cue:'Passo lungo per glutei, corto per quadricipiti.', vid:V('yt','D7KaRcUTQeE')},
-      {n:'Leg extension', m:'Quadricipite (retto femorale)', sets:'3 × 12-15', rest:'60 s', cue:'Pausa 1 s in contrazione massima.', vid:V('yt','YyvSfVjQeL0')},
-      {n:'Calf raise in piedi', m:'Gastrocnemio', sets:'4 × 12-15', rest:'45 s', cue:'ROM completo, pausa 1 s in alto e in basso.', vid:V('yt','-M4-G8p8fmc')},
-      {n:'Plank + varianti', m:'Core anteriore', sets:'3 × 45 s', rest:'45 s', cue:'Bacino in retroversione, glutei attivi.', vid:V('yt','ASdvN_XEl_c')}
-    ]},
-  { id:'legs-b', name:'Legs B', tag:'gambe · post.', color:'legs', for:'both',
-    desc:'Catena posteriore: femorali · glutei · polpacci (soleo).',
-    dur:60, exN:6, level:'int',
-    ex:[
-      {n:'Stacco rumeno bilanciere', m:'Femorali · Glutei', sets:'4 × 8', rest:'2 min', cue:'Anche indietro, bilanciere lungo le cosce, ginocchia leggermente flesse.', vid:V('yt','CN_7cz3P-1U')},
-      {n:'Hip thrust bilanciere', m:'Gluteo maggiore', sets:'4 × 8-10', rest:'2 min', cue:'Spinta con i talloni, mento in dentro, pausa 2 s in alto.', vid:V('yt','LM8XHLYJoYs')},
-      {n:'Nordic curl (o eccentrico assistito)', m:'Femorali', sets:'3 × 5-8', rest:'2 min', cue:'Discesa in 4-5 s, controllo massimo dell\'eccentrica.', vid:V('yt','')},
-      {n:'Leg curl seduto', m:'Femorali (bicipite fem.)', sets:'3 × 10-12', rest:'75 s', cue:'Eccentrica 3 s, non staccare il bacino.', vid:V('yt','ELOCsoDSmrg')},
-      {n:'Calf raise seduto (soleo)', m:'Soleo', sets:'4 × 12-15', rest:'45 s', cue:'Ginocchia flesse, ROM completo, 2 s in alto.', vid:V('yt','')},
-      {n:'Cable pull-through', m:'Glutei · Femorali', sets:'3 × 12', rest:'60 s', cue:'Hip hinge puro, no squat, contrazione glutea a fine.', vid:V('yt','')}
-    ]},
-
-  // ===== UPPER · LOWER (4 giorni) =====
-  { id:'upper-a', name:'Upper A', tag:'upper · forza', color:'push', for:'both',
-    desc:'Parte superiore, forza: spinta + trazione pesanti.',
-    dur:55, exN:6, level:'int',
-    ex:[
-      {n:'Panca piana bilanciere', m:'Petto · Tricipiti', sets:'4 × 5-6', rest:'2-3 min', cue:'Scapole bloccate, tocca sterno.', vid:V('yt','rT7DgCr-3pg')},
-      {n:'Rematore bilanciere', m:'Dorso · Trapezio', sets:'4 × 6-8', rest:'2 min', cue:'Busto 45°, tira all\'ombelico.', vid:V('yt','kBWAon7ItDw')},
-      {n:'Military press manubri', m:'Spalle · Tricipiti', sets:'3 × 8', rest:'90 s', cue:'Core attivo, no iperestensione.', vid:V('yt','B-aVuyhvLHU')},
-      {n:'Chin-up presa supina', m:'Dorsale · Bicipite', sets:'3 × max', rest:'2 min', cue:'Petto alla sbarra.', vid:V('yt','')},
-      {n:'Alzate laterali', m:'Deltoide laterale', sets:'3 × 12-15', rest:'60 s', cue:'Gomiti guida.', vid:V('yt','geenhiHju-o')},
-      {n:'Curl EZ + push-down', m:'Bicipite · Tricipite', sets:'3 × 10 superset', rest:'75 s', cue:'Superset senza pausa fra i due.', vid:V('yt','')}
-    ]},
-  { id:'lower-a', name:'Lower A', tag:'lower · forza', color:'legs', for:'both',
-    desc:'Parte inferiore, forza: squat + stacco.',
-    dur:60, exN:5, level:'int',
-    ex:[
-      {n:'Back squat', m:'Quad · Glutei', sets:'5 × 5', rest:'3 min', cue:'Piedi come le spalle, ginocchia in linea con le punte.', vid:V('yt','ultWZbUMPL8')},
-      {n:'Stacco rumeno', m:'Femorali · Glutei', sets:'4 × 6-8', rest:'2 min', cue:'Anche indietro, bilanciere lungo le cosce.', vid:V('yt','CN_7cz3P-1U')},
-      {n:'Affondi bulgari manubri', m:'Quad · Glutei (unilat.)', sets:'3 × 8/lato', rest:'90 s', cue:'Piede posteriore alto, discesa verticale.', vid:V('yt','')},
-      {n:'Leg curl sdraiato', m:'Femorali', sets:'3 × 10-12', rest:'75 s', cue:'Bacino a terra, eccentrica 3 s.', vid:V('yt','ELOCsoDSmrg')},
-      {n:'Calf raise in piedi', m:'Gastrocnemio', sets:'4 × 12-15', rest:'45 s', cue:'ROM completo.', vid:V('yt','-M4-G8p8fmc')}
-    ]},
-
-  // ===== FULL BODY (3 giorni) =====
-  { id:'full-a', name:'Full Body A', tag:'full · base', color:'full', for:'both',
-    desc:'Total-body multi-articolare per 2-3 sedute/settimana.',
-    dur:50, exN:5, level:'beg',
-    ex:[
-      {n:'Goblet squat manubrio', m:'Quad · Glutei · Core', sets:'3 × 10', rest:'90 s', cue:'Manubrio al petto, schiena neutra.', vid:V('yt','MeIiIdhvXT4')},
-      {n:'Panca manubri', m:'Petto · Tricipiti', sets:'3 × 10', rest:'90 s', cue:'Manubri all\'altezza dello sterno.', vid:V('yt','VmB1G1K7v94')},
-      {n:'Rematore un braccio', m:'Dorso · Bicipiti', sets:'3 × 10/lato', rest:'75 s', cue:'Appoggio panca, tira all\'anca.', vid:V('yt','roCP6wCXPqo')},
-      {n:'Hip thrust bilanciere', m:'Glutei · Femorali', sets:'3 × 12', rest:'90 s', cue:'Spinta con i talloni, mento in dentro.', vid:V('yt','LM8XHLYJoYs')},
-      {n:'Plank', m:'Core · Traverso', sets:'3 × 45 s', rest:'60 s', cue:'Bacino in retroversione, glutei attivi.', vid:V('yt','ASdvN_XEl_c')}
-    ]},
-  { id:'full-b', name:'Full Body B', tag:'full · potenza', color:'full', for:'both',
-    desc:'Full-body con enfasi trazione verticale + posteriore.',
-    dur:50, exN:5, level:'int',
-    ex:[
-      {n:'Trap bar deadlift', m:'Catena post · Quad', sets:'4 × 6', rest:'2 min', cue:'Schiena neutra, spinta di gamba.', vid:V('yt','')},
-      {n:'Overhead press bilanciere', m:'Spalle · Tricipiti · Core', sets:'3 × 8', rest:'2 min', cue:'Glutei stretti, no iperestensione.', vid:V('yt','')},
-      {n:'Trazioni assistite / Lat machine', m:'Dorsale', sets:'3 × 8-10', rest:'90 s', cue:'Tira coi gomiti verso i fianchi.', vid:V('yt','JGeRYIZdojU')},
-      {n:'Walking lunges manubri', m:'Gambe · Glutei', sets:'3 × 10/lato', rest:'75 s', cue:'Passo lungo, atterraggio verticale.', vid:V('yt','D7KaRcUTQeE')},
-      {n:'Dead bug', m:'Core anti-est.', sets:'3 × 8/lato', rest:'45 s', cue:'Lombare al pavimento tutto il tempo.', vid:V('yt','g_BYB0R-4Ws')}
-    ]},
-  { id:'full-c', name:'Full Body C', tag:'full · condiz.', color:'full', for:'both',
-    desc:'Full-body ibrido: forza breve + condizionamento a circuito.',
-    dur:45, exN:6, level:'int',
-    ex:[
-      {n:'Front squat bilanciere', m:'Quad · Core', sets:'4 × 6', rest:'2 min', cue:'Gomiti alti, busto eretto.', vid:V('yt','')},
-      {n:'Panca piana bilanciere', m:'Petto · Tricipiti', sets:'3 × 8', rest:'90 s', cue:'Scapole retratte.', vid:V('yt','rT7DgCr-3pg')},
-      {n:'Rematore pendlay', m:'Dorso · Trapezio', sets:'3 × 8', rest:'90 s', cue:'Ogni rep parte dal pavimento.', vid:V('yt','')},
-      {n:'Kettlebell swing', m:'Catena posteriore', sets:'5 × 15', rest:'45 s', cue:'Esplosione d\'anca.', vid:V('yt','sSESGRRZR0Q')},
-      {n:'Farmer\'s carry', m:'Grip · Core · Trapezio', sets:'4 × 30 m', rest:'60 s', cue:'Postura alta, passi corti.', vid:V('yt','')},
-      {n:'Plank laterale', m:'Obliqui · Core', sets:'2 × 30 s/lato', rest:'45 s', cue:'Corpo su una linea.', vid:V('yt','')}
-    ]},
-
-  // ===== FEMMINILI / SPECIALITY =====
-  { id:'glute-focus', name:'GluteFocus', tag:'glutei · femminile', color:'legs', for:'F',
-    desc:'Programma dedicato al gluteo: massimo EMG, hip thrust-centric.',
-    dur:55, exN:6, level:'int',
-    ex:[
-      {n:'Hip thrust bilanciere', m:'Gluteo maggiore', sets:'5 × 8-10', rest:'2 min', cue:'Pausa 2 s in alto, mento in dentro.', vid:V('yt','LM8XHLYJoYs')},
-      {n:'Sumo deadlift', m:'Glutei · Femorali · Adduttori', sets:'4 × 6-8', rest:'2 min', cue:'Piedi larghi, punte fuori 30°.', vid:V('yt','')},
-      {n:'Affondi camminati passo lungo', m:'Glutei (unilat.)', sets:'3 × 12/lato', rest:'90 s', cue:'Passo lungo massimizza il gluteo.', vid:V('yt','D7KaRcUTQeE')},
-      {n:'Abduzione anca ai cavi', m:'Gluteo medio', sets:'3 × 15/lato', rest:'60 s', cue:'Busto stabile, movimento pulito.', vid:V('yt','')},
-      {n:'Kickback ai cavi', m:'Gluteo maggiore (isolam.)', sets:'3 × 12/lato', rest:'60 s', cue:'Ginocchio flesso, spinta all\'indietro.', vid:V('yt','')},
-      {n:'Ponte glutei banda', m:'Gluteo medio (attivazione)', sets:'3 × 20', rest:'45 s', cue:'Elastico sopra le ginocchia, spingi contro.', vid:V('yt','')}
-    ]},
-  { id:'home-body', name:'Home Body', tag:'casa · elastici', color:'full', for:'both',
-    desc:'Solo elastici + manubri leggeri. Zero attrezzatura pesante.',
-    dur:35, exN:6, level:'beg',
-    ex:[
-      {n:'Goblet squat manubrio', m:'Gambe · Core', sets:'3 × 12', rest:'45 s', cue:'Piedi come le spalle.', vid:V('yt','MeIiIdhvXT4')},
-      {n:'Push-up (varianti su ginocchia)', m:'Petto · Tricipiti', sets:'3 × max', rest:'60 s', cue:'Corpo dritto, discesa controllata.', vid:V('yt','')},
-      {n:'Row elastico ancorato', m:'Dorso', sets:'3 × 15', rest:'45 s', cue:'Tira ai fianchi, spingi il petto in fuori.', vid:V('yt','')},
-      {n:'Hip thrust corpo libero + elastico', m:'Glutei', sets:'3 × 15', rest:'45 s', cue:'Elastico sopra ginocchia, pausa in alto.', vid:V('yt','')},
-      {n:'Overhead press elastico', m:'Spalle', sets:'3 × 12', rest:'45 s', cue:'Piedi sull\'elastico, spinta verticale.', vid:V('yt','')},
-      {n:'Plank + varianti', m:'Core', sets:'3 × 40 s', rest:'45 s', cue:'Bacino neutro.', vid:V('yt','ASdvN_XEl_c')}
-    ]},
-  { id:'core', name:'Core & Mobility', tag:'core · mobilità', color:'core', for:'both',
-    desc:'Stabilità profonda + mobilità articolare. Recupero attivo.',
-    dur:35, exN:5, level:'beg',
-    ex:[
-      {n:'Dead bug', m:'Core anteriore · Traverso', sets:'3 × 8/lato', rest:'45 s', cue:'Lombare a contatto col pavimento tutto il tempo.', vid:V('yt','g_BYB0R-4Ws')},
-      {n:'Bird dog', m:'Core · Erettori spinali', sets:'3 × 8/lato', rest:'45 s', cue:'Braccio e gamba opposti, ferma 2 s.', vid:V('yt','wiFNA3sqjCA')},
-      {n:'Pallof press', m:'Anti-rotazione core', sets:'3 × 10/lato', rest:'45 s', cue:'Non ruotare, spingi lontano dal petto.', vid:V('yt','AH_QZLm_0-s')},
-      {n:'Cat-camel', m:'Mobilità toracica-lombare', sets:'2 × 10', rest:'30 s', cue:'Alterna flessione ed estensione lenta.', vid:V('yt','K9bK0BwKFjs')},
-      {n:'90/90 hip stretch', m:'Mobilità anca', sets:'2 × 60 s/lato', rest:'30 s', cue:'Busto eretto, respiro nasale.', vid:V('yt','sYh2ldTaiCk')}
-    ]},
-  { id:'hiit', name:'HIIT metabolico', tag:'hiit · cardio', color:'hiit', for:'both',
-    desc:'25\' ad alta intensità. Condizionamento cardio-metabolico.',
-    dur:25, exN:5, level:'int',
-    ex:[
-      {n:'Kettlebell swing', m:'Catena posteriore', sets:'8 × 20\'\'/40\'\'', rest:'40 s', cue:'Esplosione d\'anca, non solleva con le braccia.', vid:V('yt','sSESGRRZR0Q')},
-      {n:'Burpees', m:'Full body', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Petto a terra, salto verticale a fine.', vid:V('yt','auBLPXO8Fww')},
-      {n:'Mountain climbers', m:'Core · cardio', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Anca stabile, ginocchia al petto.', vid:V('yt','nmwgirgXLYM')},
-      {n:'Air squat esplosivo', m:'Gambe · cardio', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Piena estensione, atterraggio morbido.', vid:V('yt','Azl5tkCzDcc')},
-      {n:'Row / Bike sprint', m:'Cardio metabolico', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Massima potenza, respirazione ritmata.', vid:V('yt','')}
-    ]}
-];
-
-// Distretti muscolari con protocolli scientifici
-const DISTRICTS = {
-  petto:{ name:'Petto', proto:'Volume settimanale: <b>10-20 serie</b> · Frequenza: <b>2×/sett.</b> · Range rep: <b>6-15</b> [1][2][6]. Grande pettorale attivato al massimo con angoli tra 0° e 30° di inclinazione [7].',
-    ex:[
-      {n:'Panca piana bilanciere', why:'Attivazione EMG massima del pettorale', badge:'Base'},
-      {n:'Panca inclinata 30° manubri', why:'Migliora il capo clavicolare', badge:'Alta prio'},
-      {n:'Croci ai cavi bassi', why:'Isolamento capo sternale', badge:'Isolam.'},
-      {n:'Dip petto (inclinazione avanti)', why:'Attivazione petto basso + tricipiti', badge:'Composto'}
-    ]},
-  spalle:{ name:'Spalle', proto:'Volume: <b>12-20 serie/sett.</b>. Deltoide laterale è il capo più sotto-allenato: <b>+ isolamento diretto</b> è cruciale per larghezza [7].',
-    ex:[
-      {n:'Military press manubri', why:'Composto: ant. + laterale', badge:'Base'},
-      {n:'Alzate laterali', why:'Massima attivazione deltoide medio', badge:'Isolam.'},
-      {n:'Face pull ai cavi', why:'Deltoide posteriore + salute spalla', badge:'Salute'},
-      {n:'Rear delt fly panca inclinata', why:'Isolamento deltoide posteriore', badge:'Isolam.'}
-    ]},
-  braccia:{ name:'Braccia (bicipiti + tricipiti)', proto:'Volume diretto: <b>6-12 serie/sett.</b> per capo. I muscoli del braccio ricevono già stimolo indiretto dai composti: eccesso di volume = ritorni decrescenti [2].',
-    ex:[
-      {n:'Curl EZ bilanciere', why:'Massima carico per bicipite', badge:'Base'},
-      {n:'Curl panca inclinata', why:'Allunga il capo lungo', badge:'Capo lungo'},
-      {n:'French press EZ', why:'Allunga capo lungo tricipite', badge:'Capo lungo'},
-      {n:'Push-down cavo corda', why:'Isolamento capo laterale', badge:'Isolam.'}
-    ]},
-  addome:{ name:'Core / Addome', proto:'Frequenza: <b>2-4×/sett.</b>. Priorità ad esercizi <b>anti-estensione</b> (plank) e <b>anti-rotazione</b> (Pallof) — più funzionali del crunch [10].',
-    ex:[
-      {n:'Plank + varianti', why:'Anti-estensione, isometria core', badge:'Base'},
-      {n:'Dead bug', why:'Attivazione traverso senza carico lombare', badge:'Salute'},
-      {n:'Hanging leg raise', why:'Retto addominale con carico', badge:'Ipertrofia'},
-      {n:'Pallof press', why:'Anti-rotazione, obliqui', badge:'Funzionale'}
-    ]},
-  quad:{ name:'Quadricipiti', proto:'Volume: <b>10-18 serie/sett.</b>. Squat + isolamento (leg extension) danno l\'ipertrofia maggiore vs solo squat [7].',
-    ex:[
-      {n:'Back squat', why:'Carico massimo su quadricipiti', badge:'Base'},
-      {n:'Hack squat / Pressa 45°', why:'Isolamento quadricipiti con meno stress lombare', badge:'Volume'},
-      {n:'Affondi bulgari', why:'Unilaterale, squilibri', badge:'Unilat.'},
-      {n:'Leg extension', why:'Isolamento retto femorale', badge:'Isolam.'}
-    ]},
-  glutei:{ name:'Glutei', proto:'Volume: <b>10-16 serie/sett.</b>. <b>Hip thrust</b> genera EMG del gluteo maggiore superiore a squat parziale [7]. Femmina: risposta ipertrofica marcata a stimolo mirato.',
-    ex:[
-      {n:'Hip thrust bilanciere', why:'EMG massima gluteo maggiore', badge:'Base'},
-      {n:'Stacco rumeno', why:'Allungamento sotto carico', badge:'Composto'},
-      {n:'Affondi camminati passo lungo', why:'Enfasi gluteo su ogni passo', badge:'Unilat.'},
-      {n:'Abduzione anca ai cavi', why:'Gluteo medio (upper glute)', badge:'Isolam.'}
-    ]},
-  fem:{ name:'Femorali (posteriore coscia)', proto:'Volume: <b>6-12 serie/sett.</b>. Bilancia forza quad:ham ~ 60% per prevenzione infortuni [10]. Includere sempre <b>eccentriche</b>.',
-    ex:[
-      {n:'Stacco rumeno', why:'Allungamento con carico', badge:'Base'},
-      {n:'Nordic curl', why:'Massimo eccentrico su femorali', badge:'Prevenz.'},
-      {n:'Leg curl sdraiato', why:'Isolamento con flessione ginocchio', badge:'Isolam.'},
-      {n:'Good morning', why:'Erettori + femorali', badge:'Composto'}
-    ]},
-  polp:{ name:'Polpacci', proto:'Volume: <b>10-20 serie/sett.</b>, alta frequenza (fino a 3-4×). Gastrocnemio a ginocchio esteso, soleo a ginocchio flesso [7].',
-    ex:[
-      {n:'Calf raise in piedi', why:'Attiva gastrocnemio', badge:'Base'},
-      {n:'Calf raise seduto', why:'Attiva soleo', badge:'Fibre lente'},
-      {n:'Calf raise unilat.', why:'Simmetria + range', badge:'Unilat.'},
-      {n:'Salti con caviglia', why:'Componente elastica', badge:'Power'}
-    ]},
-  dorso:{ name:'Dorso (gran dorsale + trapezio)', proto:'Volume: <b>12-22 serie/sett.</b>. Mix di <b>trazione verticale</b> (dorsale) e <b>orizzontale</b> (trapezio medio, romboidi) [7].',
-    ex:[
-      {n:'Trazioni presa larga', why:'Sviluppo larghezza dorsale', badge:'Base'},
-      {n:'Rematore bilanciere', why:'Spessore dorsale + trapezio', badge:'Base'},
-      {n:'Pulley basso presa neutra', why:'Volume in sicurezza', badge:'Volume'},
-      {n:'Chin-up presa supina', why:'Dorsale + bicipite', badge:'Composto'}
-    ]},
-  delt_post:{ name:'Deltoide posteriore', proto:'Il capo più sotto-allenato: <b>8-12 serie/sett.</b> di isolamento diretto. Chiave per postura e salute della spalla [7][10].',
-    ex:[
-      {n:'Face pull', why:'Attivazione + salute spalla', badge:'Salute'},
-      {n:'Rear delt fly panca inclinata', why:'Isolamento diretto', badge:'Isolam.'},
-      {n:'Reverse pec deck', why:'Volume in sicurezza', badge:'Volume'},
-      {n:'Band pull-apart', why:'Attivazione, riscaldamento', badge:'Warm-up'}
-    ]}
+// Piani A / B / C / D — ognuno con sue schede
+// Ogni scheda: id, letter, name, tags[], dur, exN, ex[], for:'both'|'F'|'M'
+const PLANS = {
+  A: [
+    {id:'a-legs-shoulders', letter:'A', name:'Gambe e Spalle', tags:['Gambe','Glutei','Spalle'], dur:74, ex:[
+      {n:'Back squat',m:'Quad · Glutei · Core',sets:'5 × 5',rest:'3 min',cue:'Piedi larghi come le spalle, ginocchia in linea con le punte.',vid:V('yt','ultWZbUMPL8')},
+      {n:'Affondi bulgari manubri',m:'Quad · Glutei (unilat.)',sets:'3 × 10/lato',rest:'90 s',cue:'Piede posteriore alto, discesa verticale.',vid:V('yt','')},
+      {n:'Hip thrust bilanciere',m:'Gluteo maggiore',sets:'4 × 8-10',rest:'2 min',cue:'Spinta con i talloni, mento in dentro, pausa 2 s in alto.',vid:V('yt','LM8XHLYJoYs')},
+      {n:'Leg curl seduto',m:'Femorali',sets:'3 × 10-12',rest:'75 s',cue:'Eccentrica 3 s, non staccare il bacino.',vid:V('yt','ELOCsoDSmrg')},
+      {n:'Leg extension',m:'Quadricipite',sets:'3 × 12-15',rest:'60 s',cue:'Pausa 1 s in contrazione massima.',vid:V('yt','YyvSfVjQeL0')},
+      {n:'Calf raise in piedi',m:'Gastrocnemio',sets:'4 × 12-15',rest:'45 s',cue:'ROM completo, pausa 1 s.',vid:V('yt','-M4-G8p8fmc')},
+      {n:'Military press manubri',m:'Delt. ant./lat',sets:'4 × 8-10',rest:'90 s',cue:'Core attivo, no iperestensione.',vid:V('yt','B-aVuyhvLHU')},
+      {n:'Alzate laterali',m:'Deltoide laterale',sets:'4 × 12-15',rest:'60 s',cue:'Guidati dai gomiti, pausa 1 s.',vid:V('yt','geenhiHju-o')},
+      {n:'Alzate laterali ai cavi',m:'Deltoide laterale',sets:'3 × 12-15',rest:'60 s',cue:'Costante tensione lungo il ROM.',vid:V('yt','')},
+      {n:'Face pull ai cavi',m:'Delt. post · Trap. inf.',sets:'3 × 15',rest:'60 s',cue:'Tira in alto verso il viso.',vid:V('yt','V8dZ3pyiCBo')},
+      {n:'Reverse pec deck',m:'Deltoide posteriore',sets:'3 × 12-15',rest:'60 s',cue:'Braccia parallele al pavimento.',vid:V('yt','')},
+      {n:'Plank',m:'Core',sets:'3 × 45 s',rest:'45 s',cue:'Bacino neutro, glutei attivi.',vid:V('yt','ASdvN_XEl_c')}
+    ], for:'both'},
+    {id:'a-chest-biceps', letter:'B', name:'Petto e Bicipiti', tags:['Petto','Bicipiti','Addome'], dur:52, ex:[
+      {n:'Panca piana bilanciere',m:'Petto · Tricipiti',sets:'4 × 6-8',rest:'2-3 min',cue:'Scapole retratte, gomiti ~45°, bilanciere sullo sterno.',vid:V('yt','rT7DgCr-3pg')},
+      {n:'Panca inclinata manubri',m:'Petto alto',sets:'3 × 8-10',rest:'90 s',cue:'Inclinazione 30°, arco lombare basso.',vid:V('yt','8iPEnn-ltC8')},
+      {n:'Croci ai cavi bassi',m:'Petto (capo sternale)',sets:'3 × 12-15',rest:'60 s',cue:'Movimento a mezzaluna dal basso al centro.',vid:V('yt','')},
+      {n:'Chest press macchina',m:'Petto',sets:'3 × 10-12',rest:'75 s',cue:'Presa all\'altezza del capezzolo.',vid:V('yt','')},
+      {n:'Curl EZ bilanciere',m:'Bicipite',sets:'4 × 8-12',rest:'75 s',cue:'Gomiti fermi lungo il busto, no swing.',vid:V('yt','kwG2ipFRgfo')},
+      {n:'Curl panca inclinata',m:'Bicipite (capo lungo)',sets:'3 × 10-12',rest:'75 s',cue:'Manubri sotto le spalle, massimo allungamento.',vid:V('yt','')},
+      {n:'Hammer curl',m:'Brachiale',sets:'3 × 10-12',rest:'60 s',cue:'Polsi neutri, eccentrica 2-3 s.',vid:V('yt','zC3nLlEvin4')},
+      {n:'Crunch alla macchina',m:'Retto addominale',sets:'3 × 12-15',rest:'45 s',cue:'Sollevamento controllato.',vid:V('yt','')},
+      {n:'Plank',m:'Core',sets:'3 × 45 s',rest:'45 s',cue:'Bacino neutro.',vid:V('yt','ASdvN_XEl_c')}
+    ], for:'both'},
+    {id:'a-back-tri', letter:'C', name:'Dorso e Tricipiti', tags:['Dorso','Tricipiti','Addome'], dur:59, ex:[
+      {n:'Trazioni presa larga',m:'Gran dorsale',sets:'4 × max',rest:'2-3 min',cue:'Petto in fuori, mento sopra la sbarra.',vid:V('yt','eGo4IYlbE5g')},
+      {n:'Rematore bilanciere',m:'Dorso spesso',sets:'4 × 8-10',rest:'2 min',cue:'Busto 45°, tira all\'ombelico.',vid:V('yt','kBWAon7ItDw')},
+      {n:'Lat machine presa neutra',m:'Gran dorsale',sets:'3 × 10-12',rest:'90 s',cue:'Scendi guidando coi gomiti.',vid:V('yt','JGeRYIZdojU')},
+      {n:'Pullover ai cavi',m:'Gran dorsale (allung.)',sets:'3 × 12-15',rest:'75 s',cue:'Braccia leggermente flesse.',vid:V('yt','')},
+      {n:'Rematore un braccio',m:'Dorso',sets:'3 × 10/lato',rest:'75 s',cue:'Appoggio panca, tira all\'anca.',vid:V('yt','roCP6wCXPqo')},
+      {n:'French press EZ',m:'Tricipiti (capo lungo)',sets:'3 × 10-12',rest:'75 s',cue:'Gomiti fermi vicino alla testa.',vid:V('yt','YbX7Wd8jQ-Q')},
+      {n:'Push-down cavo corda',m:'Tricipiti',sets:'3 × 12-15',rest:'60 s',cue:'Gomiti al busto, apri a fine ROM.',vid:V('yt','2-LAMcpzODU')},
+      {n:'Overhead extension corda',m:'Tricipiti (capo lungo)',sets:'3 × 12-15',rest:'60 s',cue:'Allunga dietro il capo.',vid:V('yt','')},
+      {n:'Hanging leg raise',m:'Retto addominale',sets:'3 × 10-12',rest:'60 s',cue:'Non oscillare, controlla la discesa.',vid:V('yt','')},
+      {n:'Plank laterale',m:'Obliqui',sets:'2 × 30 s/lato',rest:'45 s',cue:'Corpo su una linea.',vid:V('yt','')}
+    ], for:'both'},
+    {id:'a-glute-focus', letter:'D', name:'Glutei Focus', tags:['Glutei','Femorali','Lombari'], dur:46, ex:[
+      {n:'Hip thrust bilanciere',m:'Gluteo maggiore',sets:'5 × 8-10',rest:'2 min',cue:'Pausa 2 s in alto, mento in dentro.',vid:V('yt','LM8XHLYJoYs')},
+      {n:'Stacco rumeno',m:'Femorali · Glutei',sets:'4 × 8',rest:'2 min',cue:'Anche indietro, bilanciere lungo le cosce.',vid:V('yt','CN_7cz3P-1U')},
+      {n:'Affondi camminati passo lungo',m:'Glutei (unilat.)',sets:'3 × 12/lato',rest:'90 s',cue:'Passo lungo massimizza il gluteo.',vid:V('yt','D7KaRcUTQeE')},
+      {n:'Abduzione anca ai cavi',m:'Gluteo medio',sets:'3 × 15/lato',rest:'60 s',cue:'Busto stabile, movimento pulito.',vid:V('yt','')},
+      {n:'Ponte glutei con banda',m:'Gluteo medio',sets:'3 × 20',rest:'45 s',cue:'Elastico sopra le ginocchia, spingi contro.',vid:V('yt','')}
+    ], for:'F'},
+    {id:'a-shoulders-core', letter:'E', name:'Spalle e Core', tags:['Spalle','Addome','Obliqui'], dur:44, ex:[
+      {n:'Military press bilanciere',m:'Spalle · Tricipiti',sets:'4 × 6-8',rest:'2 min',cue:'Glutei stretti, no iperestensione.',vid:V('yt','')},
+      {n:'Alzate laterali',m:'Deltoide laterale',sets:'4 × 12-15',rest:'60 s',cue:'Gomiti guida.',vid:V('yt','geenhiHju-o')},
+      {n:'Face pull',m:'Delt. posteriore',sets:'3 × 15',rest:'60 s',cue:'Apri le mani a fine ROM.',vid:V('yt','V8dZ3pyiCBo')},
+      {n:'Rear delt fly panca incl.',m:'Delt. posteriore',sets:'3 × 12-15',rest:'60 s',cue:'Isolamento diretto.',vid:V('yt','')},
+      {n:'Dead bug',m:'Core anteriore',sets:'3 × 8/lato',rest:'45 s',cue:'Lombare al pavimento.',vid:V('yt','g_BYB0R-4Ws')},
+      {n:'Bird dog',m:'Core · Erettori',sets:'3 × 8/lato',rest:'45 s',cue:'Braccio e gamba opposti, ferma 2 s.',vid:V('yt','wiFNA3sqjCA')},
+      {n:'Pallof press',m:'Anti-rotazione',sets:'3 × 10/lato',rest:'45 s',cue:'Non ruotare, spingi lontano.',vid:V('yt','AH_QZLm_0-s')},
+      {n:'Russian twist con peso',m:'Obliqui',sets:'3 × 15/lato',rest:'45 s',cue:'Busto 45°, movimento controllato.',vid:V('yt','')}
+    ], for:'both'},
+    {id:'a-shoulders-pro', letter:'F', name:'Spalle Pro Physiques', tags:['Spalle','Dorso','Bicipiti'], dur:40, ex:[
+      {n:'Overhead press manubri',m:'Delt. ant./lat',sets:'4 × 8-10',rest:'90 s',cue:'Core attivo.',vid:V('yt','B-aVuyhvLHU')},
+      {n:'Alzate laterali cavo unilat.',m:'Delt. laterale',sets:'3 × 12-15/lato',rest:'45 s',cue:'Costante tensione.',vid:V('yt','')},
+      {n:'Face pull',m:'Delt. posteriore',sets:'3 × 15',rest:'60 s',cue:'Apri a fine ROM.',vid:V('yt','V8dZ3pyiCBo')},
+      {n:'Reverse pec deck',m:'Delt. posteriore',sets:'3 × 12-15',rest:'60 s',cue:'Braccia parallele.',vid:V('yt','')},
+      {n:'Curl bilanciere EZ',m:'Bicipite',sets:'3 × 10-12',rest:'75 s',cue:'Gomiti fermi.',vid:V('yt','kwG2ipFRgfo')},
+      {n:'Rematore un braccio',m:'Dorso spessore',sets:'3 × 10/lato',rest:'75 s',cue:'Tira all\'anca.',vid:V('yt','roCP6wCXPqo')}
+    ], for:'both'},
+    {id:'a-back-lats', letter:'G', name:'Schiena & Dorsali', tags:['Dorso','Bicipiti','Lombari'], dur:59, ex:[
+      {n:'Stacco convenzionale',m:'Catena post. · Trapezio',sets:'4 × 5',rest:'3 min',cue:'Schiena neutra, bilanciere sopra il mesopiede.',vid:V('yt','')},
+      {n:'Trazioni presa larga',m:'Gran dorsale',sets:'4 × max',rest:'2 min',cue:'Petto alla sbarra.',vid:V('yt','eGo4IYlbE5g')},
+      {n:'Rematore pendlay',m:'Dorso · Trapezio',sets:'3 × 8',rest:'2 min',cue:'Ogni rep parte dal pavimento.',vid:V('yt','')},
+      {n:'Lat machine presa neutra',m:'Gran dorsale',sets:'3 × 10-12',rest:'90 s',cue:'Gomiti verso i fianchi.',vid:V('yt','JGeRYIZdojU')},
+      {n:'Pullover ai cavi',m:'Gran dorsale',sets:'3 × 12-15',rest:'75 s',cue:'Braccia leggermente flesse.',vid:V('yt','')},
+      {n:'Iperestensioni 45°',m:'Erettori · Glutei',sets:'3 × 12',rest:'60 s',cue:'Contrazione glutea a fine.',vid:V('yt','')},
+      {n:'Curl bilanciere EZ',m:'Bicipite',sets:'3 × 10-12',rest:'75 s',cue:'Gomiti fermi.',vid:V('yt','kwG2ipFRgfo')},
+      {n:'Hammer curl',m:'Brachiale',sets:'3 × 10-12',rest:'60 s',cue:'Polsi neutri.',vid:V('yt','zC3nLlEvin4')},
+      {n:'Face pull',m:'Delt. posteriore',sets:'3 × 15',rest:'60 s',cue:'Apri a fine ROM.',vid:V('yt','V8dZ3pyiCBo')}
+    ], for:'both'},
+    {id:'a-hourglass', letter:'H', name:'Clessidra (Spalle, Vita, Glutei)', tags:['Spalle','Glutei','Addome','Obliqui'], dur:65, ex:[
+      {n:'Overhead press manubri',m:'Spalle (ampiezza)',sets:'4 × 8-10',rest:'90 s',cue:'Core attivo.',vid:V('yt','B-aVuyhvLHU')},
+      {n:'Alzate laterali',m:'Delt. laterale',sets:'4 × 12-15',rest:'60 s',cue:'Gomiti guida.',vid:V('yt','geenhiHju-o')},
+      {n:'Face pull',m:'Delt. posteriore',sets:'3 × 15',rest:'60 s',cue:'Apri a fine ROM.',vid:V('yt','V8dZ3pyiCBo')},
+      {n:'Hip thrust bilanciere',m:'Gluteo maggiore',sets:'5 × 8-10',rest:'2 min',cue:'Pausa 2 s in alto.',vid:V('yt','LM8XHLYJoYs')},
+      {n:'Sumo deadlift',m:'Glutei · Adduttori',sets:'4 × 6-8',rest:'2 min',cue:'Piedi larghi, punte fuori.',vid:V('yt','')},
+      {n:'Abduzione anca ai cavi',m:'Gluteo medio',sets:'3 × 15/lato',rest:'60 s',cue:'Busto stabile.',vid:V('yt','')},
+      {n:'Kickback ai cavi',m:'Gluteo maggiore',sets:'3 × 12/lato',rest:'60 s',cue:'Ginocchio flesso.',vid:V('yt','')},
+      {n:'Vacuum addominale',m:'Traverso',sets:'3 × 20 s',rest:'30 s',cue:'Espira, tira l\'ombelico dentro.',vid:V('yt','')},
+      {n:'Dead bug',m:'Core anti-est.',sets:'3 × 8/lato',rest:'45 s',cue:'Lombare al pavimento.',vid:V('yt','g_BYB0R-4Ws')},
+      {n:'Pallof press',m:'Anti-rotazione',sets:'3 × 10/lato',rest:'45 s',cue:'Non ruotare.',vid:V('yt','AH_QZLm_0-s')},
+      {n:'Side plank',m:'Obliqui laterali',sets:'2 × 30 s/lato',rest:'45 s',cue:'Corpo su una linea.',vid:V('yt','')}
+    ], for:'F'},
+    {id:'a-home', letter:'I', name:'Home Body — Elastici', tags:['Full body','Casa','Elastici'], dur:35, ex:[
+      {n:'Goblet squat manubrio',m:'Gambe · Core',sets:'3 × 12',rest:'45 s',cue:'Piedi come le spalle.',vid:V('yt','MeIiIdhvXT4')},
+      {n:'Push-up',m:'Petto · Tricipiti',sets:'3 × max',rest:'60 s',cue:'Corpo dritto.',vid:V('yt','')},
+      {n:'Row elastico ancorato',m:'Dorso',sets:'3 × 15',rest:'45 s',cue:'Tira ai fianchi.',vid:V('yt','')},
+      {n:'Hip thrust + elastico',m:'Glutei',sets:'3 × 15',rest:'45 s',cue:'Elastico sopra ginocchia.',vid:V('yt','')},
+      {n:'Overhead press elastico',m:'Spalle',sets:'3 × 12',rest:'45 s',cue:'Piedi sull\'elastico.',vid:V('yt','')},
+      {n:'Plank',m:'Core',sets:'3 × 40 s',rest:'45 s',cue:'Bacino neutro.',vid:V('yt','ASdvN_XEl_c')}
+    ], for:'both'}
+  ],
+  B: [ // Alternativa forza (giorni pari)
+    {id:'b-upper-a', letter:'A', name:'Upper A — Forza', tags:['Petto','Dorso','Spalle'], dur:60, ex:[
+      {n:'Panca piana bilanciere',m:'Petto · Tricipiti',sets:'4 × 5-6',rest:'2-3 min',cue:'Scapole bloccate.',vid:V('yt','rT7DgCr-3pg')},
+      {n:'Rematore bilanciere',m:'Dorso · Trapezio',sets:'4 × 6-8',rest:'2 min',cue:'Busto 45°, tira all\'ombelico.',vid:V('yt','kBWAon7ItDw')},
+      {n:'Military press manubri',m:'Spalle · Tricipiti',sets:'3 × 8',rest:'90 s',cue:'Core attivo.',vid:V('yt','B-aVuyhvLHU')},
+      {n:'Chin-up presa supina',m:'Dorsale · Bicipite',sets:'3 × max',rest:'2 min',cue:'Petto alla sbarra.',vid:V('yt','')},
+      {n:'Alzate laterali',m:'Delt. laterale',sets:'3 × 12-15',rest:'60 s',cue:'Gomiti guida.',vid:V('yt','geenhiHju-o')},
+      {n:'Curl + push-down superset',m:'Bicipite · Tricipite',sets:'3 × 10',rest:'75 s',cue:'Senza pausa tra i due.',vid:V('yt','')}
+    ], for:'both'},
+    {id:'b-lower-a', letter:'B', name:'Lower A — Forza', tags:['Gambe','Glutei','Femorali'], dur:60, ex:[
+      {n:'Back squat',m:'Quad · Glutei',sets:'5 × 5',rest:'3 min',cue:'Piedi come le spalle.',vid:V('yt','ultWZbUMPL8')},
+      {n:'Stacco rumeno',m:'Femorali · Glutei',sets:'4 × 6-8',rest:'2 min',cue:'Anche indietro.',vid:V('yt','CN_7cz3P-1U')},
+      {n:'Affondi bulgari',m:'Quad · Glutei',sets:'3 × 8/lato',rest:'90 s',cue:'Discesa verticale.',vid:V('yt','')},
+      {n:'Leg curl sdraiato',m:'Femorali',sets:'3 × 10-12',rest:'75 s',cue:'Eccentrica 3 s.',vid:V('yt','ELOCsoDSmrg')},
+      {n:'Calf raise in piedi',m:'Gastrocnemio',sets:'4 × 12-15',rest:'45 s',cue:'ROM completo.',vid:V('yt','-M4-G8p8fmc')}
+    ], for:'both'},
+    {id:'b-upper-b', letter:'C', name:'Upper B — Volume', tags:['Petto','Spalle','Bicipiti'], dur:55, ex:[
+      {n:'Panca inclinata manubri',m:'Petto alto',sets:'4 × 8-10',rest:'2 min',cue:'Inclinazione 30°.',vid:V('yt','8iPEnn-ltC8')},
+      {n:'Pulley basso presa neutra',m:'Dorso',sets:'4 × 10-12',rest:'90 s',cue:'Volume in sicurezza.',vid:V('yt','')},
+      {n:'Arnold press manubri',m:'Spalle',sets:'3 × 10-12',rest:'75 s',cue:'Rotazione fluida.',vid:V('yt','')},
+      {n:'Alzate laterali cavo',m:'Delt. laterale',sets:'3 × 12-15',rest:'60 s',cue:'Tensione costante.',vid:V('yt','')},
+      {n:'Curl panca inclinata',m:'Bicipite (capo lungo)',sets:'3 × 10-12',rest:'75 s',cue:'Massimo allungamento.',vid:V('yt','')},
+      {n:'Concentration curl',m:'Bicipite (picco)',sets:'3 × 10-12',rest:'60 s',cue:'Gomito bloccato.',vid:V('yt','')}
+    ], for:'both'},
+    {id:'b-lower-b', letter:'D', name:'Lower B — Post.', tags:['Femorali','Glutei','Polpacci'], dur:55, ex:[
+      {n:'Stacco rumeno',m:'Femorali · Glutei',sets:'4 × 8',rest:'2 min',cue:'Bilanciere lungo le cosce.',vid:V('yt','CN_7cz3P-1U')},
+      {n:'Hip thrust bilanciere',m:'Gluteo maggiore',sets:'4 × 8-10',rest:'2 min',cue:'Pausa 2 s in alto.',vid:V('yt','LM8XHLYJoYs')},
+      {n:'Nordic curl',m:'Femorali (ecc.)',sets:'3 × 5-8',rest:'2 min',cue:'Discesa in 4-5 s.',vid:V('yt','')},
+      {n:'Leg curl seduto',m:'Femorali',sets:'3 × 10-12',rest:'75 s',cue:'Eccentrica 3 s.',vid:V('yt','ELOCsoDSmrg')},
+      {n:'Calf raise seduto',m:'Soleo',sets:'4 × 12-15',rest:'45 s',cue:'Ginocchia flesse.',vid:V('yt','')}
+    ], for:'both'}
+  ],
+  C: [ // Full body 3 gg
+    {id:'c-full-a', letter:'A', name:'Full Body A', tags:['Full body','Composti'], dur:50, ex:[
+      {n:'Goblet squat',m:'Quad · Glutei · Core',sets:'3 × 10',rest:'90 s',cue:'Manubrio al petto.',vid:V('yt','MeIiIdhvXT4')},
+      {n:'Panca manubri',m:'Petto',sets:'3 × 10',rest:'90 s',cue:'Manubri allo sterno.',vid:V('yt','VmB1G1K7v94')},
+      {n:'Rematore un braccio',m:'Dorso',sets:'3 × 10/lato',rest:'75 s',cue:'Tira all\'anca.',vid:V('yt','roCP6wCXPqo')},
+      {n:'Hip thrust bilanciere',m:'Glutei',sets:'3 × 12',rest:'90 s',cue:'Spinta con i talloni.',vid:V('yt','LM8XHLYJoYs')},
+      {n:'Plank',m:'Core',sets:'3 × 45 s',rest:'60 s',cue:'Bacino neutro.',vid:V('yt','ASdvN_XEl_c')}
+    ], for:'both'},
+    {id:'c-full-b', letter:'B', name:'Full Body B', tags:['Full body','Potenza'], dur:50, ex:[
+      {n:'Trap bar deadlift',m:'Catena post.',sets:'4 × 6',rest:'2 min',cue:'Schiena neutra.',vid:V('yt','')},
+      {n:'Overhead press bilanciere',m:'Spalle',sets:'3 × 8',rest:'2 min',cue:'Glutei stretti.',vid:V('yt','')},
+      {n:'Trazioni assistite',m:'Dorsale',sets:'3 × 8-10',rest:'90 s',cue:'Gomiti ai fianchi.',vid:V('yt','')},
+      {n:'Walking lunges',m:'Gambe · Glutei',sets:'3 × 10/lato',rest:'75 s',cue:'Passo lungo.',vid:V('yt','D7KaRcUTQeE')},
+      {n:'Dead bug',m:'Core',sets:'3 × 8/lato',rest:'45 s',cue:'Lombare al pavimento.',vid:V('yt','g_BYB0R-4Ws')}
+    ], for:'both'},
+    {id:'c-full-c', letter:'C', name:'Full Body C', tags:['Full body','Condiz.'], dur:45, ex:[
+      {n:'Front squat',m:'Quad · Core',sets:'4 × 6',rest:'2 min',cue:'Gomiti alti.',vid:V('yt','')},
+      {n:'Panca piana',m:'Petto',sets:'3 × 8',rest:'90 s',cue:'Scapole retratte.',vid:V('yt','rT7DgCr-3pg')},
+      {n:'Kettlebell swing',m:'Cat. post.',sets:'5 × 15',rest:'45 s',cue:'Esplosione d\'anca.',vid:V('yt','sSESGRRZR0Q')},
+      {n:'Farmer\'s carry',m:'Grip · Core',sets:'4 × 30 m',rest:'60 s',cue:'Postura alta, passi corti.',vid:V('yt','')},
+      {n:'Plank laterale',m:'Obliqui',sets:'2 × 30 s/lato',rest:'45 s',cue:'Corpo su una linea.',vid:V('yt','')}
+    ], for:'both'}
+  ],
+  D: [ // Cardio / HIIT / mobility
+    {id:'d-hiit', letter:'A', name:'HIIT metabolico', tags:['Cardio','Full body'], dur:25, ex:[
+      {n:'Kettlebell swing',m:'Cat. post.',sets:'8 × 20/40',rest:'40 s',cue:'Esplosione d\'anca.',vid:V('yt','sSESGRRZR0Q')},
+      {n:'Burpees',m:'Full body',sets:'6 × 30/30',rest:'30 s',cue:'Petto a terra, salto.',vid:V('yt','auBLPXO8Fww')},
+      {n:'Mountain climbers',m:'Core · cardio',sets:'6 × 30/30',rest:'30 s',cue:'Ginocchia al petto.',vid:V('yt','nmwgirgXLYM')},
+      {n:'Air squat esplosivo',m:'Gambe',sets:'6 × 30/30',rest:'30 s',cue:'Atterraggio morbido.',vid:V('yt','Azl5tkCzDcc')},
+      {n:'Row / Bike sprint',m:'Cardio met.',sets:'6 × 30/30',rest:'30 s',cue:'Massima potenza.',vid:V('yt','')}
+    ], for:'both'},
+    {id:'d-mobility', letter:'B', name:'Mobility & Core', tags:['Mobilità','Core','Recupero'], dur:35, ex:[
+      {n:'Dead bug',m:'Core',sets:'3 × 8/lato',rest:'45 s',cue:'Lombare al pavimento.',vid:V('yt','g_BYB0R-4Ws')},
+      {n:'Bird dog',m:'Core · Erettori',sets:'3 × 8/lato',rest:'45 s',cue:'Ferma 2 s.',vid:V('yt','wiFNA3sqjCA')},
+      {n:'Pallof press',m:'Anti-rotazione',sets:'3 × 10/lato',rest:'45 s',cue:'Non ruotare.',vid:V('yt','AH_QZLm_0-s')},
+      {n:'Cat-camel',m:'Mob. toracica-lombare',sets:'2 × 10',rest:'30 s',cue:'Alterna flessione ed est.',vid:V('yt','K9bK0BwKFjs')},
+      {n:'90/90 hip stretch',m:'Mob. anca',sets:'2 × 60 s/lato',rest:'30 s',cue:'Busto eretto.',vid:V('yt','sYh2ldTaiCk')}
+    ], for:'both'}
+  ]
 };
 
-// SVG body outline con hitbox per regione (front/back)
+const DISTRICTS = {
+  petto:{ name:'Petto', proto:'Volume settimanale: <b>10-20 serie</b> · Frequenza: <b>2×/sett.</b> · Range rep: <b>6-15</b> [1][2][6]. Grande pettorale attivato al massimo con angoli tra 0° e 30° di inclinazione [7].', ex:[
+    {n:'Panca piana bilanciere', why:'Attivazione EMG massima del pettorale', badge:'Base'},
+    {n:'Panca inclinata 30° manubri', why:'Migliora il capo clavicolare', badge:'Alta prio'},
+    {n:'Croci ai cavi bassi', why:'Isolamento capo sternale', badge:'Isolam.'},
+    {n:'Dip petto (inclin. avanti)', why:'Petto basso + tricipiti', badge:'Composto'}
+  ]},
+  spalle:{ name:'Spalle', proto:'Volume: <b>12-20 serie/sett.</b>. Deltoide laterale è il capo più sotto-allenato: <b>+ isolamento diretto</b> è cruciale per larghezza [7].', ex:[
+    {n:'Military press manubri', why:'Composto: ant. + laterale', badge:'Base'},
+    {n:'Alzate laterali', why:'Massima attivazione delt. medio', badge:'Isolam.'},
+    {n:'Face pull ai cavi', why:'Delt. posteriore + salute spalla', badge:'Salute'},
+    {n:'Rear delt fly panca inclin.', why:'Isolamento delt. posteriore', badge:'Isolam.'}
+  ]},
+  braccia:{ name:'Braccia (bicipiti + tricipiti)', proto:'Volume diretto: <b>6-12 serie/sett.</b> per capo. Ricevono stimolo indiretto dai composti: eccesso di volume = ritorni decrescenti [2].', ex:[
+    {n:'Curl EZ bilanciere', why:'Massimo carico per bicipite', badge:'Base'},
+    {n:'Curl panca inclinata', why:'Allunga il capo lungo', badge:'Capo lungo'},
+    {n:'French press EZ', why:'Allunga capo lungo tricipite', badge:'Capo lungo'},
+    {n:'Push-down cavo corda', why:'Isolamento capo laterale', badge:'Isolam.'}
+  ]},
+  addome:{ name:'Core / Addome', proto:'Frequenza: <b>2-4×/sett.</b>. Priorità ad esercizi <b>anti-estensione</b> (plank) e <b>anti-rotazione</b> (Pallof) — più funzionali del crunch [10].', ex:[
+    {n:'Plank + varianti', why:'Anti-estensione', badge:'Base'},
+    {n:'Dead bug', why:'Attivazione traverso', badge:'Salute'},
+    {n:'Hanging leg raise', why:'Retto addominale con carico', badge:'Ipertrofia'},
+    {n:'Pallof press', why:'Anti-rotazione, obliqui', badge:'Funzion.'}
+  ]},
+  quad:{ name:'Quadricipiti', proto:'Volume: <b>10-18 serie/sett.</b>. Squat + isolamento (leg extension) danno l\'ipertrofia maggiore vs solo squat [7].', ex:[
+    {n:'Back squat', why:'Carico massimo su quadricipiti', badge:'Base'},
+    {n:'Hack squat / Pressa', why:'Meno stress lombare', badge:'Volume'},
+    {n:'Affondi bulgari', why:'Unilaterale, squilibri', badge:'Unilat.'},
+    {n:'Leg extension', why:'Isolamento retto femorale', badge:'Isolam.'}
+  ]},
+  glutei:{ name:'Glutei', proto:'Volume: <b>10-16 serie/sett.</b>. <b>Hip thrust</b> genera EMG del gluteo maggiore superiore a squat parziale [7]. Nelle donne: risposta ipertrofica marcata a stimolo mirato.', ex:[
+    {n:'Hip thrust bilanciere', why:'EMG max gluteo maggiore', badge:'Base'},
+    {n:'Stacco rumeno', why:'Allungamento sotto carico', badge:'Composto'},
+    {n:'Affondi passo lungo', why:'Enfasi gluteo per passo', badge:'Unilat.'},
+    {n:'Abduzione anca ai cavi', why:'Gluteo medio (upper glute)', badge:'Isolam.'}
+  ]},
+  fem:{ name:'Femorali', proto:'Volume: <b>6-12 serie/sett.</b>. Bilancia forza quad:ham ~60% per prevenzione infortuni [10]. Includere sempre <b>eccentriche</b>.', ex:[
+    {n:'Stacco rumeno', why:'Allungamento con carico', badge:'Base'},
+    {n:'Nordic curl', why:'Massimo eccentrico', badge:'Prevenz.'},
+    {n:'Leg curl sdraiato', why:'Flessione ginocchio', badge:'Isolam.'},
+    {n:'Good morning', why:'Erettori + femorali', badge:'Composto'}
+  ]},
+  polp:{ name:'Polpacci', proto:'Volume: <b>10-20 serie/sett.</b>, alta frequenza. Gastrocnemio a ginocchio esteso, soleo a ginocchio flesso [7].', ex:[
+    {n:'Calf raise in piedi', why:'Attiva gastrocnemio', badge:'Base'},
+    {n:'Calf raise seduto', why:'Attiva soleo', badge:'Fibre lente'},
+    {n:'Calf raise unilat.', why:'Simmetria + range', badge:'Unilat.'},
+    {n:'Salti con caviglia', why:'Componente elastica', badge:'Power'}
+  ]},
+  dorso:{ name:'Dorso', proto:'Volume: <b>12-22 serie/sett.</b>. Mix di trazione verticale (dorsale) e orizzontale (trapezio medio, romboidi) [7].', ex:[
+    {n:'Trazioni presa larga', why:'Sviluppo larghezza', badge:'Base'},
+    {n:'Rematore bilanciere', why:'Spessore + trapezio', badge:'Base'},
+    {n:'Pulley basso neutra', why:'Volume in sicurezza', badge:'Volume'},
+    {n:'Chin-up presa supina', why:'Dorsale + bicipite', badge:'Composto'}
+  ]},
+  delt_post:{ name:'Deltoide posteriore', proto:'Il capo più sotto-allenato: <b>8-12 serie/sett.</b> di isolamento diretto. Chiave per postura [7][10].', ex:[
+    {n:'Face pull', why:'Attivazione + salute spalla', badge:'Salute'},
+    {n:'Rear delt fly', why:'Isolamento diretto', badge:'Isolam.'},
+    {n:'Reverse pec deck', why:'Volume in sicurezza', badge:'Volume'},
+    {n:'Band pull-apart', why:'Attivazione, riscaldamento', badge:'Warm-up'}
+  ]}
+};
+
 function bodySVG(view){
   const front = `
   <svg viewBox="0 0 200 420" xmlns="http://www.w3.org/2000/svg">
-    <!-- outline -->
     <g class="outline">
       <ellipse cx="100" cy="30" rx="20" ry="24"/>
       <path d="M85,55 Q60,68 55,120 L58,175 Q60,210 68,240 Q72,270 74,300 Q72,340 68,395 L88,395 Q92,340 94,300 L98,300 M102,300 L106,300 Q108,340 112,395 L132,395 Q128,340 126,300 Q128,270 132,240 Q140,210 142,175 L145,120 Q140,68 115,55 Z"/>
       <path d="M55,120 Q30,150 22,205 L18,270 L28,285 L35,240 Q45,180 55,150 Z"/>
       <path d="M145,120 Q170,150 178,205 L182,270 L172,285 L165,240 Q155,180 145,150 Z"/>
     </g>
-    <!-- clickable regions -->
     <path class="region" data-d="petto" d="M75,80 Q100,72 125,80 L125,120 Q100,128 75,120 Z"/>
     <ellipse class="region" data-d="spalle" cx="60" cy="90" rx="16" ry="14"/>
     <ellipse class="region" data-d="spalle" cx="140" cy="90" rx="16" ry="14"/>
@@ -759,129 +899,188 @@ function bodySVG(view){
   return view==='front' ? front : back;
 }
 
-// ---------- STATE ----------
-const state = {
-  sex:'F', phase:'maint', level:'int',
-  age:34, weight:62, height:168, activity:1.55,
-  plan:{ Lun:null, Mar:null, Mer:null, Gio:null, Ven:null, Sab:null, Dom:null },
-  selectedScheda:null, selectedDistrict:null, bodyView:'front',
-  nPhase:'maint', nDelta:0, nPro:1.8, nFat:1.0, nMeals:4
+const MEAL_TEMPLATES = {
+  cut: [
+    {h:'Colazione', n:'Yogurt greco 0% + frutti rossi', it:['200 g yogurt greco 0%','120 g frutti di bosco','20 g fiocchi d\'avena','10 g mandorle']},
+    {h:'Pranzo', n:'Petto di pollo + riso + verdure', it:['150 g petto di pollo','70 g riso basmati (crudo)','200 g verdure grigliate','5 g olio EVO']},
+    {h:'Spuntino', n:'Skyr + banana', it:['200 g skyr','1 banana media','10 g burro d\'arachidi']},
+    {h:'Cena', n:'Salmone + patate + spinaci', it:['140 g salmone','200 g patate al forno','150 g spinaci','5 g olio EVO']}
+  ],
+  maint: [
+    {h:'Colazione', n:'Porridge d\'avena + uova', it:['60 g fiocchi d\'avena','250 ml latte parz. scremato','2 uova intere','1 frutto']},
+    {h:'Pranzo', n:'Pasta integrale + tonno + verdure', it:['90 g pasta integrale','100 g tonno al naturale','200 g verdure','10 g olio EVO']},
+    {h:'Spuntino', n:'Yogurt + noci + miele', it:['200 g yogurt greco','20 g noci','15 g miele']},
+    {h:'Cena', n:'Manzo + quinoa + verdure', it:['150 g manzo magro','80 g quinoa (crudo)','200 g verdure','10 g olio EVO']}
+  ],
+  bulk: [
+    {h:'Colazione', n:'Porridge rinforzato', it:['80 g avena','300 ml latte intero','1 scoop whey','30 g burro d\'arachidi','1 banana']},
+    {h:'Pranzo', n:'Riso + pollo + avocado', it:['120 g riso basmati','180 g petto di pollo','1/2 avocado','200 g verdure']},
+    {h:'Spuntino', n:'Toast + tacchino + uova', it:['80 g pane di segale','80 g tacchino','2 uova sode','15 g olio EVO in insalata']},
+    {h:'Cena', n:'Salmone + patate dolci + broccoli', it:['180 g salmone','250 g patate dolci','200 g broccoli','15 g olio EVO']},
+    {h:'Pre-nanna', n:'Ricotta + frutta secca', it:['150 g ricotta','25 g mandorle','10 g miele']}
+  ]
 };
 
-// ---------- WEEK ----------
-const days = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
-function todayIdx(){ const d=new Date().getDay(); return (d+6)%7; }
-function renderWeek(){
-  const week = document.getElementById('week');
-  week.innerHTML = days.map((d,i)=>{
-    const s = state.plan[d];
-    const isToday = i===todayIdx();
-    const scheda = s ? SCHEDE.find(x=>x.id===s) : null;
-    return `<div class="day ${isToday?'today':''}" data-day="${d}">
-      <button class="clear" data-day="${d}" title="Svuota">×</button>
-      <div>
-        <div class="dname">${d}</div>
-        <div class="dnum">${(new Date(Date.now()+(i-todayIdx())*86400000)).getDate()}</div>
-      </div>
-      <div class="slot ${scheda?'filled':'rest'}" data-day="${d}">
-        ${scheda ? `<div class="tag">${scheda.tag}</div><div>${scheda.name}</div>` : `<div class="tag">riposo</div><div>+ trascina scheda</div>`}
-      </div>
-    </div>`;
-  }).join('');
-  // DnD
-  week.querySelectorAll('.day').forEach(el=>{
-    el.addEventListener('dragover', e=>{e.preventDefault(); el.classList.add('drag-over')});
-    el.addEventListener('dragleave', ()=>el.classList.remove('drag-over'));
-    el.addEventListener('drop', e=>{
-      e.preventDefault(); el.classList.remove('drag-over');
-      const id = e.dataTransfer.getData('text/plain');
-      state.plan[el.dataset.day] = id;
-      renderWeek(); saveState();
-    });
-    el.querySelector('.slot').addEventListener('click',()=>{
-      const s = state.plan[el.dataset.day];
-      if(s){ openScheda(s); }
-    });
-  });
-  week.querySelectorAll('.clear').forEach(b=>{
-    b.addEventListener('click',e=>{ e.stopPropagation(); state.plan[b.dataset.day]=null; renderWeek(); saveState(); });
-  });
-}
+// ==================== STATE ====================
+const state = {
+  name:'Marta', sex:'F', phase:'maint', level:'int',
+  age:34, weight:62, height:168, activity:1.55,
+  activePlan:'A', timeChoice:'am-early', todayScheda:'a-legs-shoulders',
+  hydro:0, hydroTarget:8, // 8 bicchieri = 2L
+  nPhase:'maint', nDelta:0, nPro:1.8, nFat:1.0, nMeals:4,
+  currentTab:'oggi', selectedDistrict:null, bodyView:'front'
+};
 
-// ---------- LIBRARY ----------
-function visibleSchede(){
-  return SCHEDE.filter(s => s.for==='both' || s.for===state.sex);
+const PRIORITY = { F:['glutei','fem','addome','delt_post'], M:['petto','dorso','spalle','braccia'] };
+
+// ==================== TABS ====================
+function showTab(t){
+  state.currentTab = t;
+  ['oggi','cibo','work','pro'].forEach(x=>{
+    document.getElementById('tab-'+x).classList.toggle('hidden', x!==t);
+  });
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===t));
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-function renderLibrary(){
-  const wrap = document.getElementById('cards');
-  wrap.innerHTML = visibleSchede().map(s=>`
-    <div class="card ${state.selectedScheda===s.id?'selected':''}" data-id="${s.id}" draggable="true">
-      <div class="accent ${s.color}"></div>
-      <div class="tag">${s.tag}</div>
-      <div class="name">${s.name}</div>
-      <div class="desc">${s.desc}</div>
-      <div class="meta">
-        <span><b>${s.dur}\'</b> durata</span>
-        <span><b>${s.exN}</b> esercizi</span>
-        <span>${s.level==='beg'?'principiante':s.level==='int'?'intermedio':'avanzato'}</span>
+document.querySelectorAll('.tab').forEach(b=> b.addEventListener('click', ()=> showTab(b.dataset.tab)));
+
+// ==================== CLOCK / DATE ====================
+function updateClock(){
+  const d = new Date();
+  document.getElementById('clock').textContent = d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+  const opts={weekday:'long',day:'numeric',month:'long',year:'numeric'};
+  document.getElementById('date-str').textContent = d.toLocaleDateString('it-IT', opts).replace(/^./, c=>c.toUpperCase());
+}
+updateClock(); setInterval(updateClock, 30000);
+
+// ==================== OGGI: TIME PICKER ====================
+document.querySelectorAll('#time-grid .time').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('#time-grid .time').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    state.timeChoice = b.dataset.t;
+    save();
+  });
+});
+
+// ==================== HYDRO ====================
+function renderHydro(){
+  const bars = document.getElementById('hydro-bars');
+  bars.innerHTML = Array.from({length:state.hydroTarget},(_,i)=>`<div class="bar ${i<state.hydro?'on':''}"></div>`).join('');
+  document.getElementById('hydro-count').textContent = state.hydro;
+  const liters = (state.hydro * 0.25).toFixed(1);
+  document.getElementById('hydro-cur').textContent = liters;
+  document.getElementById('hydro-tgt-r').textContent = (state.hydroTarget*0.25).toFixed(1);
+}
+document.getElementById('hydro-plus').onclick = ()=>{ if(state.hydro<state.hydroTarget){state.hydro++; renderHydro(); save();} };
+document.getElementById('hydro-minus').onclick = ()=>{ if(state.hydro>0){state.hydro--; renderHydro(); save();} };
+
+// ==================== OGGI: MEALS PREVIEW ====================
+function renderTodayMeals(){
+  const set = MEAL_TEMPLATES[state.nPhase] || MEAL_TEMPLATES.maint;
+  const kcal = computeMacros().kcal;
+  const perMeal = Math.round(kcal / set.length);
+  const wrap = document.getElementById('today-meals');
+  wrap.innerHTML = set.slice(0,3).map(m=>`
+    <div class="mini-meal">
+      <div class="l">
+        <div class="h">${m.h}</div>
+        <div class="n">${m.n}</div>
+        <div class="kcal">~${perMeal} kcal · ${m.it.length} ingredienti</div>
       </div>
-      <div class="open-btn">Apri scheda →</div>
+      <div class="r">Vedi →</div>
     </div>
   `).join('');
-  wrap.querySelectorAll('.card').forEach(el=>{
-    el.addEventListener('dragstart', e=>e.dataTransfer.setData('text/plain', el.dataset.id));
-    el.addEventListener('click',()=>openScheda(el.dataset.id));
+}
+
+// ==================== OGGI: SUGGEST CARD ====================
+function renderSuggest(){
+  const scheda = findScheda(state.todayScheda) || PLANS[state.activePlan][0];
+  document.getElementById('suggest-name').textContent = scheda.name;
+  document.getElementById('suggest-dur').textContent = `~${scheda.dur} min`;
+  document.getElementById('suggest-card').onclick = ()=>{ showTab('work'); setTimeout(()=>openSheet(scheda.id),200); };
+}
+
+// ==================== WORK: SCHEDE ====================
+function visibleSchede(){
+  return PLANS[state.activePlan].filter(s=> s.for==='both' || s.for===state.sex);
+}
+function renderSchede(){
+  const wrap = document.getElementById('schede-grid');
+  wrap.innerHTML = visibleSchede().map(s=>`
+    <button class="scheda ${s.id===state.todayScheda?'today':''}" data-id="${s.id}">
+      ${s.id===state.todayScheda?'<span class="today-badge">Oggi</span>':''}
+      <div class="avatar">${s.letter}</div>
+      <div class="name">${s.name}</div>
+      <div class="pills">${s.tags.map(t=>`<span class="pill">${t}</span>`).join('')}</div>
+      <div class="meta">${s.ex.length} esercizi · ~${s.dur} min</div>
+    </button>
+  `).join('');
+  wrap.querySelectorAll('.scheda').forEach(el=> el.addEventListener('click', ()=> openSheet(el.dataset.id)));
+}
+document.querySelectorAll('#plan-toggle button').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('#plan-toggle button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    state.activePlan = b.dataset.p;
+    // Set first scheda of this plan as "oggi"
+    const vs = visibleSchede();
+    if(vs.length) state.todayScheda = vs[0].id;
+    renderSchede(); renderSuggest(); save();
   });
+});
+
+function findScheda(id){
+  for(const p of Object.values(PLANS)){
+    const s = p.find(x=>x.id===id);
+    if(s) return s;
+  }
+  return null;
 }
 
-// ---------- SCHEDA DETAIL ----------
-function openScheda(id){
-  state.selectedScheda = id;
-  renderLibrary();
-  const s = SCHEDE.find(x=>x.id===id);
-  const el = document.getElementById('scheda-detail');
-  el.innerHTML = `
-    <div class="sd-head">
-      <div>
-        <div class="mono mute" style="margin-bottom:6px">${s.tag}</div>
-        <h3>${s.name}</h3>
-        <div class="sd-meta"><b>${s.dur}\'</b> · <b>${s.ex.length}</b> esercizi · <b>${s.level==='beg'?'principiante':s.level==='int'?'intermedio':'avanzato'}</b></div>
-      </div>
-      <button class="sd-close" onclick="closeScheda()">Chiudi</button>
-    </div>
-    <div class="exercises">
-      ${s.ex.map((e,i)=>`
-        <div class="ex">
-          <div class="video">
-            <button class="play" data-idx="${i}"></button>
-            <div class="placeholder">
-              <div class="glyph"><svg viewBox="0 0 20 20"><path d="M6 4l10 6-10 6V4z"/></svg></div>
-              <div class="lbl">Esercizio ${String(i+1).padStart(2,'0')}</div>
-              <div class="name">${e.n}</div>
-            </div>
-          </div>
-          <div class="body">
-            <div class="n">${e.n}</div>
-            <div class="m">${e.m}</div>
-            <div class="stats">
-              <span>${e.sets}</span>
-              <span>rec. ${e.rest}</span>
-            </div>
-            <div class="cue"><b>Tecnica:</b> ${e.cue}</div>
-          </div>
-        </div>
-      `).join('')}
-    </div>
+// ==================== SCHEDA SHEET ====================
+function openSheet(id){
+  const s = findScheda(id); if(!s) return;
+  document.getElementById('sheet-tag').innerHTML = `Piano ${state.activePlan} · Sessione ${s.letter}`;
+  document.getElementById('sheet-name').textContent = s.name;
+  document.getElementById('sheet-meta').innerHTML = `
+    <span>⏱ ~${s.dur} min</span>
+    <span>💪 ${s.ex.length} esercizi</span>
+    <span>${s.tags.join(' · ')}</span>
   `;
-  el.classList.add('open');
-  el.querySelectorAll('.play').forEach((b,idx)=> b.addEventListener('click', ()=> openVideo(s.ex[Number(b.dataset.idx)].vid, s.ex[Number(b.dataset.idx)].n, s.ex[Number(b.dataset.idx)].cue)));
-  el.scrollIntoView({behavior:'smooth', block:'start'});
+  document.getElementById('sheet-ex').innerHTML = s.ex.map((e,i)=>`
+    <div class="ex">
+      <div class="video">
+        <button class="play" data-idx="${i}"></button>
+        <div class="p">
+          <div class="glyph"><svg viewBox="0 0 20 20"><path d="M6 4l10 6-10 6V4z"/></svg></div>
+          <div class="lbl">Esercizio ${String(i+1).padStart(2,'0')}</div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="n">${e.n}</div>
+        <div class="m">${e.m}</div>
+        <div class="stats"><span>${e.sets}</span><span>rec. ${e.rest}</span></div>
+        <div class="cue"><b>Tecnica:</b> ${e.cue}</div>
+      </div>
+    </div>
+  `).join('');
+  document.querySelectorAll('#sheet-ex .play').forEach(b=> b.addEventListener('click', ()=>{
+    const e = s.ex[Number(b.dataset.idx)];
+    openVideo(e.vid, e.n, e.cue);
+  }));
+  document.getElementById('sheet').classList.add('on');
+  document.body.style.overflow='hidden';
 }
-function closeScheda(){ state.selectedScheda=null; renderLibrary(); document.getElementById('scheda-detail').classList.remove('open'); }
+function closeSheet(){
+  document.getElementById('sheet').classList.remove('on');
+  document.body.style.overflow='';
+}
+document.getElementById('sheet').addEventListener('click', e=>{ if(e.target.id==='sheet') closeSheet(); });
 
-// ---------- VIDEO MODAL ----------
+// ==================== VIDEO ====================
 function embedUrl(v){
-  if(!v || !v.id) return null;
+  if(!v||!v.id) return null;
   if(v.p==='yt' || v.p==='ytshort') return `https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1&playsinline=1`;
   if(v.p==='ig') return `https://www.instagram.com/reel/${v.id}/embed/`;
   return null;
@@ -891,22 +1090,18 @@ function openVideo(v, title, body){
   document.getElementById('modal-body').textContent = body||'';
   const slot = document.getElementById('video-slot');
   const url = embedUrl(v);
-  if(url){
-    slot.innerHTML = `<iframe src="${url}" allow="accelerometer; encrypted-media; picture-in-picture; autoplay" allowfullscreen scrolling="no"></iframe>`;
-  } else {
-    slot.innerHTML = `<div class="empty-video"><div><b style="font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:#d9a441">Video demo</b><br/><br/>Slot pronto. Aggiungi il video nel data model:<br/><code style="opacity:.75;font-size:12px;background:#222;padding:6px 10px;border-radius:6px;display:inline-block;margin-top:8px">vid: V('yt','ID_VIDEO')</code><br/><span style="opacity:.5;font-size:12px;display:block;margin-top:6px">o <code>V('ig','CODE_REEL')</code> per Instagram</span></div></div>`;
-  }
+  slot.innerHTML = url
+    ? `<iframe src="${url}" allow="accelerometer; encrypted-media; picture-in-picture; autoplay" allowfullscreen scrolling="no"></iframe>`
+    : `<div class="empty-video"><div><b style="letter-spacing:.1em;text-transform:uppercase;color:#ffb08b">Video demo</b><br/><br/>Aggiungi la clip nel data model:<br/><code>vid: V('yt','ID_VIDEO')</code><br/><small style="opacity:.6;display:block;margin-top:6px">o <code>V('ig','CODE_REEL')</code> per Instagram</small></div></div>`;
   document.getElementById('modal').classList.add('on');
 }
-document.getElementById('modal-close').onclick = ()=>{ document.getElementById('modal').classList.remove('on'); document.getElementById('video-slot').innerHTML=''; };
-document.getElementById('modal').addEventListener('click', e=>{ if(e.target.id==='modal'){ document.getElementById('modal').classList.remove('on'); document.getElementById('video-slot').innerHTML=''; } });
-
-// ---------- BODY MAP ----------
-// Distretti prioritari per sesso — visualizzati con outline oro sulla mappa
-const PRIORITY = {
-  F: ['glutei','fem','addome','delt_post'],
-  M: ['petto','dorso','spalle','braccia']
+document.getElementById('modal-close').onclick = ()=>{
+  document.getElementById('modal').classList.remove('on');
+  document.getElementById('video-slot').innerHTML='';
 };
+document.getElementById('modal').addEventListener('click', e=>{ if(e.target.id==='modal') document.getElementById('modal-close').click(); });
+
+// ==================== BODY MAP ====================
 function renderBody(){
   document.getElementById('body-svg').innerHTML = bodySVG(state.bodyView);
   const prio = new Set(PRIORITY[state.sex]||[]);
@@ -915,28 +1110,23 @@ function renderBody(){
     if(prio.has(r.dataset.d)) r.classList.add('priority');
     r.addEventListener('click', ()=> selectDistrict(r.dataset.d));
   });
-  const label = state.sex==='F' ? 'Priorità donna: glutei · femorali · core · deltoide post.' : 'Priorità uomo: petto · dorso · spalle · braccia';
-  const legend = document.querySelector('.body-map .legend');
-  if(legend) legend.innerHTML = `<b style="color:var(--brand)">${label}</b><br/><span style="opacity:.75">Tocca un\'area per protocollo ed esercizi</span>`;
+  const label = state.sex==='F' ? 'Priorità donna: glutei · femorali · core · delt. post.' : 'Priorità uomo: petto · dorso · spalle · braccia';
+  document.querySelector('.body-map .legend').innerHTML = `<b>${label}</b><br/>Tocca un\'area per protocollo ed esercizi`;
 }
 function selectDistrict(id){
   state.selectedDistrict = id;
   const d = DISTRICTS[id];
   const el = document.getElementById('district-panel');
-  if(!d){ el.innerHTML = '<div class="empty">Distretto non ancora configurato.</div>'; return; }
+  if(!d){ el.innerHTML='<div class="empty">Distretto non ancora configurato.</div>'; return; }
   el.innerHTML = `
-    <div class="mono mute" style="margin-bottom:8px">distretto selezionato</div>
     <h3>${d.name}</h3>
-    <div class="protocol"><b>Protocollo evidence-based:</b> ${d.proto}</div>
+    <div class="protocol"><b>Protocollo:</b> ${d.proto}</div>
     <h4>Esercizi consigliati</h4>
     <div class="ex-list">
       ${d.ex.map(e=>`
         <div class="row">
-          <div>
-            <b>${e.n}</b>
-            <div class="why">${e.why}</div>
-          </div>
-          <div><span class="badge">${e.badge}</span></div>
+          <div><b>${e.n}</b><div class="why">${e.why}</div></div>
+          <span class="badge">${e.badge}</span>
         </div>
       `).join('')}
     </div>
@@ -952,91 +1142,53 @@ document.querySelectorAll('.view-toggle button').forEach(b=>{
   });
 });
 
-// ---------- NUTRITION ----------
+// ==================== NUTRITION ====================
 function bmr(){
-  // Mifflin-St Jeor
-  const {sex,weight,height,age} = state;
-  return sex==='M'
-    ? 10*weight + 6.25*height - 5*age + 5
-    : 10*weight + 6.25*height - 5*age - 161;
+  const {sex,weight,height,age}=state;
+  return sex==='M' ? 10*weight + 6.25*height - 5*age + 5 : 10*weight + 6.25*height - 5*age - 161;
 }
-function computeNutrition(){
+function computeMacros(){
   const B = bmr();
   const TDEE = B * state.activity;
-  // Auto delta per fase (se input a 0)
   let delta = state.nDelta;
-  if(delta === 0){
+  if(delta===0){
     if(state.nPhase==='cut') delta = -20;
     if(state.nPhase==='bulk') delta = 12;
   }
   const kcal = Math.round(TDEE * (1 + delta/100));
   const pro = Math.round(state.weight * state.nPro);
   const fat = Math.round(state.weight * state.nFat);
-  const kcalPro = pro*4;
-  const kcalFat = fat*9;
-  const carb = Math.max(0, Math.round((kcal - kcalPro - kcalFat) / 4));
-
-  const box = document.getElementById('nut-results');
-  const phaseLabel = state.nPhase==='cut' ? 'Cut' : state.nPhase==='bulk' ? 'Bulk (lean)' : 'Mantenimento';
-  const rationale = state.nPhase==='cut'
-    ? `Deficit del <b>${Math.abs(delta)}%</b> sul TDEE per un calo di ~<b>0.5-1% peso/settimana</b> [4][5]. Proteine alte per preservare massa magra in ipocalorico [3].`
-    : state.nPhase==='bulk'
-      ? `Surplus del <b>${delta}%</b> sul TDEE per una <b>lean bulk</b> — <b>0.25-0.5% peso/settimana</b> massimizza muscolo, minimizza grasso [4].`
-      : `Zero delta. Manteniamo il TDEE per stabilizzare peso e recuperare tra fasi.`;
-
-  box.innerHTML = `
-    <span class="phase-tag">${phaseLabel}</span>
-    <h3>${state.nPhase==='cut'?'Definire':'Costruire'}, senza improvvisare</h3>
-    <div class="mute" style="font-size:13px;color:rgba(244,241,234,.65)">Basato su BMR Mifflin-St Jeor · TDEE ${Math.round(TDEE)} kcal · ${state.sex==='F'?'Donna':'Uomo'}, ${state.age} a., ${state.weight} kg</div>
-
-    <div class="num">${kcal.toLocaleString('it')}<small>kcal / giorno</small></div>
-
-    <div class="macros">
-      <div class="macro pro">
-        <div class="lbl">Proteine</div>
-        <div class="v">${pro}<span style="font-size:14px;opacity:.6"> g</span></div>
-        <div class="g">${state.nPro} g/kg · ${kcalPro} kcal</div>
-      </div>
-      <div class="macro carb">
-        <div class="lbl">Carboidrati</div>
-        <div class="v">${carb}<span style="font-size:14px;opacity:.6"> g</span></div>
-        <div class="g">${carb*4} kcal · adattabile</div>
-      </div>
-      <div class="macro fat">
-        <div class="lbl">Grassi</div>
-        <div class="v">${fat}<span style="font-size:14px;opacity:.6"> g</span></div>
-        <div class="g">${state.nFat} g/kg · ${kcalFat} kcal</div>
-      </div>
-    </div>
-
-    <div class="rationale">${rationale}</div>
-  `;
-  document.getElementById('meal-phase').textContent = phaseLabel.toLowerCase();
-  renderMeals(pro, carb, fat, kcal);
+  const kcalPro = pro*4, kcalFat = fat*9;
+  const carb = Math.max(0, Math.round((kcal - kcalPro - kcalFat)/4));
+  return {kcal, pro, fat, carb, TDEE:Math.round(TDEE), delta};
 }
-
-const MEAL_TEMPLATES = {
-  cut: [
-    {h:'Colazione', n:'Yogurt greco 0% + frutti rossi', it:['200 g yogurt greco 0%','120 g frutti di bosco','20 g fiocchi d\'avena','10 g mandorle']},
-    {h:'Pranzo', n:'Petto di pollo + riso + verdure', it:['150 g petto di pollo','70 g riso basmati (crudo)','200 g verdure grigliate','5 g olio EVO']},
-    {h:'Spuntino', n:'Skyr + banana', it:['200 g skyr','1 banana media','10 g burro d\'arachidi']},
-    {h:'Cena', n:'Salmone + patate + spinaci', it:['140 g salmone','200 g patate al forno','150 g spinaci','5 g olio EVO']}
-  ],
-  maint: [
-    {h:'Colazione', n:'Porridge d\'avena + uova', it:['60 g fiocchi d\'avena','250 ml latte parz. scremato','2 uova intere','1 frutto']},
-    {h:'Pranzo', n:'Pasta integrale + tonno + verdure', it:['90 g pasta integrale','100 g tonno al naturale','200 g verdure','10 g olio EVO']},
-    {h:'Spuntino', n:'Yogurt + noci + miele', it:['200 g yogurt greco','20 g noci','15 g miele']},
-    {h:'Cena', n:'Manzo + quinoa + verdure', it:['150 g manzo magro','80 g quinoa (crudo)','200 g verdure','10 g olio EVO']}
-  ],
-  bulk: [
-    {h:'Colazione', n:'Porridge overnight rinforzato', it:['80 g avena','300 ml latte intero','1 scoop whey','30 g burro d\'arachidi','1 banana']},
-    {h:'Pranzo', n:'Riso + petto pollo + avocado', it:['120 g riso basmati','180 g petto di pollo','1/2 avocado','200 g verdure']},
-    {h:'Spuntino', n:'Toast + tacchino + uova sode', it:['80 g pane di segale','80 g tacchino','2 uova sode','15 g olio EVO in insalata']},
-    {h:'Cena', n:'Salmone + patate dolci + broccoli', it:['180 g salmone','250 g patate dolci','200 g broccoli','15 g olio EVO']},
-    {h:'Pre-nanna', n:'Ricotta + frutta secca', it:['150 g ricotta','25 g mandorle','10 g miele']}
-  ]
-};
-function renderMeals(pro,carb,fat,kcal){
+function renderMacros(){
+  const {kcal, pro, fat, carb, TDEE, delta} = computeMacros();
+  const el = document.getElementById('macros-hero');
+  const label = state.nPhase==='cut'?'Cut':state.nPhase==='bulk'?'Bulk (lean)':'Mantenimento';
+  const title = state.nPhase==='cut'?'Definire, con testa':state.nPhase==='bulk'?'Costruire, con misura':'Mantenere e recuperare';
+  const rat = state.nPhase==='cut'
+    ? `Deficit del <b>${Math.abs(delta)}%</b> sul TDEE per un calo di ~<b>0.5-1% peso/settimana</b> [4][5]. Proteine alte per preservare massa magra [3].`
+    : state.nPhase==='bulk'
+      ? `Surplus del <b>${delta}%</b> — <b>0.25-0.5% peso/settimana</b> massimizza muscolo, minimizza grasso [4].`
+      : `Zero delta. Manteniamo il TDEE per stabilizzare e recuperare.`;
+  el.innerHTML = `
+    <span class="phase-tag">${label}</span>
+    <div style="font-size:15px;font-weight:800">${title}</div>
+    <div class="tdee">BMR Mifflin-St Jeor · TDEE ${TDEE} kcal · ${state.sex==='F'?'Donna':'Uomo'}, ${state.age} a., ${state.weight} kg</div>
+    <div class="kcal">${kcal.toLocaleString('it')}<small>kcal / giorno</small></div>
+    <div class="macros">
+      <div class="macro pro"><div class="l">Proteine</div><div class="v">${pro}<span style="font-size:12px;opacity:.6"> g</span></div><div class="g">${state.nPro} g/kg</div></div>
+      <div class="macro carb"><div class="l">Carbo</div><div class="v">${carb}<span style="font-size:12px;opacity:.6"> g</span></div><div class="g">completa kcal</div></div>
+      <div class="macro fat"><div class="l">Grassi</div><div class="v">${fat}<span style="font-size:12px;opacity:.6"> g</span></div><div class="g">${state.nFat} g/kg</div></div>
+    </div>
+    <div class="rationale">${rat}</div>
+  `;
+  document.getElementById('meal-phase-lbl').textContent = label.toLowerCase();
+  renderMealCards();
+  renderTodayMeals();
+}
+function renderMealCards(){
   const set = MEAL_TEMPLATES[state.nPhase] || MEAL_TEMPLATES.maint;
   const wrap = document.getElementById('meal-cards');
   wrap.innerHTML = set.slice(0, state.nMeals).map(m=>`
@@ -1044,105 +1196,94 @@ function renderMeals(pro,carb,fat,kcal){
       <div class="h">${m.h}</div>
       <div class="n">${m.n}</div>
       <ul>${m.it.map(x=>`<li>${x}</li>`).join('')}</ul>
-      <div class="mm">Sostituisci in base a preferenze — <em>tenendo la quota proteica</em>.</div>
+      <div class="mm">Sostituisci mantenendo la quota proteica.</div>
     </div>
   `).join('');
 }
 
-// ---------- WIRING ----------
-function wireProfile(){
-  const set = (id, k, cast=v=>v)=>{
-    const el = document.getElementById(id);
-    el.addEventListener('input', ()=>{ state[k] = cast(el.value); refresh(); });
-  };
-  set('p-name','name');
-  set('p-age','age', Number);
-  set('p-weight','weight', Number);
-  set('p-height','height', Number);
-  set('p-activity','activity', Number);
-  document.getElementById('p-level').addEventListener('change', e=>{ state.level = e.target.value; });
+// ==================== PHASE TABS (CIBO) ====================
+document.querySelectorAll('#phase-tabs button').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('#phase-tabs button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    state.nPhase = b.dataset.v; state.nDelta = 0;
+    document.getElementById('n-delta').value = 0;
+    // Sync anche p-phase
+    document.querySelectorAll('#p-phase button').forEach(x=>x.classList.toggle('on', x.dataset.v===state.nPhase));
+    state.phase = state.nPhase;
+    renderMacros(); save();
+  });
+});
+['n-delta','n-pro','n-fat','n-meals'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', ()=>{
+    state.nDelta = Number(document.getElementById('n-delta').value);
+    state.nPro = Number(document.getElementById('n-pro').value);
+    state.nFat = Number(document.getElementById('n-fat').value);
+    state.nMeals = Number(document.getElementById('n-meals').value);
+    renderMacros(); save();
+  });
+});
 
+// ==================== PROFILE ====================
+function wireProfile(){
+  const bind = (id,k,cast=v=>v)=>{
+    const el = document.getElementById(id);
+    el.addEventListener('input', ()=>{ state[k] = cast(el.value); if(k==='name') document.getElementById('greet-name').textContent = state.name; renderMacros(); save(); });
+  };
+  bind('p-name','name');
+  bind('p-age','age',Number);
+  bind('p-weight','weight',Number);
+  bind('p-height','height',Number);
+  bind('p-activity','activity',Number);
+  document.getElementById('p-level').addEventListener('change', e=>{ state.level = e.target.value; save(); });
   document.querySelectorAll('#p-sex button').forEach(b=>{
     b.addEventListener('click', ()=>{
       document.querySelectorAll('#p-sex button').forEach(x=>x.classList.remove('on'));
       b.classList.add('on'); state.sex = b.dataset.v;
-      // Ripulisci piano da schede non più visibili per il sesso corrente
-      const visIds = new Set(visibleSchede().map(s=>s.id));
-      Object.keys(state.plan).forEach(d=>{ if(state.plan[d] && !visIds.has(state.plan[d])) state.plan[d]=null; });
-      renderLibrary(); renderWeek(); renderBody(); refresh();
+      renderSchede(); renderBody(); renderMacros(); save();
     });
   });
   document.querySelectorAll('#p-phase button').forEach(b=>{
     b.addEventListener('click', ()=>{
       document.querySelectorAll('#p-phase button').forEach(x=>x.classList.remove('on'));
-      b.classList.add('on'); state.phase = b.dataset.v;
-      // sync nutrition
-      state.nPhase = b.dataset.v;
-      document.querySelectorAll('#n-phase button').forEach(x=>{ x.classList.toggle('on', x.dataset.v===state.nPhase); });
-      state.nDelta = 0; document.getElementById('n-delta').value = 0;
-      computeNutrition();
-    });
-  });
-
-  document.querySelectorAll('#n-phase button').forEach(b=>{
-    b.addEventListener('click', ()=>{
-      document.querySelectorAll('#n-phase button').forEach(x=>x.classList.remove('on'));
-      b.classList.add('on'); state.nPhase = b.dataset.v;
-      state.nDelta = 0; document.getElementById('n-delta').value = 0;
-      computeNutrition();
-    });
-  });
-  ['n-delta','n-pro','n-fat','n-meals'].forEach(id=>{
-    document.getElementById(id).addEventListener('input', ()=>{
-      state.nDelta = Number(document.getElementById('n-delta').value);
-      state.nPro = Number(document.getElementById('n-pro').value);
-      state.nFat = Number(document.getElementById('n-fat').value);
-      state.nMeals = Number(document.getElementById('n-meals').value);
-      computeNutrition();
+      b.classList.add('on'); state.phase = b.dataset.v; state.nPhase = b.dataset.v; state.nDelta=0;
+      document.getElementById('n-delta').value = 0;
+      document.querySelectorAll('#phase-tabs button').forEach(x=>x.classList.toggle('on', x.dataset.v===state.nPhase));
+      renderMacros(); save();
     });
   });
 }
 
-function refresh(){ computeNutrition(); saveState(); }
-
-// ---------- PERSISTENZA ----------
-// Adapter con fallback su localStorage. Il layer Supabase è pronto: imposta
-//   window.MARTA_SUPABASE = { url:'https://XXX.supabase.co', anonKey:'ey...', table:'marta_state' }
-// prima del caricamento della pagina per attivarlo. La tabella deve avere colonna
-// `id text primary key`, `data jsonb`, `updated_at timestamptz default now()`.
-const STORAGE_KEY = 'marta-pro-state:v1';
-let saveTimer = null;
-function serializable(){
-  const {sex,phase,level,age,weight,height,activity,plan,bodyView,nPhase,nDelta,nPro,nFat,nMeals,name} = state;
-  return {sex,phase,level,age,weight,height,activity,plan,bodyView,nPhase,nDelta,nPro,nFat,nMeals,name};
-}
-async function saveState(){
-  clearTimeout(saveTimer);
+// ==================== PERSISTENZA ====================
+// LocalStorage sempre. Se imposti window.MARTA_SUPABASE = {url, anonKey, table, userId}
+// prima del load, il salvataggio va anche su Supabase (tabella marta_state con id/data/updated_at).
+const KEY = 'marta-pro:v3';
+let saveT=null;
+function save(){
+  clearTimeout(saveT);
   const badge = document.getElementById('save-badge');
-  if(badge){ badge.textContent = 'salvataggio...'; badge.style.color = 'var(--warn)'; }
-  saveTimer = setTimeout(async ()=>{
-    const data = serializable();
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }catch(e){}
-    // Supabase (opzionale)
+  if(badge){ badge.classList.add('on'); badge.textContent='salvataggio...'; badge.style.color='var(--gold)'; }
+  saveT = setTimeout(async ()=>{
+    try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
     const s = window.MARTA_SUPABASE;
     if(s && s.url && s.anonKey){
       try{
         await fetch(`${s.url}/rest/v1/${s.table||'marta_state'}?on_conflict=id`, {
           method:'POST',
           headers:{'Content-Type':'application/json','apikey':s.anonKey,'Authorization':`Bearer ${s.anonKey}`,'Prefer':'resolution=merge-duplicates,return=minimal'},
-          body: JSON.stringify([{id: s.userId || 'default', data}])
+          body: JSON.stringify([{id: s.userId||'default', data: state}])
         });
       }catch(e){ console.warn('Supabase save failed', e); }
     }
     if(badge){
       const cloud = !!(window.MARTA_SUPABASE && window.MARTA_SUPABASE.url);
-      badge.textContent = cloud ? 'salvato · cloud' : 'salvato · locale';
-      badge.style.color = 'var(--brand)';
+      badge.textContent = cloud ? 'salvato · cloud' : 'salvato';
+      badge.style.color = 'var(--teal)';
+      setTimeout(()=> badge.classList.remove('on'), 1400);
     }
   }, 400);
 }
-async function loadState(){
-  // Prova Supabase prima se configurato
+async function load(){
   const s = window.MARTA_SUPABASE;
   if(s && s.url && s.anonKey){
     try{
@@ -1151,41 +1292,43 @@ async function loadState(){
       });
       const rows = await r.json();
       if(rows && rows[0] && rows[0].data) return rows[0].data;
-    }catch(e){ console.warn('Supabase load failed, falling back to localStorage', e); }
+    }catch(e){}
   }
-  try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) return JSON.parse(raw); }catch(e){}
+  try{ const raw = localStorage.getItem(KEY); if(raw) return JSON.parse(raw); }catch(e){}
   return null;
 }
-function applyLoaded(loaded){
-  if(!loaded) return;
-  Object.assign(state, loaded);
-  // sync form fields
+function applyLoaded(l){
+  if(!l) return;
+  Object.assign(state,l);
+  document.getElementById('greet-name').textContent = state.name;
   const set = (id,v)=>{ const el=document.getElementById(id); if(el && v!=null) el.value=v; };
-  set('p-name', state.name); set('p-age', state.age); set('p-weight', state.weight); set('p-height', state.height); set('p-activity', state.activity);
-  set('p-level', state.level);
-  set('n-delta', state.nDelta); set('n-pro', state.nPro); set('n-fat', state.nFat); set('n-meals', state.nMeals);
+  set('p-name',state.name); set('p-age',state.age); set('p-weight',state.weight);
+  set('p-height',state.height); set('p-activity',state.activity); set('p-level',state.level);
+  set('n-delta',state.nDelta); set('n-pro',state.nPro); set('n-fat',state.nFat); set('n-meals',state.nMeals);
   document.querySelectorAll('#p-sex button').forEach(b=>b.classList.toggle('on', b.dataset.v===state.sex));
   document.querySelectorAll('#p-phase button').forEach(b=>b.classList.toggle('on', b.dataset.v===state.phase));
-  document.querySelectorAll('#n-phase button').forEach(b=>b.classList.toggle('on', b.dataset.v===state.nPhase));
+  document.querySelectorAll('#phase-tabs button').forEach(b=>b.classList.toggle('on', b.dataset.v===state.nPhase));
+  document.querySelectorAll('#plan-toggle button').forEach(b=>b.classList.toggle('on', b.dataset.p===state.activePlan));
+  document.querySelectorAll('#time-grid .time').forEach(b=>b.classList.toggle('on', b.dataset.t===state.timeChoice));
 }
 
-// ---------- SEED / BOOT ----------
+// ==================== NUTRIPLAN CTA ====================
+document.getElementById('nutriplan-cta').addEventListener('click', e=>{
+  e.preventDefault();
+  const url = (window.MARTA_NUTRIPLAN_BOT && window.MARTA_NUTRIPLAN_BOT.url) || 'https://t.me/nutriplan_bot';
+  window.open(url, '_blank');
+});
+
+// ==================== BOOT ====================
 (async ()=>{
-  const loaded = await loadState();
-  if(loaded){
-    applyLoaded(loaded);
-  } else {
-    state.plan.Lun = 'push-a';
-    state.plan.Mar = 'pull-a';
-    state.plan.Gio = 'legs-a';
-    state.plan.Ven = 'core';
-    state.plan.Sab = 'hiit';
-  }
-  renderWeek();
-  renderLibrary();
-  renderBody();
-  computeNutrition();
+  const l = await load();
+  applyLoaded(l);
   wireProfile();
+  renderHydro(); renderTodayMeals(); renderSuggest();
+  renderSchede();
+  renderBody();
+  renderMacros();
+  showTab('oggi');
 })();
 </script>
 </body>
