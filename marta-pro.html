@@ -147,6 +147,8 @@
   .body-map .region{fill:var(--bg-2);stroke:var(--ink);stroke-width:1.4;cursor:pointer;transition:fill .15s}
   .body-map .region:hover{fill:var(--gold)}
   .body-map .region.active{fill:var(--brand);stroke:var(--brand-2)}
+  .body-map .region.priority{stroke:var(--gold);stroke-width:2.4;stroke-dasharray:4 3}
+  .body-map .region.priority.active{stroke:var(--gold-deep);stroke-dasharray:none}
   .body-map .outline{fill:none;stroke:var(--ink);stroke-width:1.5}
   .body-map .legend{margin-top:14px;font-size:12px;color:var(--mute);text-align:center}
   .district-panel{background:var(--paper);border:1px solid var(--rule);border-radius:20px;padding:26px;min-height:400px}
@@ -233,6 +235,7 @@
       <a href="#distretti">Distretti</a>
       <a href="#nutrizione">Nutrizione</a>
       <a href="#riferimenti">Riferimenti</a>
+      <span id="save-badge" style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);font-weight:700;padding:4px 10px;border:1px solid var(--rule);border-radius:999px">salvato · locale</span>
     </div>
   </div>
 </nav>
@@ -462,70 +465,178 @@
 <script>
 // ---------- DATA ----------
 
-// Schede: id, nome, tag, colore, descrizione, target, esercizi
+// Video schema: {p:'yt'|'ytshort'|'ig', id:'<video-id o codice reel>'}
+// Aggiungi/sostituisci gli id: per YT prendi da youtube.com/watch?v=ID → id=ID; per Reel IG prendi da instagram.com/reel/CODE/ → id=CODE con p:'ig'
+const V = (p,id)=> ({p,id});
+
+// Schede: id, nome, tag, colore, descrizione, target, esercizi. `for` = 'both' | 'F' | 'M' (visibilità per sesso; both di default)
 const SCHEDE = [
-  { id:'push-a', name:'Push A', tag:'push', color:'push',
-    desc:'Petto · Spalle · Tricipiti. Focus spinta orizzontale.',
+  // ===== PPL (Push · Pull · Legs) 6 giorni =====
+  { id:'push-a', name:'Push A', tag:'push · forza', color:'push', for:'both',
+    desc:'Petto · Spalle · Tricipiti. Focus spinta orizzontale, carichi alti.',
     dur:55, exN:6, level:'int',
     ex:[
-      {n:'Panca piana bilanciere', m:'Petto · Tricipiti · Delt. ant.', sets:'4 × 6-8', rest:'2-3 min', cue:'Scapole retratte, gomiti ~45°, bilanciere sullo sterno.', vid:'rT7DgCr-3pg'},
-      {n:'Panca inclinata manubri', m:'Petto alto · Delt. ant.', sets:'3 × 8-10', rest:'90 s', cue:'Inclinazione 30°, arco basso, polsi neutri.', vid:'8iPEnn-ltC8'},
-      {n:'Military press manubri', m:'Delt. ant./lat · Tricipiti', sets:'3 × 8-10', rest:'90 s', cue:'Core attivo, non iperestendere lombare.', vid:'B-aVuyhvLHU'},
-      {n:'Alzate laterali', m:'Deltoide laterale', sets:'3 × 12-15', rest:'60 s', cue:'Gomiti leggermente flessi, guidati dai gomiti non dai polsi.', vid:'geenhiHju-o'},
-      {n:'French press ez', m:'Tricipiti (capo lungo)', sets:'3 × 10-12', rest:'75 s', cue:'Gomiti fermi vicino alla testa, allunga il capo lungo.', vid:'YbX7Wd8jQ-Q'},
-      {n:'Push-down cavo', m:'Tricipiti', sets:'3 × 12-15', rest:'60 s', cue:'Gomiti attaccati al busto, contrazione a fine ROM.', vid:'2-LAMcpzODU'}
+      {n:'Panca piana bilanciere', m:'Petto · Tricipiti · Delt. ant.', sets:'4 × 6-8', rest:'2-3 min', cue:'Scapole retratte e depresse, gomiti ~45°, bilanciere sullo sterno.', vid:V('yt','rT7DgCr-3pg')},
+      {n:'Panca inclinata manubri', m:'Petto alto · Delt. ant.', sets:'3 × 8-10', rest:'90 s', cue:'Inclinazione 30°, arco lombare basso, polsi neutri.', vid:V('yt','8iPEnn-ltC8')},
+      {n:'Military press manubri', m:'Delt. ant./lat · Tricipiti', sets:'3 × 8-10', rest:'90 s', cue:'Core attivo, non iperestendere la lombare.', vid:V('yt','B-aVuyhvLHU')},
+      {n:'Alzate laterali', m:'Deltoide laterale', sets:'3 × 12-15', rest:'60 s', cue:'Guidati dai gomiti, non dai polsi. Pausa 1 s in alto.', vid:V('yt','geenhiHju-o')},
+      {n:'French press EZ', m:'Tricipiti (capo lungo)', sets:'3 × 10-12', rest:'75 s', cue:'Gomiti fermi vicino alla testa; allunga il capo lungo.', vid:V('yt','YbX7Wd8jQ-Q')},
+      {n:'Push-down cavo corda', m:'Tricipiti (capo laterale)', sets:'3 × 12-15', rest:'60 s', cue:'Gomiti attaccati al busto; apri la corda a fine ROM.', vid:V('yt','2-LAMcpzODU')}
     ]},
-  { id:'pull-a', name:'Pull A', tag:'pull', color:'pull',
-    desc:'Dorso · Bicipiti · Trapezio. Trazione verticale + orizzontale.',
+  { id:'push-b', name:'Push B', tag:'push · volume', color:'push', for:'both',
+    desc:'Variante ipertrofia: petto alto + isolamento spalle.',
     dur:55, exN:6, level:'int',
     ex:[
-      {n:'Trazioni presa larga', m:'Gran dorsale · Romboidi', sets:'4 × max', rest:'2-3 min', cue:'Petto in fuori, mento sopra la sbarra.', vid:'eGo4IYlbE5g'},
-      {n:'Rematore bilanciere', m:'Dorso spesso · Trapezio medio', sets:'4 × 8-10', rest:'2 min', cue:'Busto 45°, tira all\'ombelico.', vid:'kBWAon7ItDw'},
-      {n:'Lat machine presa neutra', m:'Gran dorsale', sets:'3 × 10-12', rest:'90 s', cue:'Scendi tirando i gomiti verso i fianchi.', vid:'JGeRYIZdojU'},
-      {n:'Face pull', m:'Delt. post · Trapezio inf.', sets:'3 × 15', rest:'60 s', cue:'Alto verso il viso, apri le mani a fine ROM.', vid:'V8dZ3pyiCBo'},
-      {n:'Curl bilanciere', m:'Bicipite brachiale', sets:'3 × 8-12', rest:'75 s', cue:'Gomiti fermi, no swing lombare.', vid:'kwG2ipFRgfo'},
-      {n:'Hammer curl', m:'Brachiale · Brachioradiale', sets:'3 × 10-12', rest:'60 s', cue:'Polsi neutri, controllo eccentrica 2-3 s.', vid:'zC3nLlEvin4'}
+      {n:'Panca inclinata bilanciere', m:'Petto alto · Delt. ant.', sets:'4 × 8-10', rest:'2 min', cue:'Panchetta 30°, gomiti ~60°, retrazione scapolare stabile.', vid:V('yt','')},
+      {n:'Chest press macchina', m:'Petto · Tricipiti', sets:'3 × 10-12', rest:'75 s', cue:'Impostazione: presa all\'altezza del capezzolo, ROM completo.', vid:V('yt','')},
+      {n:'Croci ai cavi bassi', m:'Petto (capo sternale + clavicolare)', sets:'3 × 12-15', rest:'60 s', cue:'Movimento a mezzaluna dal basso al centro.', vid:V('yt','')},
+      {n:'Arnold press manubri', m:'Delt. ant./lat', sets:'3 × 10-12', rest:'75 s', cue:'Rotazione fluida, non forzare la spalla.', vid:V('yt','')},
+      {n:'Alzate laterali ai cavi', m:'Deltoide laterale', sets:'3 × 12-15', rest:'60 s', cue:'Costante tensione lungo l\'intero ROM.', vid:V('yt','')},
+      {n:'Overhead extension corda', m:'Tricipiti (capo lungo)', sets:'3 × 12-15', rest:'60 s', cue:'Gomiti fissi in alto, allunga la corda dietro il capo.', vid:V('yt','')}
     ]},
-  { id:'legs-a', name:'Legs A', tag:'legs', color:'legs',
-    desc:'Quadricipiti · Glutei · Polpacci. Focus forza multi-articolare.',
+  { id:'pull-a', name:'Pull A', tag:'pull · forza', color:'pull', for:'both',
+    desc:'Dorso · Bicipiti. Focus trazione verticale + orizzontale pesante.',
+    dur:55, exN:6, level:'int',
+    ex:[
+      {n:'Trazioni presa larga', m:'Gran dorsale · Romboidi', sets:'4 × max', rest:'2-3 min', cue:'Petto in fuori, mento sopra la sbarra, no kipping.', vid:V('yt','eGo4IYlbE5g')},
+      {n:'Rematore bilanciere', m:'Dorso spesso · Trapezio medio', sets:'4 × 8-10', rest:'2 min', cue:'Busto 45°, tira verso l\'ombelico, mantieni la lombare piatta.', vid:V('yt','kBWAon7ItDw')},
+      {n:'Lat machine presa neutra', m:'Gran dorsale', sets:'3 × 10-12', rest:'90 s', cue:'Scendi guidando con i gomiti verso i fianchi.', vid:V('yt','JGeRYIZdojU')},
+      {n:'Face pull ai cavi', m:'Delt. post · Trapezio inf.', sets:'3 × 15', rest:'60 s', cue:'Tira in alto verso il viso, apri le mani a fine ROM.', vid:V('yt','V8dZ3pyiCBo')},
+      {n:'Curl bilanciere EZ', m:'Bicipite brachiale', sets:'3 × 8-12', rest:'75 s', cue:'Gomiti fermi lungo il busto, no swing lombare.', vid:V('yt','kwG2ipFRgfo')},
+      {n:'Hammer curl', m:'Brachiale · Brachioradiale', sets:'3 × 10-12', rest:'60 s', cue:'Polsi neutri, controllo eccentrica 2-3 s.', vid:V('yt','zC3nLlEvin4')}
+    ]},
+  { id:'pull-b', name:'Pull B', tag:'pull · volume', color:'pull', for:'both',
+    desc:'Variante ipertrofia: dorsali + capo lungo bicipite.',
+    dur:55, exN:6, level:'int',
+    ex:[
+      {n:'Pullover ai cavi', m:'Gran dorsale (allungamento)', sets:'3 × 12-15', rest:'75 s', cue:'Braccia leggermente flesse, sposta il carico col dorsale.', vid:V('yt','')},
+      {n:'Chin-up presa supina', m:'Dorsale + bicipite', sets:'4 × 6-10', rest:'2 min', cue:'Portare il petto alla sbarra.', vid:V('yt','')},
+      {n:'Rematore manubrio 1-braccio', m:'Dorso · Grande rotondo', sets:'3 × 10/lato', rest:'75 s', cue:'Appoggio su panca, tira all\'anca, no rotazione busto.', vid:V('yt','')},
+      {n:'Curl panca inclinata', m:'Bicipite (capo lungo)', sets:'3 × 10-12', rest:'75 s', cue:'Manubri sotto le spalle, massimo allungamento.', vid:V('yt','')},
+      {n:'Concentration curl', m:'Bicipite (picco)', sets:'3 × 10-12', rest:'60 s', cue:'Gomito bloccato sul ginocchio interno.', vid:V('yt','')},
+      {n:'Reverse pec deck', m:'Deltoide posteriore', sets:'3 × 15', rest:'60 s', cue:'Braccia parallele al pavimento, spinta orizzontale.', vid:V('yt','')}
+    ]},
+  { id:'legs-a', name:'Legs A', tag:'gambe · quad', color:'legs', for:'both',
+    desc:'Quadricipiti · Polpacci. Squat-focus, forza multi-articolare.',
     dur:60, exN:6, level:'int',
     ex:[
-      {n:'Squat bilanciere', m:'Quad · Glutei · Core', sets:'5 × 5', rest:'3 min', cue:'Piedi larghi come le spalle, ginocchia in linea con le punte.', vid:'ultWZbUMPL8'},
-      {n:'Stacco rumeno', m:'Femorali · Glutei', sets:'4 × 8', rest:'2 min', cue:'Anche indietro, bilanciere lungo le cosce.', vid:'CN_7cz3P-1U'},
-      {n:'Affondi camminati manubri', m:'Quad · Glutei', sets:'3 × 10/lato', rest:'90 s', cue:'Passo lungo per glutei, corto per quadricipiti.', vid:'D7KaRcUTQeE'},
-      {n:'Leg extension', m:'Quadricipite', sets:'3 × 12-15', rest:'60 s', cue:'Pausa 1 s in contrazione massima.', vid:'YyvSfVjQeL0'},
-      {n:'Leg curl sdraiato', m:'Femorali', sets:'3 × 10-12', rest:'75 s', cue:'Non staccare il bacino, eccentrica 3 s.', vid:'ELOCsoDSmrg'},
-      {n:'Calf raise in piedi', m:'Gastrocnemio', sets:'4 × 12-15', rest:'45 s', cue:'ROM completo, pausa 1 s in alto.', vid:'-M4-G8p8fmc'}
+      {n:'Back squat', m:'Quad · Glutei · Core', sets:'5 × 5', rest:'3 min', cue:'Piedi larghi come le spalle, ginocchia in linea con le punte.', vid:V('yt','ultWZbUMPL8')},
+      {n:'Pressa 45°', m:'Quadricipiti · Glutei', sets:'3 × 10-12', rest:'2 min', cue:'Piedi a metà pedana, ROM controllato senza staccare il bacino.', vid:V('yt','')},
+      {n:'Affondi camminati manubri', m:'Quad · Glutei', sets:'3 × 10/lato', rest:'90 s', cue:'Passo lungo per glutei, corto per quadricipiti.', vid:V('yt','D7KaRcUTQeE')},
+      {n:'Leg extension', m:'Quadricipite (retto femorale)', sets:'3 × 12-15', rest:'60 s', cue:'Pausa 1 s in contrazione massima.', vid:V('yt','YyvSfVjQeL0')},
+      {n:'Calf raise in piedi', m:'Gastrocnemio', sets:'4 × 12-15', rest:'45 s', cue:'ROM completo, pausa 1 s in alto e in basso.', vid:V('yt','-M4-G8p8fmc')},
+      {n:'Plank + varianti', m:'Core anteriore', sets:'3 × 45 s', rest:'45 s', cue:'Bacino in retroversione, glutei attivi.', vid:V('yt','ASdvN_XEl_c')}
     ]},
-  { id:'full', name:'Full body', tag:'full', color:'full',
-    desc:'Total-body per chi si allena 2-3 volte a settimana.',
+  { id:'legs-b', name:'Legs B', tag:'gambe · post.', color:'legs', for:'both',
+    desc:'Catena posteriore: femorali · glutei · polpacci (soleo).',
+    dur:60, exN:6, level:'int',
+    ex:[
+      {n:'Stacco rumeno bilanciere', m:'Femorali · Glutei', sets:'4 × 8', rest:'2 min', cue:'Anche indietro, bilanciere lungo le cosce, ginocchia leggermente flesse.', vid:V('yt','CN_7cz3P-1U')},
+      {n:'Hip thrust bilanciere', m:'Gluteo maggiore', sets:'4 × 8-10', rest:'2 min', cue:'Spinta con i talloni, mento in dentro, pausa 2 s in alto.', vid:V('yt','LM8XHLYJoYs')},
+      {n:'Nordic curl (o eccentrico assistito)', m:'Femorali', sets:'3 × 5-8', rest:'2 min', cue:'Discesa in 4-5 s, controllo massimo dell\'eccentrica.', vid:V('yt','')},
+      {n:'Leg curl seduto', m:'Femorali (bicipite fem.)', sets:'3 × 10-12', rest:'75 s', cue:'Eccentrica 3 s, non staccare il bacino.', vid:V('yt','ELOCsoDSmrg')},
+      {n:'Calf raise seduto (soleo)', m:'Soleo', sets:'4 × 12-15', rest:'45 s', cue:'Ginocchia flesse, ROM completo, 2 s in alto.', vid:V('yt','')},
+      {n:'Cable pull-through', m:'Glutei · Femorali', sets:'3 × 12', rest:'60 s', cue:'Hip hinge puro, no squat, contrazione glutea a fine.', vid:V('yt','')}
+    ]},
+
+  // ===== UPPER · LOWER (4 giorni) =====
+  { id:'upper-a', name:'Upper A', tag:'upper · forza', color:'push', for:'both',
+    desc:'Parte superiore, forza: spinta + trazione pesanti.',
+    dur:55, exN:6, level:'int',
+    ex:[
+      {n:'Panca piana bilanciere', m:'Petto · Tricipiti', sets:'4 × 5-6', rest:'2-3 min', cue:'Scapole bloccate, tocca sterno.', vid:V('yt','rT7DgCr-3pg')},
+      {n:'Rematore bilanciere', m:'Dorso · Trapezio', sets:'4 × 6-8', rest:'2 min', cue:'Busto 45°, tira all\'ombelico.', vid:V('yt','kBWAon7ItDw')},
+      {n:'Military press manubri', m:'Spalle · Tricipiti', sets:'3 × 8', rest:'90 s', cue:'Core attivo, no iperestensione.', vid:V('yt','B-aVuyhvLHU')},
+      {n:'Chin-up presa supina', m:'Dorsale · Bicipite', sets:'3 × max', rest:'2 min', cue:'Petto alla sbarra.', vid:V('yt','')},
+      {n:'Alzate laterali', m:'Deltoide laterale', sets:'3 × 12-15', rest:'60 s', cue:'Gomiti guida.', vid:V('yt','geenhiHju-o')},
+      {n:'Curl EZ + push-down', m:'Bicipite · Tricipite', sets:'3 × 10 superset', rest:'75 s', cue:'Superset senza pausa fra i due.', vid:V('yt','')}
+    ]},
+  { id:'lower-a', name:'Lower A', tag:'lower · forza', color:'legs', for:'both',
+    desc:'Parte inferiore, forza: squat + stacco.',
+    dur:60, exN:5, level:'int',
+    ex:[
+      {n:'Back squat', m:'Quad · Glutei', sets:'5 × 5', rest:'3 min', cue:'Piedi come le spalle, ginocchia in linea con le punte.', vid:V('yt','ultWZbUMPL8')},
+      {n:'Stacco rumeno', m:'Femorali · Glutei', sets:'4 × 6-8', rest:'2 min', cue:'Anche indietro, bilanciere lungo le cosce.', vid:V('yt','CN_7cz3P-1U')},
+      {n:'Affondi bulgari manubri', m:'Quad · Glutei (unilat.)', sets:'3 × 8/lato', rest:'90 s', cue:'Piede posteriore alto, discesa verticale.', vid:V('yt','')},
+      {n:'Leg curl sdraiato', m:'Femorali', sets:'3 × 10-12', rest:'75 s', cue:'Bacino a terra, eccentrica 3 s.', vid:V('yt','ELOCsoDSmrg')},
+      {n:'Calf raise in piedi', m:'Gastrocnemio', sets:'4 × 12-15', rest:'45 s', cue:'ROM completo.', vid:V('yt','-M4-G8p8fmc')}
+    ]},
+
+  // ===== FULL BODY (3 giorni) =====
+  { id:'full-a', name:'Full Body A', tag:'full · base', color:'full', for:'both',
+    desc:'Total-body multi-articolare per 2-3 sedute/settimana.',
     dur:50, exN:5, level:'beg',
     ex:[
-      {n:'Goblet squat manubrio', m:'Quad · Glutei · Core', sets:'3 × 10', rest:'90 s', cue:'Manubrio al petto, schiena neutra.', vid:'MeIiIdhvXT4'},
-      {n:'Panca manubri', m:'Petto · Tricipiti', sets:'3 × 10', rest:'90 s', cue:'Manubri all\'altezza dello sterno.', vid:'VmB1G1K7v94'},
-      {n:'Rematore un braccio', m:'Dorso · Bicipiti', sets:'3 × 10/lato', rest:'75 s', cue:'Appoggio panca, tira all\'anca.', vid:'roCP6wCXPqo'},
-      {n:'Hip thrust bilanciere', m:'Glutei · Femorali', sets:'3 × 12', rest:'90 s', cue:'Spinta con i talloni, mento in dentro.', vid:'LM8XHLYJoYs'},
-      {n:'Plank', m:'Core · Traverso', sets:'3 × 45 s', rest:'60 s', cue:'Bacino in retroversione, glutei attivi.', vid:'ASdvN_XEl_c'}
+      {n:'Goblet squat manubrio', m:'Quad · Glutei · Core', sets:'3 × 10', rest:'90 s', cue:'Manubrio al petto, schiena neutra.', vid:V('yt','MeIiIdhvXT4')},
+      {n:'Panca manubri', m:'Petto · Tricipiti', sets:'3 × 10', rest:'90 s', cue:'Manubri all\'altezza dello sterno.', vid:V('yt','VmB1G1K7v94')},
+      {n:'Rematore un braccio', m:'Dorso · Bicipiti', sets:'3 × 10/lato', rest:'75 s', cue:'Appoggio panca, tira all\'anca.', vid:V('yt','roCP6wCXPqo')},
+      {n:'Hip thrust bilanciere', m:'Glutei · Femorali', sets:'3 × 12', rest:'90 s', cue:'Spinta con i talloni, mento in dentro.', vid:V('yt','LM8XHLYJoYs')},
+      {n:'Plank', m:'Core · Traverso', sets:'3 × 45 s', rest:'60 s', cue:'Bacino in retroversione, glutei attivi.', vid:V('yt','ASdvN_XEl_c')}
     ]},
-  { id:'core', name:'Core & Mobility', tag:'core', color:'core',
+  { id:'full-b', name:'Full Body B', tag:'full · potenza', color:'full', for:'both',
+    desc:'Full-body con enfasi trazione verticale + posteriore.',
+    dur:50, exN:5, level:'int',
+    ex:[
+      {n:'Trap bar deadlift', m:'Catena post · Quad', sets:'4 × 6', rest:'2 min', cue:'Schiena neutra, spinta di gamba.', vid:V('yt','')},
+      {n:'Overhead press bilanciere', m:'Spalle · Tricipiti · Core', sets:'3 × 8', rest:'2 min', cue:'Glutei stretti, no iperestensione.', vid:V('yt','')},
+      {n:'Trazioni assistite / Lat machine', m:'Dorsale', sets:'3 × 8-10', rest:'90 s', cue:'Tira coi gomiti verso i fianchi.', vid:V('yt','JGeRYIZdojU')},
+      {n:'Walking lunges manubri', m:'Gambe · Glutei', sets:'3 × 10/lato', rest:'75 s', cue:'Passo lungo, atterraggio verticale.', vid:V('yt','D7KaRcUTQeE')},
+      {n:'Dead bug', m:'Core anti-est.', sets:'3 × 8/lato', rest:'45 s', cue:'Lombare al pavimento tutto il tempo.', vid:V('yt','g_BYB0R-4Ws')}
+    ]},
+  { id:'full-c', name:'Full Body C', tag:'full · condiz.', color:'full', for:'both',
+    desc:'Full-body ibrido: forza breve + condizionamento a circuito.',
+    dur:45, exN:6, level:'int',
+    ex:[
+      {n:'Front squat bilanciere', m:'Quad · Core', sets:'4 × 6', rest:'2 min', cue:'Gomiti alti, busto eretto.', vid:V('yt','')},
+      {n:'Panca piana bilanciere', m:'Petto · Tricipiti', sets:'3 × 8', rest:'90 s', cue:'Scapole retratte.', vid:V('yt','rT7DgCr-3pg')},
+      {n:'Rematore pendlay', m:'Dorso · Trapezio', sets:'3 × 8', rest:'90 s', cue:'Ogni rep parte dal pavimento.', vid:V('yt','')},
+      {n:'Kettlebell swing', m:'Catena posteriore', sets:'5 × 15', rest:'45 s', cue:'Esplosione d\'anca.', vid:V('yt','sSESGRRZR0Q')},
+      {n:'Farmer\'s carry', m:'Grip · Core · Trapezio', sets:'4 × 30 m', rest:'60 s', cue:'Postura alta, passi corti.', vid:V('yt','')},
+      {n:'Plank laterale', m:'Obliqui · Core', sets:'2 × 30 s/lato', rest:'45 s', cue:'Corpo su una linea.', vid:V('yt','')}
+    ]},
+
+  // ===== FEMMINILI / SPECIALITY =====
+  { id:'glute-focus', name:'GluteFocus', tag:'glutei · femminile', color:'legs', for:'F',
+    desc:'Programma dedicato al gluteo: massimo EMG, hip thrust-centric.',
+    dur:55, exN:6, level:'int',
+    ex:[
+      {n:'Hip thrust bilanciere', m:'Gluteo maggiore', sets:'5 × 8-10', rest:'2 min', cue:'Pausa 2 s in alto, mento in dentro.', vid:V('yt','LM8XHLYJoYs')},
+      {n:'Sumo deadlift', m:'Glutei · Femorali · Adduttori', sets:'4 × 6-8', rest:'2 min', cue:'Piedi larghi, punte fuori 30°.', vid:V('yt','')},
+      {n:'Affondi camminati passo lungo', m:'Glutei (unilat.)', sets:'3 × 12/lato', rest:'90 s', cue:'Passo lungo massimizza il gluteo.', vid:V('yt','D7KaRcUTQeE')},
+      {n:'Abduzione anca ai cavi', m:'Gluteo medio', sets:'3 × 15/lato', rest:'60 s', cue:'Busto stabile, movimento pulito.', vid:V('yt','')},
+      {n:'Kickback ai cavi', m:'Gluteo maggiore (isolam.)', sets:'3 × 12/lato', rest:'60 s', cue:'Ginocchio flesso, spinta all\'indietro.', vid:V('yt','')},
+      {n:'Ponte glutei banda', m:'Gluteo medio (attivazione)', sets:'3 × 20', rest:'45 s', cue:'Elastico sopra le ginocchia, spingi contro.', vid:V('yt','')}
+    ]},
+  { id:'home-body', name:'Home Body', tag:'casa · elastici', color:'full', for:'both',
+    desc:'Solo elastici + manubri leggeri. Zero attrezzatura pesante.',
+    dur:35, exN:6, level:'beg',
+    ex:[
+      {n:'Goblet squat manubrio', m:'Gambe · Core', sets:'3 × 12', rest:'45 s', cue:'Piedi come le spalle.', vid:V('yt','MeIiIdhvXT4')},
+      {n:'Push-up (varianti su ginocchia)', m:'Petto · Tricipiti', sets:'3 × max', rest:'60 s', cue:'Corpo dritto, discesa controllata.', vid:V('yt','')},
+      {n:'Row elastico ancorato', m:'Dorso', sets:'3 × 15', rest:'45 s', cue:'Tira ai fianchi, spingi il petto in fuori.', vid:V('yt','')},
+      {n:'Hip thrust corpo libero + elastico', m:'Glutei', sets:'3 × 15', rest:'45 s', cue:'Elastico sopra ginocchia, pausa in alto.', vid:V('yt','')},
+      {n:'Overhead press elastico', m:'Spalle', sets:'3 × 12', rest:'45 s', cue:'Piedi sull\'elastico, spinta verticale.', vid:V('yt','')},
+      {n:'Plank + varianti', m:'Core', sets:'3 × 40 s', rest:'45 s', cue:'Bacino neutro.', vid:V('yt','ASdvN_XEl_c')}
+    ]},
+  { id:'core', name:'Core & Mobility', tag:'core · mobilità', color:'core', for:'both',
     desc:'Stabilità profonda + mobilità articolare. Recupero attivo.',
     dur:35, exN:5, level:'beg',
     ex:[
-      {n:'Dead bug', m:'Core anteriore · Traverso', sets:'3 × 8/lato', rest:'45 s', cue:'Lombare a contatto col pavimento tutto il tempo.', vid:'g_BYB0R-4Ws'},
-      {n:'Bird dog', m:'Core · Erettori spinali', sets:'3 × 8/lato', rest:'45 s', cue:'Braccio e gamba opposti, ferma 2 s.', vid:'wiFNA3sqjCA'},
-      {n:'Pallof press', m:'Anti-rotazione core', sets:'3 × 10/lato', rest:'45 s', cue:'Non ruotare, spingi lontano dal petto.', vid:'AH_QZLm_0-s'},
-      {n:'CAT camel', m:'Mobilità toracica', sets:'2 × 10', rest:'30 s', cue:'Alterna flessione ed estensione lenta.', vid:'K9bK0BwKFjs'},
-      {n:'90/90 hip stretch', m:'Mobilità anca', sets:'2 × 60 s/lato', rest:'30 s', cue:'Busto eretto, respiro nasale.', vid:'sYh2ldTaiCk'}
+      {n:'Dead bug', m:'Core anteriore · Traverso', sets:'3 × 8/lato', rest:'45 s', cue:'Lombare a contatto col pavimento tutto il tempo.', vid:V('yt','g_BYB0R-4Ws')},
+      {n:'Bird dog', m:'Core · Erettori spinali', sets:'3 × 8/lato', rest:'45 s', cue:'Braccio e gamba opposti, ferma 2 s.', vid:V('yt','wiFNA3sqjCA')},
+      {n:'Pallof press', m:'Anti-rotazione core', sets:'3 × 10/lato', rest:'45 s', cue:'Non ruotare, spingi lontano dal petto.', vid:V('yt','AH_QZLm_0-s')},
+      {n:'Cat-camel', m:'Mobilità toracica-lombare', sets:'2 × 10', rest:'30 s', cue:'Alterna flessione ed estensione lenta.', vid:V('yt','K9bK0BwKFjs')},
+      {n:'90/90 hip stretch', m:'Mobilità anca', sets:'2 × 60 s/lato', rest:'30 s', cue:'Busto eretto, respiro nasale.', vid:V('yt','sYh2ldTaiCk')}
     ]},
-  { id:'hiit', name:'HIIT metabolico', tag:'hiit', color:'hiit',
-    desc:'20\' ad alta intensità. Condizionamento cardio-metabolico.',
+  { id:'hiit', name:'HIIT metabolico', tag:'hiit · cardio', color:'hiit', for:'both',
+    desc:'25\' ad alta intensità. Condizionamento cardio-metabolico.',
     dur:25, exN:5, level:'int',
     ex:[
-      {n:'Kettlebell swing', m:'Catena posteriore', sets:'8 × 20\'\'/40\'\'', rest:'40 s', cue:'Esplosione d\'anca, non solleva con le braccia.', vid:'sSESGRRZR0Q'},
-      {n:'Burpees', m:'Full body', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Petto a terra, salto verticale a fine.', vid:'auBLPXO8Fww'},
-      {n:'Mountain climbers', m:'Core · cardio', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Anca stabile, ginocchia al petto.', vid:'nmwgirgXLYM'},
-      {n:'Air squat esplosivo', m:'Gambe · cardio', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Piena estensione, atterraggio morbido.', vid:'Azl5tkCzDcc'},
-      {n:'Row / Bike sprint', m:'Cardio metabolico', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Massima potenza, respirazione ritmata.', vid:''}
+      {n:'Kettlebell swing', m:'Catena posteriore', sets:'8 × 20\'\'/40\'\'', rest:'40 s', cue:'Esplosione d\'anca, non solleva con le braccia.', vid:V('yt','sSESGRRZR0Q')},
+      {n:'Burpees', m:'Full body', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Petto a terra, salto verticale a fine.', vid:V('yt','auBLPXO8Fww')},
+      {n:'Mountain climbers', m:'Core · cardio', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Anca stabile, ginocchia al petto.', vid:V('yt','nmwgirgXLYM')},
+      {n:'Air squat esplosivo', m:'Gambe · cardio', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Piena estensione, atterraggio morbido.', vid:V('yt','Azl5tkCzDcc')},
+      {n:'Row / Bike sprint', m:'Cardio metabolico', sets:'6 × 30\'\'/30\'\'', rest:'30 s', cue:'Massima potenza, respirazione ritmata.', vid:V('yt','')}
     ]}
 ];
 
@@ -685,7 +796,7 @@ function renderWeek(){
       e.preventDefault(); el.classList.remove('drag-over');
       const id = e.dataTransfer.getData('text/plain');
       state.plan[el.dataset.day] = id;
-      renderWeek();
+      renderWeek(); saveState();
     });
     el.querySelector('.slot').addEventListener('click',()=>{
       const s = state.plan[el.dataset.day];
@@ -693,14 +804,17 @@ function renderWeek(){
     });
   });
   week.querySelectorAll('.clear').forEach(b=>{
-    b.addEventListener('click',e=>{ e.stopPropagation(); state.plan[b.dataset.day]=null; renderWeek(); });
+    b.addEventListener('click',e=>{ e.stopPropagation(); state.plan[b.dataset.day]=null; renderWeek(); saveState(); });
   });
 }
 
 // ---------- LIBRARY ----------
+function visibleSchede(){
+  return SCHEDE.filter(s => s.for==='both' || s.for===state.sex);
+}
 function renderLibrary(){
   const wrap = document.getElementById('cards');
-  wrap.innerHTML = SCHEDE.map(s=>`
+  wrap.innerHTML = visibleSchede().map(s=>`
     <div class="card ${state.selectedScheda===s.id?'selected':''}" data-id="${s.id}" draggable="true">
       <div class="accent ${s.color}"></div>
       <div class="tag">${s.tag}</div>
@@ -739,7 +853,7 @@ function openScheda(id){
       ${s.ex.map((e,i)=>`
         <div class="ex">
           <div class="video">
-            <button class="play" data-vid="${e.vid||''}" data-title="${e.n}" data-body="${e.cue}"></button>
+            <button class="play" data-idx="${i}"></button>
             <div class="placeholder">
               <div class="glyph"><svg viewBox="0 0 20 20"><path d="M6 4l10 6-10 6V4z"/></svg></div>
               <div class="lbl">Esercizio ${String(i+1).padStart(2,'0')}</div>
@@ -760,20 +874,27 @@ function openScheda(id){
     </div>
   `;
   el.classList.add('open');
-  el.querySelectorAll('.play').forEach(b=> b.addEventListener('click', ()=> openVideo(b.dataset.vid, b.dataset.title, b.dataset.body)));
+  el.querySelectorAll('.play').forEach((b,idx)=> b.addEventListener('click', ()=> openVideo(s.ex[Number(b.dataset.idx)].vid, s.ex[Number(b.dataset.idx)].n, s.ex[Number(b.dataset.idx)].cue)));
   el.scrollIntoView({behavior:'smooth', block:'start'});
 }
 function closeScheda(){ state.selectedScheda=null; renderLibrary(); document.getElementById('scheda-detail').classList.remove('open'); }
 
 // ---------- VIDEO MODAL ----------
-function openVideo(vid, title, body){
+function embedUrl(v){
+  if(!v || !v.id) return null;
+  if(v.p==='yt' || v.p==='ytshort') return `https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1&playsinline=1`;
+  if(v.p==='ig') return `https://www.instagram.com/reel/${v.id}/embed/`;
+  return null;
+}
+function openVideo(v, title, body){
   document.getElementById('modal-title').textContent = title||'Esercizio';
   document.getElementById('modal-body').textContent = body||'';
   const slot = document.getElementById('video-slot');
-  if(vid){
-    slot.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${vid}?rel=0&modestbranding=1" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+  const url = embedUrl(v);
+  if(url){
+    slot.innerHTML = `<iframe src="${url}" allow="accelerometer; encrypted-media; picture-in-picture; autoplay" allowfullscreen scrolling="no"></iframe>`;
   } else {
-    slot.innerHTML = `<div class="empty-video"><div><b style="font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:#d9a441">Video demo</b><br/><br/>Slot pronto per la tua clip.<br/><span style="opacity:.6;font-size:13px">Aggiungi ID YouTube / URL Vimeo nel data-model.</span></div></div>`;
+    slot.innerHTML = `<div class="empty-video"><div><b style="font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:#d9a441">Video demo</b><br/><br/>Slot pronto. Aggiungi il video nel data model:<br/><code style="opacity:.75;font-size:12px;background:#222;padding:6px 10px;border-radius:6px;display:inline-block;margin-top:8px">vid: V('yt','ID_VIDEO')</code><br/><span style="opacity:.5;font-size:12px;display:block;margin-top:6px">o <code>V('ig','CODE_REEL')</code> per Instagram</span></div></div>`;
   }
   document.getElementById('modal').classList.add('on');
 }
@@ -781,12 +902,22 @@ document.getElementById('modal-close').onclick = ()=>{ document.getElementById('
 document.getElementById('modal').addEventListener('click', e=>{ if(e.target.id==='modal'){ document.getElementById('modal').classList.remove('on'); document.getElementById('video-slot').innerHTML=''; } });
 
 // ---------- BODY MAP ----------
+// Distretti prioritari per sesso — visualizzati con outline oro sulla mappa
+const PRIORITY = {
+  F: ['glutei','fem','addome','delt_post'],
+  M: ['petto','dorso','spalle','braccia']
+};
 function renderBody(){
   document.getElementById('body-svg').innerHTML = bodySVG(state.bodyView);
+  const prio = new Set(PRIORITY[state.sex]||[]);
   document.querySelectorAll('#body-svg .region').forEach(r=>{
     if(r.dataset.d===state.selectedDistrict) r.classList.add('active');
+    if(prio.has(r.dataset.d)) r.classList.add('priority');
     r.addEventListener('click', ()=> selectDistrict(r.dataset.d));
   });
+  const label = state.sex==='F' ? 'Priorità donna: glutei · femorali · core · deltoide post.' : 'Priorità uomo: petto · dorso · spalle · braccia';
+  const legend = document.querySelector('.body-map .legend');
+  if(legend) legend.innerHTML = `<b style="color:var(--brand)">${label}</b><br/><span style="opacity:.75">Tocca un\'area per protocollo ed esercizi</span>`;
 }
 function selectDistrict(id){
   state.selectedDistrict = id;
@@ -934,7 +1065,11 @@ function wireProfile(){
   document.querySelectorAll('#p-sex button').forEach(b=>{
     b.addEventListener('click', ()=>{
       document.querySelectorAll('#p-sex button').forEach(x=>x.classList.remove('on'));
-      b.classList.add('on'); state.sex = b.dataset.v; refresh();
+      b.classList.add('on'); state.sex = b.dataset.v;
+      // Ripulisci piano da schede non più visibili per il sesso corrente
+      const visIds = new Set(visibleSchede().map(s=>s.id));
+      Object.keys(state.plan).forEach(d=>{ if(state.plan[d] && !visIds.has(state.plan[d])) state.plan[d]=null; });
+      renderLibrary(); renderWeek(); renderBody(); refresh();
     });
   });
   document.querySelectorAll('#p-phase button').forEach(b=>{
@@ -968,20 +1103,90 @@ function wireProfile(){
   });
 }
 
-function refresh(){ computeNutrition(); }
+function refresh(){ computeNutrition(); saveState(); }
 
-// ---------- SEED ----------
-state.plan.Lun = 'push-a';
-state.plan.Mar = 'pull-a';
-state.plan.Gio = 'legs-a';
-state.plan.Ven = 'core';
-state.plan.Sab = 'hiit';
+// ---------- PERSISTENZA ----------
+// Adapter con fallback su localStorage. Il layer Supabase è pronto: imposta
+//   window.MARTA_SUPABASE = { url:'https://XXX.supabase.co', anonKey:'ey...', table:'marta_state' }
+// prima del caricamento della pagina per attivarlo. La tabella deve avere colonna
+// `id text primary key`, `data jsonb`, `updated_at timestamptz default now()`.
+const STORAGE_KEY = 'marta-pro-state:v1';
+let saveTimer = null;
+function serializable(){
+  const {sex,phase,level,age,weight,height,activity,plan,bodyView,nPhase,nDelta,nPro,nFat,nMeals,name} = state;
+  return {sex,phase,level,age,weight,height,activity,plan,bodyView,nPhase,nDelta,nPro,nFat,nMeals,name};
+}
+async function saveState(){
+  clearTimeout(saveTimer);
+  const badge = document.getElementById('save-badge');
+  if(badge){ badge.textContent = 'salvataggio...'; badge.style.color = 'var(--warn)'; }
+  saveTimer = setTimeout(async ()=>{
+    const data = serializable();
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }catch(e){}
+    // Supabase (opzionale)
+    const s = window.MARTA_SUPABASE;
+    if(s && s.url && s.anonKey){
+      try{
+        await fetch(`${s.url}/rest/v1/${s.table||'marta_state'}?on_conflict=id`, {
+          method:'POST',
+          headers:{'Content-Type':'application/json','apikey':s.anonKey,'Authorization':`Bearer ${s.anonKey}`,'Prefer':'resolution=merge-duplicates,return=minimal'},
+          body: JSON.stringify([{id: s.userId || 'default', data}])
+        });
+      }catch(e){ console.warn('Supabase save failed', e); }
+    }
+    if(badge){
+      const cloud = !!(window.MARTA_SUPABASE && window.MARTA_SUPABASE.url);
+      badge.textContent = cloud ? 'salvato · cloud' : 'salvato · locale';
+      badge.style.color = 'var(--brand)';
+    }
+  }, 400);
+}
+async function loadState(){
+  // Prova Supabase prima se configurato
+  const s = window.MARTA_SUPABASE;
+  if(s && s.url && s.anonKey){
+    try{
+      const r = await fetch(`${s.url}/rest/v1/${s.table||'marta_state'}?id=eq.${s.userId||'default'}&select=data`, {
+        headers:{'apikey':s.anonKey,'Authorization':`Bearer ${s.anonKey}`}
+      });
+      const rows = await r.json();
+      if(rows && rows[0] && rows[0].data) return rows[0].data;
+    }catch(e){ console.warn('Supabase load failed, falling back to localStorage', e); }
+  }
+  try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) return JSON.parse(raw); }catch(e){}
+  return null;
+}
+function applyLoaded(loaded){
+  if(!loaded) return;
+  Object.assign(state, loaded);
+  // sync form fields
+  const set = (id,v)=>{ const el=document.getElementById(id); if(el && v!=null) el.value=v; };
+  set('p-name', state.name); set('p-age', state.age); set('p-weight', state.weight); set('p-height', state.height); set('p-activity', state.activity);
+  set('p-level', state.level);
+  set('n-delta', state.nDelta); set('n-pro', state.nPro); set('n-fat', state.nFat); set('n-meals', state.nMeals);
+  document.querySelectorAll('#p-sex button').forEach(b=>b.classList.toggle('on', b.dataset.v===state.sex));
+  document.querySelectorAll('#p-phase button').forEach(b=>b.classList.toggle('on', b.dataset.v===state.phase));
+  document.querySelectorAll('#n-phase button').forEach(b=>b.classList.toggle('on', b.dataset.v===state.nPhase));
+}
 
-renderWeek();
-renderLibrary();
-renderBody();
-computeNutrition();
-wireProfile();
+// ---------- SEED / BOOT ----------
+(async ()=>{
+  const loaded = await loadState();
+  if(loaded){
+    applyLoaded(loaded);
+  } else {
+    state.plan.Lun = 'push-a';
+    state.plan.Mar = 'pull-a';
+    state.plan.Gio = 'legs-a';
+    state.plan.Ven = 'core';
+    state.plan.Sab = 'hiit';
+  }
+  renderWeek();
+  renderLibrary();
+  renderBody();
+  computeNutrition();
+  wireProfile();
+})();
 </script>
 </body>
 </html>
