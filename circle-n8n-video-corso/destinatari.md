@@ -27,6 +27,7 @@ Fonti verificate il 2026-09-03:
 | Salvatore | Abbotto | salvatore.abbotto@hotmail.it |
 | Antonio | Viglietti | vigliettibus@hotmail.com |
 | Francesca | Vantellini | direttoresanitario@desiovet.it |
+| Stefano | Salemi | stefanosalemi79@libero.it | (membro dello spazio Materiale d'aula da maggio, assente dalla lista Brevo) |
 
 ## Edizione 2 (Google Sheet, Edizione = "Ed. 2")
 
@@ -54,4 +55,8 @@ Fonti verificate il 2026-09-03:
 | Rita | Giovannitti | rita.giovannitti@gmail.com |
 | Alessandro | Paini | al_paini@yahoo.it |
 
-Totale: 18 + 11 + 5 = 34 indirizzi. Invio previsto in BCC da info@bravemedia.biz (Gmail) oppure campagna Brevo sulla lista 31 più una lista nuova per Ed. 2.
+Totale: 19 + 11 + 5 = 35 indirizzi. Invio in BCC da info@bravemedia.biz (Gmail) il 2026-09-03.
+
+## Accessi Circle sistemati il 2026-09-03
+
+Prima dell'invio, i 16 partecipanti Ed. 2 / iscritti 2026 (più Lucia Bomben) erano membri solo dello spazio "SUPER MASTER AI" e non di "Materiale d'aula" e "Spazio di confronto". Sono stati aggiunti a entrambi gli spazi via API. Massimo Serreri (massimoserreri@gmail.com) è stato aggiunto a tutti e tre gli spazi del gruppo MASTER AI.

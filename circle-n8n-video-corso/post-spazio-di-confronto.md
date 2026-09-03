@@ -1,6 +1,16 @@
-# Messaggio per lo "Spazio di confronto" (Circle, space id 2612943)
+# Messaggio al gruppo su Circle
 
-Da pubblicare subito dopo il caricamento delle lezioni nello spazio "Materiale d'aula".
+Pubblicato il 2026-09-03 come post nello spazio condiviso "SUPER MASTER AI" (id 2643395):
+https://brave-vet-business.circle.so/c/super-master-ai/nuovo-video-corso-in-piattaforma-n8n-per-la-clinica-veterinaria
+
+La chat "Spazio di confronto" (id 2612943) non è scrivibile tramite API v1: il messaggio breve qui sotto va incollato a mano nella chat.
+
+## Versione breve per la chat "Spazio di confronto"
+
+🎥 È online il video corso *N8N per la Clinica Veterinaria*: 7 video in 3 moduli, con guida, glossario e checklist. Lo trovate in Materiale d'aula 👉 https://brave-vet-business.circle.so/c/materiale-d-aula-38f6ea
+Guardateli in ordine e scrivete qui la prima cosa che vorreste automatizzare nella vostra clinica: la useremo come caso reale in aula.
+
+## Versione estesa (post pubblicato)
 
 ---
 
