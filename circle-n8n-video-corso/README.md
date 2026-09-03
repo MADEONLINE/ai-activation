@@ -37,10 +37,9 @@ Il contenuto HTML di tutte le lezioni è rigenerabile con `build_lessons.py` (sc
 
 | Elemento | Esito |
 |---|---|
-| Playlist YouTube `PLP9ff7QQLVdg` | ID non valido (12 caratteri; gli ID playlist sono lunghi 34). YouTube risponde con pagina di errore. Serve il link completo. |
-| Canale @bravevetbusiness | Le 30 playlist del canale hanno tutte prefisso `PLfpcaQNiEmv…`, quindi la playlist richiesta non è su quel canale (o il link è troncato). |
+| Playlist YouTube `PLP9ff7QQLVdg` | Valida: "N8N per la Clinica Veterinaria", 7 video (i singoli video non sono leggibili da server senza login, quindi le descrizioni YouTube non sono state usate). |
 | Circle community | id 347146, token API v1 funzionante (v2 admin non abilitato per questo token) |
-| Spazio "Materiale d'aula" | id 2612944, tipo `course`, gruppo "MASTER AI" (1060136), 19 membri, **0 sezioni e 0 lezioni** |
+| Spazio "Materiale d'aula" | id 2612944, tipo `course`, gruppo "MASTER AI" (1060136); prima della pubblicazione: 19 membri, 0 sezioni, 0 lezioni |
 | Spazio "Spazio di confronto" | id 2612943, tipo `chat`, stesso gruppo: qui va il messaggio al gruppo |
 | Spazio "SUPER MASTER AI" | id 2643395, tipo `basic` (feed post) |
 | API v1 course | `GET/POST /api/v1/course_sections` e `/api/v1/course_lessons` rispondono 200 |
