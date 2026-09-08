@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Prototipo cliccabile della web app per la gestione del percorso cliente BraveVETBusiness: console unica BVB, dashboard cliente, incontri, report, richieste.">
+<style>html{color-scheme:light dark}body{margin:0;font:14px/1.5 system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>BraveVET Journey</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..800&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#f7f5ef; --bg-sunk:#efece3;
+    --surface:#ffffff; --surface-2:#fbf9f4;
+    --ink:#12151a; --ink-2:#2b3038; --mute:#63666d;
+    --rule:rgba(18,21,26,.11); --rule-2:rgba(18,21,26,.2);
+    --teal:#1f6b68; --teal-deep:#0e4541; --teal-soft:rgba(31,107,104,.1);
+    --gold:#a8781d; --gold-soft:rgba(217,164,65,.18);
+    --coral:#c9452f; --coral-soft:rgba(234,88,68,.14);
+    --on-teal:#f7f5ef;
+    --shadow:0 1px 2px rgba(18,21,26,.05),0 8px 24px -16px rgba(18,21,26,.28);
+    --radius:10px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0f1216; --bg-sunk:#0b0e11;
+      --surface:#171b21; --surface-2:#1c2128;
+      --ink:#ece8de; --ink-2:#cfcabe; --mute:#94989f;
+      --rule:rgba(236,232,222,.13); --rule-2:rgba(236,232,222,.24);
+      --teal:#5bafa9; --teal-deep:#8fd0ca; --teal-soft:rgba(91,175,169,.15);
+      --on-teal:#0f1216;
+      --gold:#e0b569; --gold-soft:rgba(224,181,105,.16);
+      --coral:#f0806c; --coral-soft:rgba(240,128,108,.16);
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -18px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0f1216; --bg-sunk:#0b0e11;
+    --surface:#171b21; --surface-2:#1c2128;
+    --ink:#ece8de; --ink-2:#cfcabe; --mute:#94989f;
+    --rule:rgba(236,232,222,.13); --rule-2:rgba(236,232,222,.24);
+    --teal:#5bafa9; --teal-deep:#8fd0ca; --teal-soft:rgba(91,175,169,.15);
+      --on-teal:#0f1216;
+    --gold:#e0b569; --gold-soft:rgba(224,181,105,.16);
+    --coral:#f0806c; --coral-soft:rgba(240,128,108,.16);
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -18px rgba(0,0,0,.8);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Manrope",system-ui,-apple-system,sans-serif;
+    font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{margin:0;text-wrap:balance}
+  button{font:inherit;color:inherit;cursor:pointer}
+  .serif{font-family:"Fraunces",Georgia,serif;font-weight:600;letter-spacing:-.01em}
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+  .label{
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);
+  }
+  .num{font-variant-numeric:tabular-nums}
+  :focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:4px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  /* ---------- shell ---------- */
+  .shell{max-width:1280px;margin:0 auto;padding:0 22px 64px}
+  .topbar{
+    position:sticky;top:0;z-index:40;background:var(--bg);
+    border-bottom:1px solid var(--rule);
+  }
+  .topbar .row{
+    max-width:1280px;margin:0 auto;padding:12px 22px;
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  }
+  .mark{display:flex;align-items:center;gap:9px;flex:none}
+  .mark .glyph{
+    width:28px;height:28px;border-radius:7px;background:var(--teal-deep);
+    color:var(--on-teal);display:grid;place-items:center;
+    font-family:"Fraunces",serif;font-weight:700;font-size:14px;
+  }
+  .mark b{font-weight:700;letter-spacing:-.01em}
+  .mark span{color:var(--mute);font-size:12px}
+
+  .switch{display:flex;gap:2px;background:var(--bg-sunk);padding:3px;border-radius:8px;margin-left:auto}
+  .switch button{
+    border:0;background:transparent;padding:6px 12px;border-radius:6px;
+    font-size:12.5px;font-weight:600;color:var(--mute);
+  }
+  .switch button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+
+  /* ---------- search ---------- */
+  .searchwrap{position:relative;flex:1 1 320px;max-width:460px}
+  .search{
+    display:flex;align-items:center;gap:10px;background:var(--surface);
+    border:1px solid var(--rule-2);border-radius:9px;padding:9px 12px;box-shadow:var(--shadow);
+  }
+  .search input{
+    border:0;background:transparent;color:var(--ink);width:100%;font:inherit;outline:none;
+  }
+  .search input::placeholder{color:var(--mute)}
+  .search kbd{
+    font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--mute);
+    border:1px solid var(--rule);border-radius:4px;padding:2px 5px;flex:none;
+  }
+  .results{
+    position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:50;
+    background:var(--surface);border:1px solid var(--rule-2);border-radius:10px;
+    box-shadow:var(--shadow);overflow:hidden;
+  }
+  .results button{
+    display:flex;width:100%;align-items:center;gap:10px;text-align:left;
+    border:0;background:transparent;padding:10px 12px;border-bottom:1px solid var(--rule);
+  }
+  .results button:last-child{border-bottom:0}
+  .results button:hover,.results button.on{background:var(--teal-soft)}
+  .results .nm{font-weight:600}
+  .results .meta{margin-left:auto;font-size:11.5px;color:var(--mute)}
+
+  /* ---------- generic blocks ---------- */
+  .grid{display:grid;gap:18px;align-items:start}
+  .panel{
+    background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
+    padding:18px;box-shadow:var(--shadow);
+  }
+  .panel > header{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
+  .panel > header h3{font-size:13px;font-weight:700;letter-spacing:-.005em}
+  .panel > header .count{margin-left:auto;color:var(--mute);font-size:12px}
+  .plain{background:transparent;border:0;box-shadow:none;padding:0}
+
+  .chip{
+    display:inline-flex;align-items:center;gap:5px;border-radius:99px;
+    padding:3px 9px;font-size:11px;font-weight:600;letter-spacing:.01em;
+    border:1px solid transparent;white-space:nowrap;
+  }
+  .chip.done{background:var(--teal-soft);color:var(--teal);border-color:var(--teal-soft)}
+  .chip.wip{background:var(--gold-soft);color:var(--gold)}
+  .chip.late{background:var(--coral-soft);color:var(--coral)}
+  .chip.idle{background:var(--bg-sunk);color:var(--mute)}
+  .chip .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+
+  .btn{
+    border:1px solid var(--rule-2);background:var(--surface);border-radius:8px;
+    padding:8px 14px;font-size:12.5px;font-weight:600;
+  }
+  .btn:hover{border-color:var(--ink);}
+  .btn.primary{background:var(--teal-deep);border-color:var(--teal-deep);color:var(--on-teal)}
+  .btn.ghost{background:transparent}
+  .btn.sm{padding:5px 10px;font-size:11.5px}
+
+  /* ---------- journey track ---------- */
+  .track{display:flex;gap:0;overflow-x:auto;padding:4px 0 2px}
+  .step{flex:1 1 0;min-width:112px;position:relative;padding-top:26px;text-align:left}
+  .step::before{
+    content:"";position:absolute;top:11px;left:0;right:0;height:2px;background:var(--rule-2);
+  }
+  .step:first-child::before{left:11px}
+  .step:last-child::before{right:calc(100% - 12px)}
+  .step.done::before,.step.now::before{background:var(--teal)}
+  .step .bead{
+    position:absolute;top:0;left:0;width:22px;height:22px;border-radius:50%;
+    background:var(--surface);border:2px solid var(--rule-2);
+    display:grid;place-items:center;font-size:10.5px;font-weight:700;color:var(--mute);
+  }
+  .step.done .bead{background:var(--teal);border-color:var(--teal);color:var(--surface)}
+  .step.now .bead{border-color:var(--gold);color:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
+  .step .nm{font-size:12px;font-weight:600;padding-right:12px;display:block}
+  .step .st{font-size:11px;color:var(--mute)}
+  .step.now .st{color:var(--gold);font-weight:600}
+
+  /* ---------- meters ---------- */
+  .meter{height:6px;border-radius:99px;background:var(--bg-sunk);overflow:hidden}
+  .meter i{display:block;height:100%;background:var(--teal);border-radius:99px}
+
+  /* ---------- lists ---------- */
+  .stack{display:flex;flex-direction:column;gap:12px}
+  .row-item{display:flex;gap:12px;align-items:flex-start}
+  .divide > *+*{border-top:1px solid var(--rule);padding-top:12px;margin-top:12px}
+
+  .timeline{position:relative;padding-left:22px}
+  .timeline::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--rule-2)}
+  .tl-item{position:relative;padding-bottom:18px}
+  .tl-item:last-child{padding-bottom:0}
+  .tl-item::before{
+    content:"";position:absolute;left:-21px;top:5px;width:11px;height:11px;border-radius:50%;
+    background:var(--surface);border:2px solid var(--teal);
+  }
+  .tl-item.draft::before{border-color:var(--gold)}
+  .tl-item.plan::before{border-color:var(--rule-2)}
+  .tl-head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+  .tl-head .t{font-weight:700;font-size:13.5px}
+  .tl-meta{color:var(--mute);font-size:11.5px;margin:3px 0 8px}
+  .tl-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+  .req{border:1px solid var(--rule);border-radius:9px;padding:12px;background:var(--surface-2)}
+  .req .q{font-weight:600;margin:6px 0 4px}
+  .req .who{font-size:11.5px;color:var(--mute)}
+
+  .task{display:flex;gap:10px;align-items:flex-start;font-size:13px}
+  .task .box{
+    width:15px;height:15px;border-radius:4px;border:1.5px solid var(--rule-2);flex:none;margin-top:2px;
+    display:grid;place-items:center;font-size:10px;color:var(--surface);
+  }
+  .task.ok .box{background:var(--teal);border-color:var(--teal)}
+  .task.ok .txt{color:var(--mute);text-decoration:line-through}
+  .task .due{display:block;font-size:11px;color:var(--mute)}
+  .task.late .due{color:var(--coral);font-weight:600}
+
+  .kv{display:flex;justify-content:space-between;gap:12px;font-size:13px}
+  .kv .v{font-weight:600}
+
+  .note{
+    background:var(--bg-sunk);border-left:2px solid var(--rule-2);
+    padding:10px 12px;border-radius:0 8px 8px 0;font-size:12.5px;color:var(--ink-2);
+  }
+  .banner{
+    display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+    background:var(--teal-soft);border:1px solid var(--teal-soft);
+    border-radius:var(--radius);padding:12px 16px;font-size:13px;
+  }
+
+  /* ---------- client portal ---------- */
+  .portal-hero{
+    background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
+    padding:22px;box-shadow:var(--shadow);border-top:3px solid var(--teal);
+  }
+  .portal-hero h2{font-size:clamp(22px,3.4vw,30px)}
+  .next-card{
+    background:linear-gradient(180deg,var(--surface-2),var(--surface));
+    border:1px solid var(--rule-2);border-radius:var(--radius);padding:18px;
+  }
+  .next-card .when{font-family:"Fraunces",serif;font-size:22px;font-weight:600;letter-spacing:-.01em}
+
+  /* ---------- modal ---------- */
+  .overlay{
+    position:fixed;inset:0;z-index:80;background:rgba(12,14,17,.5);
+    display:flex;align-items:flex-start;justify-content:center;padding:5vh 18px;overflow:auto;
+  }
+  .sheet{
+    background:var(--surface);border-radius:12px;max-width:720px;width:100%;
+    border:1px solid var(--rule-2);box-shadow:0 30px 80px -30px rgba(0,0,0,.6);
+  }
+  .sheet header{display:flex;gap:12px;align-items:flex-start;padding:20px 22px 14px;border-bottom:1px solid var(--rule)}
+  .sheet .body{padding:20px 22px 22px}
+  .sheet h4{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);margin:18px 0 7px}
+  .sheet h4:first-child{margin-top:0}
+  .sheet ul{margin:0;padding-left:18px}
+  .sheet li{margin-bottom:5px}
+  .sheet footer{display:flex;gap:9px;flex-wrap:wrap;padding:0 22px 20px}
+  .x{border:0;background:transparent;color:var(--mute);font-size:20px;line-height:1;margin-left:auto;padding:2px 6px}
+
+  .field{display:block;margin-bottom:14px}
+  .field .label{display:block;margin-bottom:5px}
+  .field select,.field textarea,.field input{
+    width:100%;font:inherit;color:var(--ink);background:var(--surface-2);
+    border:1px solid var(--rule-2);border-radius:8px;padding:9px 11px;
+  }
+  .field textarea{min-height:80px;resize:vertical}
+
+  .footnote{margin-top:26px;color:var(--mute);font-size:11.5px;text-align:center}
+  .cols-3{grid-template-columns:repeat(3,1fr)}
+  .cols-2{grid-template-columns:1.55fr 1fr}
+  .cols-25{grid-template-columns:1fr 1fr}
+  @media (max-width:940px){.cols-3,.cols-2,.cols-25{grid-template-columns:1fr}}
+</style>
+
+</head>
+<body>
+<header class="topbar">
+  <div class="row">
+    <div class="mark">
+      <div class="glyph">B</div>
+      <div><b>BraveVET Journey</b><br><span id="ctxLabel">Console BraveVETBusiness</span></div>
+    </div>
+    <div class="searchwrap" id="searchWrap">
+      <div class="search">
+        <span class="label" aria-hidden="true">↳</span>
+        <input id="q" type="search" placeholder="Scrivi il nome del cliente…" autocomplete="off" aria-label="Cerca cliente">
+        <kbd>invio</kbd>
+      </div>
+      <div class="results" id="results" hidden></div>
+    </div>
+    <div class="switch" role="group" aria-label="Cambia vista">
+      <button id="tabConsole" aria-pressed="true">Console BVB</button>
+      <button id="tabPortal" aria-pressed="false">Vista cliente</button>
+      <button id="tabBack" aria-pressed="false">Back office</button>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <main id="view"></main>
+  <p class="footnote">Prototipo cliccabile · dati di esempio, non reali · BraveVETBusiness 2026</p>
+</div>
+
+<script>
+const STAGES = [
+  {n:1, nm:"Primo contatto"},
+  {n:2, nm:"Discovery"},
+  {n:3, nm:"AI Activation"},
+  {n:4, nm:"Attivazione operativa"},
+  {n:5, nm:"Consulenze ricorrenti"},
+  {n:6, nm:"Presidio"}
+];
+
+const CLIENTS = [
+  {
+    id:"ericko", nome:"Ericko Di Blasi", clinica:"Clinica Veterinaria San Rocco",
+    dal:"12 marzo 2026", stage:4, progress:65,
+    next:{quando:"Giovedì 11 settembre · 15:00", titolo:"Check attivazione · 60 minuti", dove:"Google Meet"},
+    incontri:[
+      {data:"04/09", titolo:"Check attivazione", durata:"58 min", stato:"draft",
+       meta:"Google Meet · trascritto da Fireflies · bozza generata da Claude 12 minuti dopo la fine",
+       badge:{cls:"wip", txt:"Bozza da approvare"}},
+      {data:"21/08", titolo:"Consulenza operativa #2", durata:"72 min", stato:"done",
+       meta:"Report pubblicato il 22/08 · 3 azioni assegnate · 2 completate",
+       badge:{cls:"done", txt:"Pubblicato"}},
+      {data:"12/08", titolo:"AI Activation — 2 ore one-to-one", durata:"124 min", stato:"done",
+       meta:"Report pubblicato · accessi Claude e Fireflies consegnati",
+       badge:{cls:"done", txt:"Pubblicato"}},
+      {data:"30/07", titolo:"Discovery", durata:"46 min", stato:"done",
+       meta:"Report pubblicato · obiettivi del percorso definiti",
+       badge:{cls:"done", txt:"Pubblicato"}}
+    ],
+    richieste:[
+      {tipo:"appuntamento", testo:"Possiamo anticipare il check di giovedì al mattino? Ho un intervento nel pomeriggio.",
+       quando:"ieri, 18:20", stato:{cls:"wip", txt:"In valutazione"}},
+      {tipo:"informazione", testo:"Come collego Fireflies alle riunioni Meet che fisso io dalla clinica?",
+       quando:"2 giorni fa", stato:{cls:"wip", txt:"Da rispondere"}}
+    ],
+    azioni:[
+      {t:"Attivare l'account Claude per il secondo medico", stato:"ok", due:"completata il 28/08"},
+      {t:"Portare i dati di fatturato ultimi 12 mesi", stato:"late", due:"attesa dal 02/09"},
+      {t:"Testare il protocollo di triage telefonico con la reception", stato:"open", due:"entro il 12/09"}
+    ],
+    note:"Molto operativo, poco tempo per la teoria. Al prossimo incontro partire dai numeri e non dagli strumenti. Da capire se coinvolgere la socia nella fase 5.",
+    report:{
+      titolo:"Check attivazione", data:"4 settembre 2026", durata:"58 minuti",
+      partecipanti:"Massimo Serreri · Ericko Di Blasi",
+      sintesi:"Gli strumenti configurati durante l'AI Activation sono in uso quotidiano su referti e comunicazioni ai proprietari. Il collo di bottiglia si è spostato dalla scrittura al recupero dei dati gestionali, che oggi Ericko estrae a mano. La priorità delle prossime due settimane è misurare il tempo effettivamente risparmiato per avere un numero da portare in fase 5.",
+      decisioni:[
+        "Il protocollo di triage telefonico entra in prova con la reception dal 12 settembre, con uno script fisso.",
+        "I referti post-visita restano su modello Claude già validato: nessuna modifica fino alla revisione trimestrale.",
+        "L'estrazione dei dati dal gestionale viene rimandata alla fase 5: prima serve il dato di fatturato storico."
+      ],
+      azioni:[
+        "Ericko · portare i dati di fatturato degli ultimi 12 mesi · entro il 9 settembre",
+        "Ericko · far provare il protocollo di triage alla reception per 5 giorni · entro il 12 settembre",
+        "BVB · preparare il modello di misurazione del tempo risparmiato · entro il 10 settembre"
+      ],
+      aperti:[
+        "Coinvolgimento della socia nel percorso: da decidere prima della fase 5.",
+        "Secondo ambulatorio: se ne riparla dopo la revisione dei numeri."
+      ]
+    }
+  },
+  {
+    id:"antonio", nome:"Antonio Viglietti", clinica:"Ambulatorio Veterinario Le Querce",
+    dal:"6 maggio 2026", stage:3, progress:45,
+    next:{quando:"Lunedì 15 settembre · 10:30", titolo:"Consulenza operativa #2 · 60 minuti", dove:"Google Meet"},
+    incontri:[
+      {data:"02/09", titolo:"Consulenza operativa #1", durata:"64 min", stato:"draft",
+       meta:"Trascrizione ricevuta · Claude sta generando la bozza",
+       badge:{cls:"wip", txt:"Bozza in arrivo"}},
+      {data:"19/08", titolo:"AI Activation — 2 ore one-to-one", durata:"118 min", stato:"done",
+       meta:"Report pubblicato · 4 azioni assegnate",
+       badge:{cls:"done", txt:"Pubblicato"}},
+      {data:"05/08", titolo:"Discovery", durata:"52 min", stato:"done",
+       meta:"Report pubblicato · obiettivi definiti",
+       badge:{cls:"done", txt:"Pubblicato"}}
+    ],
+    richieste:[
+      {tipo:"informazione", testo:"Il report del 2 settembre non lo vedo ancora in dashboard, è normale?",
+       quando:"oggi, 09:05", stato:{cls:"late", txt:"Da rispondere oggi"}}
+    ],
+    azioni:[
+      {t:"Configurare Fireflies sull'account della clinica", stato:"ok", due:"completata il 25/08"},
+      {t:"Raccogliere le 10 domande più frequenti dei proprietari", stato:"open", due:"entro il 14/09"}
+    ],
+    note:"Va accompagnato passo passo sugli strumenti: preferisce vedere fare. Buona reazione ai materiali scritti.",
+    report:{
+      titolo:"AI Activation", data:"19 agosto 2026", durata:"118 minuti",
+      partecipanti:"Massimo Serreri · Antonio Viglietti",
+      sintesi:"Due ore di configurazione operativa: account, modelli di risposta ai proprietari e prima automazione dei promemoria vaccinali. Antonio esce dall'incontro con tre strumenti attivi e un caso d'uso concreto già provato in diretta.",
+      decisioni:[
+        "Si parte dai promemoria vaccinali: è il processo con il ritorno più immediato.",
+        "Nessuna automazione sulle comunicazioni cliniche delicate: restano scritte a mano."
+      ],
+      azioni:[
+        "Antonio · configurare Fireflies sull'account della clinica · entro il 26 agosto",
+        "Antonio · raccogliere le 10 domande più frequenti dei proprietari · entro il 14 settembre",
+        "BVB · consegnare i modelli di risposta pronti · entro il 21 agosto"
+      ],
+      aperti:["Gestionale della clinica: verificare se espone i dati necessari all'automazione."]
+    }
+  },
+  {
+    id:"marta", nome:"Marta", clinica:"Clinica in valutazione",
+    dal:"1 settembre 2026", stage:1, progress:10,
+    next:{quando:"Martedì 16 settembre · 17:00", titolo:"Discovery · 45 minuti", dove:"Da confermare"},
+    incontri:[
+      {data:"16/09", titolo:"Discovery", durata:"45 min previsti", stato:"plan",
+       meta:"Pianificato · in attesa di conferma dal cliente",
+       badge:{cls:"idle", txt:"Pianificato"}}
+    ],
+    richieste:[
+      {tipo:"informazione", testo:"Prima della call posso ricevere qualche esempio di percorso già fatto?",
+       quando:"oggi, 11:40", stato:{cls:"wip", txt:"Da rispondere"}}
+    ],
+    azioni:[
+      {t:"Compilare la scheda conoscitiva", stato:"open", due:"entro il 14/09"}
+    ],
+    note:"Primo cliente onboardato interamente con il processo automatico: è il test di riproducibilità del modello.",
+    report:null
+  }
+];
+
+let mode = "console";      // console | client | portal | backoffice
+let current = CLIENTS[0];
+let sheet = null;          // report | appuntamento | domanda | null
+
+const $ = s => document.querySelector(s);
+const view = $("#view");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- pieces ---------- */
+function track(c, compact){
+  return `<div class="track">${STAGES.map(s=>{
+    const cls = s.n < c.stage ? "done" : s.n === c.stage ? "now" : "";
+    const st  = s.n < c.stage ? "completata" : s.n === c.stage ? "in corso" : "da fare";
+    return `<div class="step ${cls}">
+      <div class="bead">${s.n < c.stage ? "✓" : s.n}</div>
+      <span class="nm">${s.nm}</span>
+      ${compact ? "" : `<span class="st">${st}</span>`}
+    </div>`;
+  }).join("")}</div>`;
+}
+
+function taskList(c){
+  return c.azioni.map(a=>`
+    <div class="task ${a.stato==="ok"?"ok":a.stato==="late"?"late":""}">
+      <div class="box">${a.stato==="ok"?"✓":""}</div>
+      <div><span class="txt">${esc(a.t)}</span><span class="due">${esc(a.due)}</span></div>
+    </div>`).join("");
+}
+
+function reqList(c, asClient){
+  return c.richieste.map((r,i)=>`
+    <div class="req">
+      <span class="chip ${r.stato.cls}"><span class="dot"></span>${r.tipo==="appuntamento"?"Appuntamento":"Informazione"} · ${r.stato.txt}</span>
+      <p class="q">“${esc(r.testo)}”</p>
+      <div class="who">${asClient?"Inviata":"Da "+esc(c.nome.split(" ")[0])} ${esc(r.quando)}</div>
+      ${asClient?"":`<div class="tl-actions" style="margin-top:10px">
+        ${r.tipo==="appuntamento"?`<button class="btn sm primary" data-toast="Proposti 3 slot dal calendario. ${esc(c.nome.split(" ")[0])} riceve la mail di scelta.">Proponi 3 slot</button>`:""}
+        <button class="btn sm" data-toast="Risposta inviata e archiviata nel progetto.">Rispondi</button>
+      </div>`}
+    </div>`).join("");
+}
+
+/* ---------- views ---------- */
+function viewConsole(){
+  const todo = [
+    {t:"Report da approvare", n:2, cls:"wip"},
+    {t:"Richieste di appuntamento", n:1, cls:"wip"},
+    {t:"Richieste di informazioni", n:3, cls:"wip"},
+    {t:"Azioni cliente in ritardo", n:1, cls:"late"}
+  ];
+  return `
+  <div class="banner" style="margin:22px 0 18px">
+    <strong>Scrivi un nome nella barra in alto</strong>
+    <span style="color:var(--mute)">— “eri”, “anto”, “mar” — e premi invio: si apre la dashboard di quel cliente. È l'unico ingresso che serve.</span>
+  </div>
+
+  <div class="grid cols-2">
+    <section class="panel">
+      <header><h3>Da fare oggi</h3><span class="count mono num">${todo.reduce((a,b)=>a+b.n,0)} voci</span></header>
+      <div class="stack divide">
+        ${todo.map(x=>`<div class="kv"><span>${x.t}</span><span class="chip ${x.cls}"><span class="dot"></span><span class="num">${x.n}</span></span></div>`).join("")}
+      </div>
+      <div style="margin-top:16px"><button class="btn" data-toast="Coda di approvazione aperta.">Apri la coda di approvazione</button></div>
+    </section>
+
+    <section class="panel">
+      <header><h3>Portafoglio</h3><span class="count num">${CLIENTS.length} attivi</span></header>
+      <div class="stack divide">
+        ${CLIENTS.map(c=>`
+          <button class="row-item" data-open="${c.id}" style="border:0;background:transparent;padding:0;width:100%;text-align:left">
+            <div style="flex:1">
+              <div class="kv"><span style="font-weight:700">${esc(c.nome)}</span><span class="mono num" style="color:var(--mute)">${c.progress}%</span></div>
+              <div class="label" style="margin:3px 0 6px">Fase ${c.stage} · ${esc(STAGES[c.stage-1].nm)}</div>
+              <div class="meter"><i style="width:${c.progress}%"></i></div>
+            </div>
+          </button>`).join("")}
+      </div>
+    </section>
+  </div>
+
+  <div class="grid cols-25" style="margin-top:18px">
+    <section class="panel">
+      <header><h3>Prossimi incontri</h3></header>
+      <div class="stack divide">
+        ${CLIENTS.map(c=>`<div class="kv">
+          <span><strong>${esc(c.nome)}</strong><br><span style="color:var(--mute);font-size:12px">${esc(c.next.titolo)}</span></span>
+          <span class="mono" style="text-align:right;font-size:11.5px">${esc(c.next.quando)}</span>
+        </div>`).join("")}
+      </div>
+    </section>
+    <section class="panel">
+      <header><h3>Attività recente</h3><span class="count">automatica</span></header>
+      <div class="stack divide" style="font-size:12.5px">
+        <div><span class="chip done"><span class="dot"></span>Fireflies</span> ha trascritto “Consulenza #1 — Antonio” <span class="mono" style="color:var(--mute)">2 set · 11:48</span></div>
+        <div><span class="chip wip"><span class="dot"></span>Claude</span> ha generato la bozza di report per Ericko <span class="mono" style="color:var(--mute)">4 set · 16:12</span></div>
+        <div><span class="chip done"><span class="dot"></span>Calendario</span> nuovo incontro sincronizzato per Marta <span class="mono" style="color:var(--mute)">5 set · 09:02</span></div>
+      </div>
+    </section>
+  </div>`;
+}
+
+function viewClient(){
+  const c = current;
+  return `
+  <div style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin:24px 0 18px">
+    <div>
+      <div class="label">Cliente · dal ${esc(c.dal)}</div>
+      <h2 class="serif" style="font-size:clamp(24px,3.6vw,34px);margin-top:4px">${esc(c.nome)}</h2>
+      <div style="color:var(--mute)">${esc(c.clinica)}</div>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:8px">
+      <button class="btn" data-goportal="1">Vedi come il cliente</button>
+      <button class="btn primary" data-toast="Nuovo incontro creato sul calendario, con invito e link Meet.">Fissa un incontro</button>
+    </div>
+  </div>
+
+  <section class="panel">
+    <header><h3>Mappa di avanzamento</h3><span class="count num">${c.progress}% del percorso</span></header>
+    ${track(c)}
+  </section>
+
+  <div class="grid cols-2" style="margin-top:18px">
+    <section class="panel">
+      <header><h3>Incontri e report</h3><span class="count num">${c.incontri.length} incontri</span></header>
+      <div class="timeline">
+        ${c.incontri.map(m=>`
+          <div class="tl-item ${m.stato}">
+            <div class="tl-head">
+              <span class="mono num" style="color:var(--mute)">${m.data}</span>
+              <span class="t">${esc(m.titolo)}</span>
+              <span class="chip ${m.badge.cls}"><span class="dot"></span>${m.badge.txt}</span>
+            </div>
+            <div class="tl-meta">${esc(m.durata)} · ${esc(m.meta)}</div>
+            <div class="tl-actions">
+              ${m.stato==="draft" && c.report ? `<button class="btn sm" data-report="1">Apri la bozza</button>
+                <button class="btn sm primary" data-toast="Report pubblicato. ${esc(c.nome.split(" ")[0])} ha ricevuto la notifica.">Approva e pubblica</button>` : ""}
+              ${m.stato==="done" ? `<button class="btn sm ghost" data-report="1">Leggi il report</button>` : ""}
+              ${m.stato==="plan" ? `<button class="btn sm ghost" data-toast="Promemoria inviato al cliente.">Invia promemoria</button>` : ""}
+            </div>
+          </div>`).join("")}
+      </div>
+      <div style="margin-top:16px"><button class="btn" data-toast="Incontro registrato a mano: utile quando l'incontro è in presenza.">+ Registra un incontro</button></div>
+    </section>
+
+    <div class="stack">
+      <section class="panel">
+        <header><h3>Richieste del cliente</h3><span class="count num">${c.richieste.length}</span></header>
+        <div class="stack">${reqList(c,false)}</div>
+      </section>
+
+      <section class="panel">
+        <header><h3>Azioni assegnate</h3><span class="count num">${c.azioni.filter(a=>a.stato==="ok").length}/${c.azioni.length} completate</span></header>
+        <div class="stack">${taskList(c)}</div>
+      </section>
+
+      <section class="panel">
+        <header><h3>Note interne</h3><span class="count">non visibili al cliente</span></header>
+        <div class="note">${esc(c.note)}</div>
+      </section>
+    </div>
+  </div>`;
+}
+
+function viewPortal(){
+  const c = current;
+  const st = STAGES[c.stage-1];
+  return `
+  <div class="portal-hero" style="margin:24px 0 18px">
+    <div class="label">Il mio percorso con BRAVE Vet Business</div>
+    <h2 class="serif" style="margin:6px 0 4px">Sei nella fase ${c.stage} di 6 — ${esc(st.nm)}</h2>
+    <p style="color:var(--mute);max-width:62ch;margin:0 0 18px">
+      ${c.stage===1
+        ? "Abbiamo appena aperto il tuo percorso: il primo passo è la call di discovery."
+        : "Gli strumenti sono attivi: adesso stiamo misurando quanto tempo ti fanno risparmiare davvero."}
+    </p>
+    ${track(c)}
+  </div>
+
+  <div class="grid cols-25">
+    <section class="next-card">
+      <div class="label">Prossimo incontro</div>
+      <div class="when" style="margin:6px 0 2px">${esc(c.next.quando)}</div>
+      <div style="color:var(--mute);margin-bottom:14px">${esc(c.next.titolo)} · ${esc(c.next.dove)}</div>
+      <div class="tl-actions">
+        <button class="btn primary" data-toast="Il pulsante si attiva 10 minuti prima dell'incontro.">Entra su Meet</button>
+        <button class="btn" data-form="appuntamento">Chiedi di spostare</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <header><h3>Le mie azioni</h3><span class="count num">${c.azioni.filter(a=>a.stato==="ok").length}/${c.azioni.length}</span></header>
+      <div class="stack">${taskList(c)}</div>
+    </section>
+  </div>
+
+  <div class="grid cols-2" style="margin-top:18px">
+    <section class="panel">
+      <header><h3>I miei report</h3><span class="count">uno per ogni incontro</span></header>
+      <div class="stack divide">
+        ${c.incontri.filter(m=>m.stato==="done").map(m=>`
+          <div class="kv">
+            <span><span class="mono num" style="color:var(--mute)">${m.data}</span> &nbsp;<strong>${esc(m.titolo)}</strong></span>
+            <button class="btn sm ghost" data-report="1">Leggi</button>
+          </div>`).join("") || `<div style="color:var(--mute)">Il primo report arriverà dopo la call di discovery.</div>`}
+      </div>
+    </section>
+
+    <section class="panel">
+      <header><h3>Comunicazioni di progetto</h3></header>
+      <div class="tl-actions" style="margin-bottom:14px">
+        <button class="btn primary" data-form="appuntamento">Chiedi un appuntamento</button>
+        <button class="btn" data-form="domanda">Fai una domanda</button>
+      </div>
+      <div class="stack">${reqList(c,true)}</div>
+      <p style="color:var(--mute);font-size:12px;margin:12px 0 0">Rispondiamo entro 1 giorno lavorativo.</p>
+    </section>
+  </div>`;
+}
+
+function viewBack(){
+  const integr = [
+    {nm:"Calendario", st:"Connesso", cls:"done", meta:"ultimo evento sincronizzato 12 minuti fa"},
+    {nm:"Google Meet", st:"Connesso", cls:"done", meta:"link generati dall'evento di calendario"},
+    {nm:"Fireflies", st:"Connesso", cls:"done", meta:"3 trascrizioni ricevute questa settimana"},
+    {nm:"Claude", st:"Connesso", cls:"done", meta:"modello di report v3 · 2 bozze generate oggi"}
+  ];
+  const auto = [
+    "Incontro concluso → recupera la trascrizione da Fireflies",
+    "Trascrizione ricevuta → genera la bozza di report con Claude",
+    "Report pubblicato → notifica il cliente e crea le azioni",
+    "Azione in scadenza fra 2 giorni → promemoria al responsabile",
+    "Tutti i deliverable completati → proponi l'avanzamento di fase"
+  ];
+  return `
+  <div style="margin:24px 0 18px">
+    <div class="label">Back office</div>
+    <h2 class="serif" style="font-size:clamp(22px,3.2vw,30px);margin-top:4px">Il motore che rende il percorso ripetibile</h2>
+    <p style="color:var(--mute);max-width:64ch">Si configura una volta. Ogni nuovo cliente eredita fasi, modelli di report e automazioni: creare il suo spazio richiede meno di due minuti.</p>
+  </div>
+
+  <div class="grid cols-2">
+    <section class="panel">
+      <header><h3>Template percorso · “Consulenza BVB”</h3><span class="count">versione 3</span></header>
+      <div class="stack divide">
+        ${STAGES.map(s=>`<div class="kv">
+          <span><span class="mono num" style="color:var(--mute)">0${s.n}</span> &nbsp;<strong>${s.nm}</strong></span>
+          <span style="color:var(--mute);font-size:12px">${["scheda + call fissata","report di discovery","report + accessi","check a 15 giorni","report per incontro","revisione trimestrale"][s.n-1]}</span>
+        </div>`).join("")}
+      </div>
+      <div style="margin-top:16px" class="tl-actions">
+        <button class="btn" data-toast="Nuovo cliente creato dal template: spazio pronto.">Crea cliente da template</button>
+        <button class="btn ghost" data-toast="Le modifiche valgono per i percorsi futuri.">Modifica template</button>
+      </div>
+    </section>
+
+    <div class="stack">
+      <section class="panel">
+        <header><h3>Integrazioni</h3><span class="count">4 attive</span></header>
+        <div class="stack divide">
+          ${integr.map(i=>`<div class="kv">
+            <span><strong>${i.nm}</strong><br><span style="color:var(--mute);font-size:12px">${i.meta}</span></span>
+            <span class="chip ${i.cls}"><span class="dot"></span>${i.st}</span>
+          </div>`).join("")}
+        </div>
+      </section>
+
+      <section class="panel">
+        <header><h3>Automazioni attive</h3><span class="count num">5</span></header>
+        <div class="stack" style="font-size:12.5px">
+          ${auto.map(a=>`<div class="row-item"><span class="chip done" style="flex:none"><span class="dot"></span>on</span><span>${a}</span></div>`).join("")}
+        </div>
+      </section>
+
+      <section class="panel">
+        <header><h3>Privacy e conservazione</h3></header>
+        <div class="stack divide" style="font-size:13px">
+          <div class="kv"><span>Registrazione dell'incontro</span><span class="v">30 giorni</span></div>
+          <div class="kv"><span>Trascrizione</span><span class="v">12 mesi</span></div>
+          <div class="kv"><span>Report di progetto</span><span class="v">senza scadenza</span></div>
+          <div class="kv"><span>Dati e file</span><span class="v">Unione Europea</span></div>
+        </div>
+      </section>
+    </div>
+  </div>`;
+}
+
+/* ---------- sheets ---------- */
+function sheetReport(){
+  const r = current.report;
+  if(!r) return "";
+  return `<div class="overlay" data-close="1"><div class="sheet" role="dialog" aria-modal="true" aria-label="Report incontro">
+    <header>
+      <div>
+        <div class="label">Report di incontro</div>
+        <h3 class="serif" style="font-size:22px;margin:4px 0 2px">${esc(r.titolo)}</h3>
+        <div style="color:var(--mute);font-size:12.5px">${esc(r.data)} · ${esc(r.durata)} · ${esc(r.partecipanti)}</div>
+      </div>
+      <button class="x" data-close="1" aria-label="Chiudi">×</button>
+    </header>
+    <div class="body">
+      <h4>In sintesi</h4><p style="margin:0">${esc(r.sintesi)}</p>
+      <h4>Decisioni prese</h4><ul>${r.decisioni.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>
+      <h4>Azioni</h4><ul>${r.azioni.map(a=>`<li>${esc(a)}</li>`).join("")}</ul>
+      <h4>Temi aperti</h4><ul>${r.aperti.map(a=>`<li>${esc(a)}</li>`).join("")}</ul>
+      <p class="label" style="margin-top:20px">Fonti: trascrizione Fireflies · registrazione conservata 30 giorni</p>
+    </div>
+    <footer>
+      <button class="btn" data-toast="PDF generato.">Scarica PDF</button>
+      <button class="btn ghost" data-form="domanda">Chiedi un chiarimento</button>
+    </footer>
+  </div></div>`;
+}
+
+function sheetForm(kind){
+  const app = kind==="appuntamento";
+  return `<div class="overlay" data-close="1"><div class="sheet" style="max-width:520px" role="dialog" aria-modal="true">
+    <header>
+      <div>
+        <div class="label">${app?"Richiesta di appuntamento":"Richiesta di informazioni"}</div>
+        <h3 class="serif" style="font-size:20px;margin-top:4px">${app?"Quando ti viene comodo?":"Cosa ti serve sapere?"}</h3>
+      </div>
+      <button class="x" data-close="1" aria-label="Chiudi">×</button>
+    </header>
+    <div class="body">
+      ${app ? `
+      <label class="field"><span class="label">Motivo</span>
+        <select><option>Spostare un incontro già fissato</option><option>Incontro extra su un problema</option><option>Revisione del percorso</option></select></label>
+      <label class="field"><span class="label">Quando preferisci</span>
+        <select><option>Mattina</option><option>Pomeriggio</option><option>Indifferente</option></select></label>
+      <label class="field"><span class="label">Nota per Massimo</span>
+        <textarea placeholder="Ho un intervento giovedì pomeriggio, meglio la mattina."></textarea></label>`
+      : `
+      <label class="field"><span class="label">A cosa si riferisce</span>
+        <select><option>Nessun riferimento</option><option>Report del 4 settembre</option><option>Azione: dati di fatturato</option></select></label>
+      <label class="field"><span class="label">La tua domanda</span>
+        <textarea placeholder="Come collego Fireflies alle riunioni che fisso io?"></textarea></label>`}
+      <p style="color:var(--mute);font-size:12px;margin:0">${app?"Ricevi fino a 3 proposte di orario: scegli quella che preferisci e l'incontro finisce sul calendario di entrambi.":"Rispondiamo entro 1 giorno lavorativo. La risposta resta dentro il progetto."}</p>
+    </div>
+    <footer>
+      <button class="btn primary" data-toast="${app?"Richiesta inviata. Stato: in valutazione.":"Domanda inviata. Risposta entro 1 giorno lavorativo."}" data-close="1">Invia richiesta</button>
+      <button class="btn ghost" data-close="1">Annulla</button>
+    </footer>
+  </div></div>`;
+}
+
+/* ---------- render ---------- */
+function render(){
+  const isPortal = mode==="portal";
+  $("#searchWrap").style.visibility = isPortal ? "hidden" : "visible";
+  $("#ctxLabel").textContent = isPortal
+    ? "Vista cliente — " + current.nome
+    : mode==="backoffice" ? "Back office" : "Console BraveVETBusiness";
+  $("#tabConsole").setAttribute("aria-pressed", String(mode==="console"||mode==="client"));
+  $("#tabPortal").setAttribute("aria-pressed", String(isPortal));
+  $("#tabBack").setAttribute("aria-pressed", String(mode==="backoffice"));
+
+  const main = mode==="console" ? viewConsole()
+            : mode==="client" ? viewClient()
+            : mode==="portal" ? viewPortal()
+            : viewBack();
+  const over = sheet==="report" ? sheetReport() : sheet ? sheetForm(sheet) : "";
+  view.innerHTML = main + over;
+}
+
+function toast(msg){
+  const el = document.createElement("div");
+  el.textContent = msg;
+  el.style.cssText = "position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:99;"
+    + "background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:9px;font-size:13px;"
+    + "font-weight:600;max-width:min(92vw,520px);box-shadow:0 12px 34px -14px rgba(0,0,0,.6)";
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), 2600);
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click", e=>{
+  const t = e.target.closest("[data-open],[data-report],[data-form],[data-goportal],[data-close],[data-toast]");
+  if(!t){ return; }
+  if(t.dataset.open){ current = CLIENTS.find(c=>c.id===t.dataset.open); mode="client"; sheet=null; render(); return; }
+  if(t.dataset.goportal){ mode="portal"; sheet=null; render(); return; }
+  if(t.dataset.report){ sheet="report"; render(); return; }
+  if(t.dataset.form){ sheet=t.dataset.form; if(t.dataset.toast) toast(t.dataset.toast); render(); return; }
+  if(t.dataset.toast){ toast(t.dataset.toast); }
+  if(t.dataset.close === "1" && (e.target===t || t.classList.contains("x") || t.classList.contains("btn"))){ sheet=null; render(); }
+});
+
+$("#tabConsole").onclick = ()=>{ mode="console"; sheet=null; render(); };
+$("#tabPortal").onclick  = ()=>{ mode="portal"; sheet=null; render(); };
+$("#tabBack").onclick    = ()=>{ mode="backoffice"; sheet=null; render(); };
+
+const q = $("#q"), results = $("#results");
+function matches(v){
+  v = v.trim().toLowerCase();
+  if(!v) return [];
+  return CLIENTS.filter(c => (c.nome+" "+c.clinica).toLowerCase().includes(v));
+}
+function drawResults(){
+  const list = matches(q.value);
+  if(!list.length){ results.hidden = true; results.innerHTML=""; return; }
+  results.hidden = false;
+  results.innerHTML = list.map((c,i)=>`<button data-open="${c.id}" class="${i===0?"on":""}">
+      <span class="nm">${esc(c.nome)}</span>
+      <span class="meta num">Fase ${c.stage} · ${c.progress}%</span></button>`).join("");
+}
+q.addEventListener("input", drawResults);
+q.addEventListener("keydown", e=>{
+  if(e.key==="Enter"){
+    const first = matches(q.value)[0];
+    if(first){ current=first; mode="client"; sheet=null; q.value=""; results.hidden=true; render(); }
+  }
+  if(e.key==="Escape"){ q.value=""; results.hidden=true; }
+});
+document.addEventListener("click", e=>{ if(!e.target.closest("#searchWrap")) results.hidden = true; });
+document.addEventListener("keydown", e=>{ if(e.key==="Escape" && sheet){ sheet=null; render(); } });
+
+render();
+</script>
+</body>
+</html>
