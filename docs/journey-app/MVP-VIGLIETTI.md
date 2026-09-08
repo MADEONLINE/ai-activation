@@ -12,16 +12,30 @@ Tutto ciò che compare nelle due dashboard è stato letto dai sistemi in uso l'8
 |---|---|
 | **Google Calendar** | 5 incontri con Antonio (28/05, 22/06, 06/08, 07/09, 08/09), link Meet, stato degli inviti |
 | **Gmail** | proposta e report T0 (22/06), piano dei tre mesi + link Calendly + Fattura 96/2026 (07/08), report e presentazione della Tappa 1 (08/09), testimonianza Super Master (20/06), 3 email generate dal sistema emergenze (08/09) |
-| **Fireflies** | 3 call trascritte — 22/06 (29′), 06/08 (30′), 07/09 (132′) — con sintesi e action item con marca temporale |
+| **Fireflies** | 4 call trascritte — 28/05 (22′), 22/06 (28′), 06/08 (30′), 07/09 (132′) — con sintesi e action item con marca temporale |
 | **Google Drive** | note automatiche delle tre call, archiviate nella cartella dei meeting |
 
-### Le tre call, con identificativo
+### Le quattro call registrate con Antonio
 
 | Data | Incontro | Durata | Registrazione |
 |---|---|---|---|
-| 22/06/2026 | Profilazione — il punto T0 | 29 min | `01KVQ223R6587R8MGCDBRC7BQV` |
+| 28/05/2026 | Super Master AI — istruzioni abilitanti (call di gruppo, 7 partecipanti) | 22 min | `01KSPH3AGGMX7DWPCHAGC9TE37` |
+| 22/06/2026 | Profilazione — il punto T0 | 28 min | `01KVQ223R6587R8MGCDBRC7BQV` |
 | 06/08/2026 | Intro al Mentorship AI (con Marta Dessena) | 30 min | `01KZ6KPKEVY7K3CC5CSPNS7NMY` |
-| 07/09/2026 | Tappa 1 — ecosistema, strumenti, primo prototipo | 132 min | `01M1VS9MDFZNP98DDA6W4FVJMN` |
+| 07/09/2026 | **Tappa 1** del percorso — ecosistema, strumenti, primo prototipo | 132 min | `01M1VS9MDFZNP98DDA6W4FVJMN` |
+
+### Tappa 1 non è la prima call
+
+Distinzione che vale la pena tenere ferma, perché la prima versione della dashboard la confondeva:
+
+- **Prima call registrata con Antonio: 28 maggio 2026.** È una sessione di gruppo del Super Master AI in cui Antonio interviene e dichiara le proprie motivazioni.
+- **Tappa 1 del percorso: 7 settembre 2026.** Che sia la prima delle sei tappe è confermato da due elementi indipendenti: l'evento a calendario è una prenotazione Calendly del tipo *Consulenza AI - Mentor AI*, cioè lo stesso link dei sei slot inviato il 7 agosto; e il documento inviato il giorno dopo si chiama `Report-Tappa-1-Mentorship-AI-Viglietti.pdf`.
+
+Quando il percorso viene aperto, quindi, la relazione con il cliente ha già 102 minuti di call alle spalle. La dashboard li mostra sotto «Prima del percorso» e non li conteggia tra le tappe.
+
+### Un buco nei dati: luglio
+
+Il 13 e il 15 luglio Antonio accetta due inviti intitolati «Antonio Viglietti Spiegare percorso Mentorship». **Nessun evento corrispondente sopravvive a calendario e non esiste alcuna registrazione.** L'ipotesi più semplice è che siano stati riprogrammati e confluiti nell'intro del 6 agosto — l'evento del 6 agosto viene infatti creato il 31 luglio. Resta un'ipotesi: in dashboard la voce è marcata **Da confermare**, ed è l'unico modo onesto di trattarla.
 
 ---
 
@@ -65,9 +79,9 @@ Lo stato è assegnato solo dove esiste una prova nei sistemi:
 
 ## 5. Le due viste
 
-**Lato BVB** — anagrafica e percorso, quattro numeri di sintesi presi dai dati (80–90 messaggi al giorno, 3 richieste già gestite dal sistema emergenze, 132′ di Tappa 1, 5 tappe da fissare), mappa delle sei tappe con l'avviso sul rischio novembre, prossimo appuntamento, incontri con registrazione e materiali, storia di come è nato il cliente, le due liste di azioni, note interne, i tre cantieri.
+**Lato BVB** — anagrafica e percorso, quattro numeri di sintesi presi dai dati (4 call registrate per 211 minuti, 5 tappe da fissare, 80–90 messaggi al giorno, 3 richieste già gestite dal sistema emergenze), mappa delle sei tappe con la distinzione tra tappa e call e l'avviso sul rischio novembre, prossimo appuntamento, incontri con registrazione e materiali, storia di come è nato il cliente, le due liste di azioni, note interne, i tre cantieri.
 
-**Lato cliente** — la stessa sostanza senza il retro: niente note interne, niente fattura, niente altri clienti. In cima una sola cosa da fare («prenota le cinque tappe», con il link Calendly reale), poi cosa è successo in Tappa 1, i sistemi in costruzione, le sue azioni con il rimando al minuto, i materiali ricevuti e i due pulsanti di comunicazione.
+**Lato cliente** — la stessa sostanza senza il retro: niente note interne, niente fattura, niente altri clienti. In cima una sola cosa da fare («prenota le cinque tappe», con il link Calendly reale), poi cosa è successo in Tappa 1, l'elenco delle quattro call con il link per rivederle, i sistemi in costruzione, le sue azioni con il rimando al minuto, i materiali ricevuti e i due pulsanti di comunicazione.
 
 **Back office** — l'elenco delle integrazioni con lo stato vero: attive Calendar, Calendly, Meet, Fireflies, Gmail e Claude; in test n8n; da attivare Brevo, GitHub e Snoots, tutte e tre in attesa di un'azione di Antonio.
 
