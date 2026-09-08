@@ -342,6 +342,30 @@
   .tp .tag.Analisi{background:var(--gold-soft);color:var(--gold)}
   .tp .tag.Extra{background:var(--coral-soft);color:var(--coral)}
 
+  .cron{position:relative;padding-left:20px}
+  .cron::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:1px;background:var(--rule-2)}
+  .cron .ev{position:relative;padding:0 0 16px}
+  .cron .ev::before{content:"";position:absolute;left:-19px;top:6px;width:9px;height:9px;border-radius:50%;background:var(--surface);border:2px solid var(--teal)}
+  .cron .ev.marta::before{background:var(--teal)}
+  .cron .ev.none::before{border-color:var(--rule-2)}
+  .cron .hd{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+  .cron .hd b{font-size:13.5px}
+  .cron .lbl{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin:7px 0 2px}
+  .cron p{margin:0;font-size:12.5px;color:var(--ink-2)}
+  .ingresso{border:1px solid var(--rule);border-left:4px solid var(--teal);border-radius:var(--radius);padding:16px 18px;background:var(--surface);box-shadow:var(--shadow)}
+  .ingresso dl{display:grid;grid-template-columns:110px 1fr;gap:6px 14px;margin:10px 0 0;font-size:12.5px}
+  .ingresso dt{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);padding-top:2px}
+  .ingresso dd{margin:0}
+  .req-row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;padding:9px 0;border-bottom:1px solid var(--rule);font-size:12.5px}
+  .req-row:last-child{border-bottom:0}
+  .req-row.risposta .txt{color:var(--mute);text-decoration:line-through}
+  .req-row .a{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:5px;background:var(--bg-sunk);color:var(--mute);white-space:nowrap}
+  .req-row .a.Massimo{background:var(--teal-soft);color:var(--teal)}
+  .req-row .a.cliente{background:var(--gold-soft);color:var(--gold)}
+  .req-form{display:grid;grid-template-columns:1fr auto auto;gap:8px;margin-top:12px}
+  .req-form input,.req-form select{font:inherit;color:var(--ink);background:var(--surface-2);border:1px solid var(--rule-2);border-radius:8px;padding:8px 10px;font-size:12.5px}
+  @media (max-width:940px){.req-form{grid-template-columns:1fr}.ingresso dl{grid-template-columns:1fr}}
+
   .quota{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
   .qbtn{
     border:1px solid var(--rule);background:var(--bg-sunk);border-radius:99px;
@@ -533,6 +557,25 @@ const CLIENTS = [
     {nm:"GitHub", st:"Da attivare", cls:"idle", meta:"serve per pubblicare la landing"},
     {nm:"Snoots", st:"Firmato", cls:"done", meta:"il gestionale su cui poggia il percorso è deciso"}
   ],
+  cronologia:[
+    {d:"28 mag", t:"Super Master AI — istruzioni abilitanti", m:"22 min · call di gruppo, 7 partecipanti", marta:true, ff:A0,
+     detto:"L'app desktop Claude come base del lavoro pratico; la strategia AI-First come cultura aziendale; la fase «I READY» per familiarizzare con gli strumenti. Antonio condivide motivazioni e impegni e chiede supporto e monitoraggio.",
+     fatto:"Tutti: scaricare l'app desktop, seguire i corsi online prima dell'inizio dell'11. Marta: raccogliere errori e best practice. Massimo: materiali di approfondimento."},
+    {d:"22 giu", t:"Profilazione — il punto T0", m:"28 min", marta:false, ff:A1,
+     detto:"Gestione «approssimativa», carichi di lavoro alti, nessuna pianificazione. Vuole automazione per avere controllo su acquisti e vendite. Piano di crescita del team e formazione digitale. Google Calendar consigliato per gli appuntamenti. Avviato l'audit iniziale.",
+     fatto:"Antonio: automazione graduale, testare Google Calendar, aggiornamenti sulle competenze. Massimo: report di profilazione con suggerimenti."},
+    {d:"6 ago", t:"Intro al Mentorship AI", m:"30 min · con Marta", marta:true, ff:A2,
+     detto:"Agenti digitali per passare da gestione reattiva a predittiva. Onboarding degli agenti in un mese, incontri regolari per budget e dati. La migrazione da Aruba è fondamentale. Marketing automatizzato con follow-up e contatti personalizzati. Antonio: «ho dato un'occhiata a n8n e non ho ancora capito niente».",
+     fatto:"Massimo: video della call, link calendari, percorso formativo su Claude Design e n8n. Antonio: scollegare l'account doppio, migrare da Aruba, aprire n8n e guardare i tutorial. Marta: supporto sul marketing automatizzato, modelli per reel e piano editoriale."},
+    {d:"7 set", t:"Tappa 1 — Le fondamenta", m:"132 min", marta:false, ff:A3,
+     detto:"Claude come cervello centrale, n8n come sistema nervoso; ruoli distinti di Chat, Cowork e Code; Skill Scout come prima attivazione; second brain. Costi ricorrenti da 20 a 90 € al mese. Account personale e aziendale da separare. 80–90 messaggi al giorno in clinica. Landing emergenze Carloforte costruita in diretta. La decisione Strada A/B non compare nelle note.",
+     fatto:"Antonio: n8n, Brevo, GitHub, MCP e API, Skill Scout, autorizzazione Claude, Snoots, rivedere gli appunti. Massimo: ecosistema Claude, Genius One, routine agentiche, workflow emergenze, SMTP, test landing, condividere codice, materiali."}],
+  ingresso:{
+    quando:"Fase 2 · dalla Call 4, metà ottobre",
+    cosa:"«La comunicazione che si scrive da sola»: follow-up 1·7·30·180 differenziato per tipo di visita (Call 4), motore dei contenuti con più agenti e i reel dai suoi video (Call 5), presenza su Google resa intenzionale e chiusura con l'agenda (Call 6).",
+    presente:"Marta era presente il 28 maggio e il 6 agosto; non il 22 giugno né il 7 settembre.",
+    confine:"Il confine l'ha tracciato lui: congressi e relazioni scientifiche restano sue; niente ortopedia, niente displasia del gomito. Automatizziamo il ripetitivo, non il suo mestiere.",
+    dipende:"La Fase 2 poggia sui servizi catalogati e sul gestionale che risponde: se la Fase 1 slitta, slitta anche il mio ingresso."},
   perimetro:{
     ultimoContatto:"8 set — test della landing emergenze alle 15:00, invito accettato alle 12:58",
     esigenze:[
@@ -729,6 +772,31 @@ const CLIENTS = [
     {nm:"Brevo", st:"Da attivare", cls:"idle", meta:"in attesa dell'account"},
     {nm:"GitHub", st:"Da attivare", cls:"idle", meta:"serve per pubblicare la landing"}
   ],
+  cronologia:[
+    {d:"24 giu", t:"Sfide operative della clinica", m:"23 min", marta:false, ff:E1,
+     detto:"Gestione del personale e comunicazione digitale; forte interesse per l'AI; tariffario da personalizzare; limiti del setup tecnico; resistenze culturali del team da superare con formazione; obiettivo di piena automazione entro dicembre 2026.",
+     fatto:"Enrico: riunione interna al team al rientro dalle ferie, studiare il materiale entro settembre, demo del gestionale, collegare gli account Gmail, coinvolgere tecnici e FOM, standardizzare le procedure. Massimo: report di progetto con valori economici, video tutorial n8n."},
+    {d:"25 giu", t:"Controllo di gestione", m:"24 min", marta:false, ff:E2,
+     detto:"Approccio strutturato all'AI; la proposta di mentoring e il suo ritorno economico; Enrico conferma il valore ma indica il tempo come barriera; serve monitoraggio mensile dei dati.",
+     fatto:"Enrico: integrare i dati incompleti (collaboratori, freelance, laboratorio) entro sabato, completare il file consuntivo. Massimo: report preliminare di controllo di gestione, supporto sul file Excel, controllo incrociato."},
+    {d:"20 lug", t:"Discrepanze contabili e demo", m:"44 min", marta:false, ff:E3,
+     detto:"Emergono 6.600 € di discrepanze sugli acquisti farmaci, da riclassificare. Demo del controllo di gestione digitale il 4 agosto. Agente n8n per report più precisi. Enrico lavora a ridurre il «nero». Nuovi accordi: chirurgia oculistica in partnership, con aumento tariffe.",
+     fatto:"Enrico: dal commercialista giovedì per riclassificare, includere Maria nel percorso, passare al nuovo CDG da agosto, aggiornare il cruscotto. Massimo: supporto sugli agenti, report e avanzamento, slot mensili, integrare Snoots e Claude nel CDG."},
+    {d:"24 lug", t:"Metodo F.A.R.E. e via libera", m:"25 min", marta:false, ff:E4,
+     detto:"Agentificazione del controllo economico con il metodo F.A.R.E. su Snoots; centri di business; report fiscali agevolati; formazione continua; pricing giustificato da 15 ore/mese risparmiate; pilota a settembre con trasmigrazione dei dati storici.",
+     fatto:"Massimo: calendario consulenze di settembre con slot bisettimanali, video-lezioni al team, incontro introduttivo gratuito. Enrico: coordinare Maria e Marta, demo con Snoots, pagamento anticipato di 1.500 €."},
+    {d:"7 ago", t:"Di Blasi AI — la call del piano di volo", m:"73 min · con Marta", marta:true, ff:E5,
+     detto:"Enrico ha lasciato il mercato azionario dopo sette-otto anni con una perdita di 5.000 €, per stress e mancanza di tutela. Agenti su KPI clinici ed economici; Snoots; tariffario dinamico in due fasi. Riconosce di dover migliorare su leadership e gestione del team; obiettivo +35–40%. Marketing automatizzato per fidelizzazione; tecnologie vocali per i referti.",
+     fatto:"Enrico: migrare a Snoots entro ~10 settembre, dati completi, team solo dopo validazione, Master Milano, team a Napoli il 20 novembre. Massimo: agenti KPI, supporto negli account, Snoots ↔ app vocale, budget e tariffari, video corsi, allenamento leadership. Marta: fidelizzazione con marketing automatico, segreteria virtuale, calendario delle tappe e template comunicativi, formazione team marketing dopo validazione."},
+    {d:"7 set", t:"Tappa 1 di 6", m:"139 min", marta:false, ff:E6,
+     detto:"Strategia per IA, MCP e agenti nei processi. BraveMedia: 40.000 € investiti in n8n in un anno e mezzo e quattro web app proprietarie. Ruoli di Claude, Code e Cowork; GitHub; Skill Scout come priorità. Snoots MCP collegato con 260 strumenti ma mancano dati recenti, cartelle cliniche e storico. Landing della clinica e workflow n8n creati e testati in venti minuti. Primo agente previsto: KPI giornalieri.",
+     fatto:"Enrico: 14 azioni — account, connettori, migrazione dati, file economici, fatturazione Snoots, date del terzo modulo. Massimo: slide operative, workflow n8n, landing chirurgica, report, agente KPI. Maria: Skill Scout."}],
+  ingresso:{
+    quando:"Fase 2 · ottobre–novembre, in parallelo alla Fase 1",
+    cosa:"Milestone 3, 4 e 5: il percorso che si chiude da solo (referto → follow-up → richiamo dai template in bozza), il social media manager automatizzato (otto agenti, dodici workflow, approvazione su Telegram, unico input umano la foto in clinica), il telefono con la segreteria virtuale dentro Snoots.",
+    presente:"Marta era presente il 7 agosto, la call da cui nasce il piano. Non alle quattro call di controllo di gestione né alla Tappa 1.",
+    confine:"«La regia è di chi usa il gestionale»: se l'informazione in cartella non c'è, l'agente non la può usare. La firma resta del medico. Il team non si coinvolge finché lo strumento non è validato da Enrico e Maria.",
+    dipende:"Il piano dice che le sei tappe vanno fissate «sul calendario condiviso da Marta»: la regia delle date è mia, e oggi ne risulta una sola, non confermata."},
   perimetro:{
     ultimoContatto:"7 set — report della prima lezione inviato a Enrico e Maria alle 14:17",
     esigenze:[
@@ -905,6 +973,37 @@ const CLIENTS = [
     {nm:"Gmail", st:"Attiva", cls:"done", meta:"i report arrivano qui, insieme allo scambio con il commercialista"},
     {nm:"Smart Vet", st:"Da correggere", cls:"wip", meta:"importazione razze incompleta"}
   ],
+  cronologia:[
+    {d:"22 giu", t:"Profilazione — il punto T0", m:"20 min", marta:false, ff:S1,
+     detto:"Giovani collaboratori scettici sul gestionale; gestione economica inefficiente per ritardi; nessun supporto pratico all'uso del cloud in ambulatorio; l'AI vista come leva su magazzino, comunicazione ed economia; problemi di connessione tra Gmail, Calendar e Outlook. Proposto un affiancamento quindicinale.",
+     fatto:"Stefania: corso FOM con la segretaria, test dell'MCP Snoots dopo le ferie, integrazione scheduler AI e Outlook. Massimo: report T0 e proposta di mentorship ogni 15 giorni."},
+    {d:"17 lug", t:"Primo appuntamento Mentor AI", m:"100 min", marta:false, ff:S2,
+     detto:"Aggiornamento del cloud con alto consumo di risorse; differenze tra Fable e Code; comandi principali; agenti con ruoli definiti per i report periodici; integrazione con Brevo; skill specifiche per gli agenti. Aggiornamenti concordati via WhatsApp.",
+     fatto:"Stefania: competenza «analista di business» entro il fine settimana, account Brevo, test dei comandi, agenti settimanali e giornalieri, budget trimestrale dal commercialista. Massimo: sessione di mezz'ora lunedì 15:30."},
+    {d:"20 lug", t:"Brevo, budget e report", m:"27 min", marta:false, ff:S3,
+     detto:"Brevo importa solo gli ultimi 200 contatti da Snoots, email non ricevute. Budget semestrale sui dati storici di due anni. Stefania preferisce che il documento lo costruisca Massimo.",
+     fatto:"Massimo: foglio budget 2026, drive condiviso per dati contabili, monitorare Brevo. Stefania: verificare le mail, bilanci 2024 e 2025 dal commercialista, call mercoledì 16:30."},
+    {d:"22 lug", t:"Agenti KPI e segreteria digitale", m:"43 min", marta:false, ff:S4,
+     detto:"Agente per l'analisi quotidiana dei dati clinici con overview clienti; validazione in 2–3 giorni; KPI finanziari (fatturato, mix servizi); modello Fable; le dashboard visive non bastano, servono competenze personalizzate; segreteria digitale come risposta al sovraccarico.",
+     fatto:"Stefania: costi mensili dal commercialista, skill analisi business, test agenti, inoltrare i report efficaci. Massimo: agente mensile/trimestrale, modello Fable, segreteria digitale a settembre."},
+    {d:"29 lug", t:"Agentificazione e centri di ricavo", m:"30 min", marta:false, ff:S5,
+     detto:"Snoots collegato a 250 strumenti; 385 voci di tariffario da categorizzare per centri di ricavo; agenti per analisi economiche, monitoraggio clienti e report via email; magazzino critico, serve tracciabilità; formazione su Code.",
+     fatto:"Stefania: otto azioni tra test Snoots, agenti, classificazione, razze da Smart Vet, email di Massimo sugli agenti. Massimo: supporto sulla categorizzazione, supervisione su Claude e Code, template di budget."},
+    {d:"7 ago", t:"Agenti AI — valutazioni", m:"15 min", marta:false, ff:S6,
+     detto:"Agente di valutazione clientela in prova; analisi giornaliera e settimanale del fatturato; upgrade del cloud; accesso condiviso con autorizzazione Gmail; integrazione Snoots con approvazione del fornitore.",
+     fatto:"Stefania: password Gmail, autorizzazione accesso cloud, mail a Snoots per il cassetto fiscale. Massimo: accesso e impostazione del cloud."},
+    {d:"21 ago", t:"Progressi AI", m:"44 min", marta:false, ff:S7,
+     detto:"Errori nelle mail, riavvio manuale degli agenti, triangolazione inefficace sull'approvazione delle fatture d'acquisto. Report giornalieri a Stefania e Massimo; i dati di performance servono per i bonus dei collaboratori. Calo del fatturato osservato. Estensione dell'analisi alle schede cliniche; profili dei collaboratori da aggiornare.",
+     fatto:"Stefania: email Claude e dati Snoots, team Snoots sulle fatture, feedback sui report, dati collaboratori, monitorare la ricezione. Massimo: sviluppo agenti, destinatari, orari di invio, problemi di invio."},
+    {d:"2 set", t:"Zanini Mentor AI", m:"a calendario, nessuna registrazione", marta:false, ff:null,
+     detto:"Non esiste trascrizione: non si sa cosa sia stato detto, né se l'incontro si sia svolto.",
+     fatto:"Da verificare con Massimo."}],
+  ingresso:{
+    quando:"Fase 3 · mesi 4–6 — la proposta non mi nomina",
+    cosa:"Comunicazione & recall clienti: richiami, reminder e recupero dei proprietari dormienti che partono da soli. Con magazzino e supporto ai referti nella stessa fase. La C2 «produrre» include già il personale operativo — la segretaria in formazione FOM — ed è la porta più vicina.",
+    presente:"Marta non è mai stata presente in nessuna delle sette call registrate.",
+    confine:"Governance dei dati sanitari da formalizzare fin dall'inizio, indicata nella proposta come attenzione. Un agente che legge le performance dei collaboratori richiede persone informate prima.",
+    dipende:"La Fase 3 parte quando la Fase 2 è chiusa: oggi manca il budget, fermo sul commercialista."},
   perimetro:{
     ultimoContatto:"8 set — sollecito al commercialista per i bilanci, il secondo in cinque giorni",
     esigenze:[
@@ -998,6 +1097,39 @@ const ONBOARDING = [
 ];
 function valGet(i){ try{ return localStorage.getItem("bvb.val."+i) === "1"; }catch(e){ return false; } }
 function valSet(i,v){ try{ localStorage.setItem("bvb.val."+i, v?"1":"0"); }catch(e){} }
+
+/* ═══════════════════ richieste di integrazione (condivise via db) ═══════════════════ */
+let dbRef = null, dbStato = "locale";      // locale | condiviso
+let richieste = [];                          // {id, cliente, testo, a, stato, da, creata}
+const LS = "bvb.richieste";
+function lsLoad(){ try{ return JSON.parse(localStorage.getItem(LS) || "[]"); }catch(e){ return []; } }
+function lsSave(){ try{ localStorage.setItem(LS, JSON.stringify(richieste)); }catch(e){} }
+
+async function reqAdd(cliente, testo, a){
+  const r = {cliente, testo, a, stato:"aperta", da:"Marta", creata:new Date().toISOString()};
+  if(dbRef){ try{ await dbRef.collection("richieste").add(r); return; }catch(e){ toast("Non salvata: " + (e && e.code || "errore")); return; } }
+  richieste.push({id:"l"+Date.now(), ...r}); lsSave(); render();
+}
+async function reqStato(id, stato){
+  if(dbRef){ try{ await dbRef.doc("richieste/"+id).update({stato}); }catch(e){ toast("Non aggiornata"); } return; }
+  const r = richieste.find(x=>x.id===id); if(r){ r.stato = stato; lsSave(); render(); }
+}
+async function reqDel(id){
+  if(dbRef){ try{ await dbRef.doc("richieste/"+id).delete(); }catch(e){ toast("Non eliminata"); } return; }
+  richieste = richieste.filter(x=>x.id!==id); lsSave(); render();
+}
+function dbInit(){
+  richieste = lsLoad();
+  if(!(window.claude && typeof claude.use === "function")) return;
+  claude.use("db").then(db=>{
+    if(!db) return;
+    dbRef = db; dbStato = "condiviso";
+    db.collection("richieste").onSnapshot(snap=>{
+      richieste = snap.docs.map(d=>({id:d.id, ...d.data()}));
+      if(mode==="client" || mode==="console") render();
+    }, e=>{ dbRef = null; dbStato = "locale"; richieste = lsLoad(); render(); });
+  }).catch(()=>{});
+}
 
 /* ═══════════════════ stato ═══════════════════ */
 let mode = "console";              // console | client | portal | backoffice
@@ -1096,6 +1228,58 @@ function paralleli(c){
   </div>`).join("");
 }
 
+
+function cronologia(c){
+  return `<div class="cron">${c.cronologia.map(e=>`
+    <div class="ev ${e.marta?"marta":""} ${e.ff?"":"none"}">
+      <div class="hd"><span class="mono num" style="color:var(--mute)">${esc(e.d)}</span><b>${esc(e.t)}</b>
+        <span style="color:var(--mute);font-size:12px">· ${esc(e.m)}</span>
+        <span class="chip ${e.marta?"done":"idle"}"><span class="dot"></span>${e.marta?"Marta presente":"senza Marta"}</span>
+        ${e.ff?`<a class="link" href="${FF(e.ff)}" target="_blank" rel="noopener" style="margin-left:auto;font-size:12px">registrazione</a>`:""}
+      </div>
+      <div class="lbl">Cosa è stato detto</div><p>${esc(e.detto)}</p>
+      <div class="lbl">Cosa è stato deciso</div><p>${esc(e.fatto)}</p>
+    </div>`).join("")}</div>`;
+}
+
+function ingresso(c){
+  const i = c.ingresso;
+  return `<div class="ingresso">
+    <div class="label">Il mio ingresso · Marta</div>
+    <h3 class="serif" style="font-size:19px;margin:4px 0 2px">${esc(i.quando)}</h3>
+    <dl>
+      <dt>Cosa è mio</dt><dd>${esc(i.cosa)}</dd>
+      <dt>Dove c'ero</dt><dd>${esc(i.presente)}</dd>
+      <dt>Confini</dt><dd>${esc(i.confine)}</dd>
+      <dt>Dipende da</dt><dd>${esc(i.dipende)}</dd>
+    </dl>
+  </div>`;
+}
+
+function richiestePanel(c){
+  const list = richieste.filter(r=>r.cliente===c.id).sort((a,b)=>(a.creata||"").localeCompare(b.creata||""));
+  const aperte = list.filter(r=>r.stato!=="risposta").length;
+  return `<section class="panel">
+    <header><h3>Richieste di integrazione prima del mio incontro</h3>
+      <span class="chip ${dbStato==="condiviso"?"done":"idle"}"><span class="dot"></span>${dbStato==="condiviso"?"condivise con Massimo":"solo su questo browser"}</span>
+      <span class="count num">${aperte} aperte</span></header>
+    <p style="color:var(--mute);font-size:12px;margin:0 0 6px">Quello che mi manca per pianificare. A chi lo chiedo, e se ho avuto risposta.</p>
+    ${list.length ? list.map(r=>`<div class="req-row ${r.stato==="risposta"?"risposta":""}">
+      <span class="a ${esc(r.a)}">a ${esc(r.a)}</span>
+      <span><span class="txt">${esc(r.testo)}</span><span class="evid">${esc(r.da||"")} · ${r.creata?esc(String(r.creata).slice(0,10)):""}</span></span>
+      <span class="tl-actions">
+        <button class="btn sm ghost" data-reqstato="${esc(r.id)}" data-val2="${r.stato==="risposta"?"aperta":"risposta"}">${r.stato==="risposta"?"Riapri":"Risposta"}</button>
+        <button class="btn sm ghost" data-reqdel="${esc(r.id)}" aria-label="Elimina">×</button>
+      </span>
+    </div>`).join("") : `<div style="color:var(--mute);font-size:12.5px">Nessuna richiesta ancora.</div>`}
+    <form class="req-form" data-reqform="${c.id}">
+      <input name="testo" placeholder="Cosa mi serve sapere prima di pianificare…" required>
+      <select name="a"><option value="Massimo">a Massimo</option><option value="cliente">al cliente</option></select>
+      <button class="btn primary" type="submit">Aggiungi</button>
+    </form>
+  </section>`;
+}
+
 /* ═══════════════════ console ═══════════════════ */
 function viewConsole(){
   const inRitardo = CLIENTS.reduce((n,c)=>n+late(c),0);
@@ -1120,8 +1304,8 @@ function viewConsole(){
   ];
   return `
   <div class="banner" style="margin:22px 0 18px">
-    <strong>Scrivi un nome nella barra in alto</strong>
-    <span style="color:var(--mute)">— “anto”, “enri”, “stef” — e premi invio: si apre la sua dashboard. Tutto quello che vedi è letto da Calendar, Gmail, Fireflies e Drive.</span>
+    <strong>Presa in carico</strong>
+    <span style="color:var(--mute)">— apri un cliente e trovi, nell'ordine: il check rapido, dove entri tu secondo il piano, la mossa consigliata, la cronologia di cosa è stato fatto e detto prima, e le tue richieste di integrazione. Scrivi “anto”, “enri” o “stef” e premi invio.</span>
   </div>
 
   <div class="grid cols-2">
@@ -1147,6 +1331,7 @@ function viewConsole(){
             <div class="kv"><span style="font-weight:700">${esc(c.nome)}</span>
               <span class="chip ${late(c)?"late":"wip"}"><span class="dot"></span>${esc(c.avanzamento)}</span></div>
             <div class="evid">${esc(c.percorso.nome)} · ${esc(c.percorso.forma)}</div>
+            <div class="evid"><b>Ingresso di Marta:</b> ${esc(c.ingresso.quando)} · ${c.cronologia.filter(e=>e.marta).length} call su ${c.cronologia.length} con lei · ${richieste.filter(r=>r.cliente===c.id&&r.stato!=="risposta").length} richieste aperte</div>
             <div class="evid" style="color:var(--coral)">${perLate(c).length} passaggi del piano in ritardo${late(c)?` · ${late(c)} azion${late(c)===1?"e":"i"} in ritardo`:""}</div>
           </button>`).join("")}
       </div>
@@ -1197,6 +1382,8 @@ function viewClient(){
   </div>
 
   ${checkRapido(c)}
+  <div style="height:18px"></div>
+  ${ingresso(c)}
   <div style="height:18px"></div>
 
   <div class="mossa">
@@ -1315,6 +1502,15 @@ function viewClient(){
         <div class="note">${esc(c.note)}</div>
       </section>
     </div>
+  </div>
+
+  <div class="grid cols-2" style="margin-top:18px">
+    <section class="panel">
+      <header><h3>Cosa è stato fatto e detto prima del mio ingresso</h3><span class="count num">${c.cronologia.length} incontri · ${c.cronologia.filter(e=>e.marta).length} con Marta</span></header>
+      <p style="color:var(--mute);font-size:12px;margin:0 0 12px">Ogni incontro registrato, in ordine: chi c'era, cosa è stato detto, cosa è stato deciso. Il punto pieno segna le call in cui c'ero.</p>
+      ${cronologia(c)}
+    </section>
+    ${richiestePanel(c)}
   </div>
 
   <div class="grid cols-2" style="margin-top:18px">
@@ -1645,8 +1841,17 @@ function handSheet(){
       <p style="margin:0;font-size:13px"><b>${esc(c.prossimaMossa.t)}</b> — ${esc(c.prossimaMossa.perche)}
         <br><span style="color:var(--mute)">Chi: ${esc(c.prossimaMossa.chi)} · ${esc(c.prossimaMossa.entro)}</span></p>
 
+      <h4>Il mio ingresso</h4>
+      <p style="margin:0;font-size:13px"><b>${esc(c.ingresso.quando)}.</b> ${esc(c.ingresso.cosa)}<br><span style="color:var(--mute)">${esc(c.ingresso.presente)} ${esc(c.ingresso.dipende)}</span></p>
+
       <h4>Cosa ha chiesto, con le sue parole</h4>
       ${ul(c.perimetro.esigenze)}
+
+      <h4>Cosa è stato fatto e detto, incontro per incontro</h4>
+      ${cronologia(c)}
+
+      <h4>Richieste di integrazione aperte</h4>
+      ${ul(richieste.filter(r=>r.cliente===c.id && r.stato!=="risposta").map(r=>r.testo + " (a " + r.a + ")")) || "<p style='font-size:13px;margin:0'>Nessuna.</p>"}
 
       <h4>Il perimetro comprato · ${perDone(c)} fatti, ${perLate(c).length} in ritardo</h4>
       ${perimetro(c,false)}
@@ -1810,6 +2015,18 @@ document.addEventListener("click", e=>{
   if(t.dataset.close === "1" && (e.target===t || t.classList.contains("x") || t.classList.contains("btn"))){ sheet=null; render(); }
 });
 
+document.addEventListener("submit", e=>{
+  const f = e.target.closest("[data-reqform]"); if(!f) return;
+  e.preventDefault();
+  const testo = f.testo.value.trim(); if(!testo) return;
+  reqAdd(f.dataset.reqform, testo, f.a.value); f.reset();
+});
+document.addEventListener("click", e=>{
+  const st = e.target.closest("[data-reqstato]");
+  if(st){ reqStato(st.dataset.reqstato, st.dataset.val2); return; }
+  const dl = e.target.closest("[data-reqdel]");
+  if(dl){ reqDel(dl.dataset.reqdel); }
+});
 document.addEventListener("change", e=>{
   const l = e.target.closest("[data-val]");
   if(!l) return;
@@ -1848,5 +2065,6 @@ window.addEventListener("hashchange", ()=>{ leggiLink(); render(); });
 
 leggiLink();
 render();
+dbInit();
 
 </script>
