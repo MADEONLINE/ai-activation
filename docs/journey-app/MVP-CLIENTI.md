@@ -70,6 +70,20 @@ Le azioni in dashboard sono gli action item estratti da Fireflies, con tre aggiu
 
 ---
 
+
+## 5-bis. Perimetro, touchpoint paralleli e check rapido
+
+Tre viste aggiunte dopo la lettura dei piani, che rispondono a una precisazione precisa: tracciare i passaggi chiave *dentro il perimetro comprato*, distinguere le esigenze del cliente dalle azioni che un'informazione parallela può cambiare, e permettere un check in trenta secondi.
+
+**Check rapido** — in cima alla dashboard di ogni cliente, quattro caselle: dove siamo, cosa ha chiesto (con le sue parole, prese dal documento di progetto), cosa è in ritardo sul piano, ultimo contatto e mossa consigliata.
+
+**Il perimetro comprato, passo per passo** — i passaggi chiave così come stanno nel documento firmato: per Viglietti le tre cose di agosto, le sei call e le cinque prove con la loro data; per Di Blasi le tre mosse dei 30 giorni e le cinque milestone; per Zanini le quattro fasi FARO, il piano a otto settimane e i tre pagamenti. Ogni riga ha la data promessa, lo stato e la prova che lo sostiene. Il cliente vede la stessa lista nel suo portale, senza le prove interne.
+
+**Touchpoint paralleli** — quello che è attivo fuori dal perimetro: aule (Super Master 24–25 settembre, AI Revolution Napoli 20 novembre, FOM per la segretaria), analisi (il controllo di gestione di Di Blasi dal 31 marzo, i bilanci di Zanini dal commercialista), fornitori (Snoots), persone (Maria), extra (le landing nate in Tappa 1). Ognuno dichiara **su cosa influisce**: è la riga che separa un'esigenza del cliente da un'azione che quell'informazione può cambiare.
+
+**Oltre le aspettative** — ciò che è arrivato e il piano non prometteva: la landing emergenze prima del primo agente, i report di Zanini in produzione dal secondo mese, il controllo di gestione di Di Blasi già in piedi a marzo. È il pezzo del "superare le aspettative restando dentro un piano più ampio".
+
+---
 ## 6. I documenti di progetto, ora letti
 
 L'8 settembre i tre documenti sono stati caricati e letti. Da lì vengono i nomi dei sistemi, le cadenze e le milestone che prima erano dedotti.

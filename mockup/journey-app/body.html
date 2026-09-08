@@ -320,6 +320,28 @@
   .check input{margin:2px 0 0;accent-color:var(--teal);flex:none;width:15px;height:15px}
   .check.done span{color:var(--mute);text-decoration:line-through}
 
+  .rapid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden}
+  .rapid > div{background:var(--surface);padding:14px 16px;min-width:0}
+  .rapid .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+  .rapid .v{font-size:13px;line-height:1.45}
+  .rapid .v b{display:block;font-family:"Fraunces",Georgia,serif;font-size:19px;font-weight:600;letter-spacing:-.01em;margin-bottom:3px}
+  .rapid ul{margin:0;padding-left:15px;font-size:12.5px}
+  .rapid li{margin-bottom:2px}
+  @media (max-width:940px){.rapid{grid-template-columns:1fr 1fr}}
+  .per{display:grid;grid-template-columns:20px 1fr auto;gap:10px;align-items:start;padding:8px 0;border-bottom:1px solid var(--rule);font-size:12.5px}
+  .per:last-child{border-bottom:0}
+  .per .b{width:14px;height:14px;border-radius:50%;border:2px solid var(--rule-2);margin-top:2px}
+  .per.done .b{background:var(--teal);border-color:var(--teal)}
+  .per.wip .b{border-color:var(--gold);background:var(--gold-soft)}
+  .per.late .b{border-color:var(--coral);background:var(--coral)}
+  .per .q{white-space:nowrap;color:var(--mute);font-family:"IBM Plex Mono",monospace;font-size:11px}
+  .tp{display:grid;grid-template-columns:auto 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--rule);font-size:12.5px}
+  .tp:last-child{border-bottom:0}
+  .tp .tag{align-self:start;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:5px;background:var(--bg-sunk);color:var(--mute);white-space:nowrap}
+  .tp .tag.Aula{background:var(--teal-soft);color:var(--teal)}
+  .tp .tag.Analisi{background:var(--gold-soft);color:var(--gold)}
+  .tp .tag.Extra{background:var(--coral-soft);color:var(--coral)}
+
   .quota{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
   .qbtn{
     border:1px solid var(--rule);background:var(--bg-sunk);border-radius:99px;
@@ -511,6 +533,41 @@ const CLIENTS = [
     {nm:"GitHub", st:"Da attivare", cls:"idle", meta:"serve per pubblicare la landing"},
     {nm:"Snoots", st:"Firmato", cls:"done", meta:"il gestionale su cui poggia il percorso è deciso"}
   ],
+  perimetro:{
+    ultimoContatto:"8 set — test della landing emergenze alle 15:00, invito accettato alle 12:58",
+    esigenze:[
+      "«Automazione totale, un controllo, non navigare nella nebbia» — le sue parole del 6 agosto",
+      "I numeri arrivano tardi: lettura trimestrale, costruita a mano con foto alle prestazioni",
+      "Marketing manuale: un'ora per un post, un post ogni cinque-sette giorni",
+      "L'agenda vive sul telefonino: venti richieste di appuntamento in coda",
+      "«Non dobbiamo avere fretta»: il criterio con cui il piano è stato ordinato"],
+    comprato:[
+      {t:"P1 · Migrare la fatturazione elettronica da Aruba", quando:"entro fine agosto", stato:"late", prova:"Ancora su Aruba il 7 settembre: «esportazione fatture da Aruba, lavoro manuale lungo»"},
+      {t:"P2 · Prenotare i sei slot", quando:"appena ricevuto il link, 7 agosto", stato:"late", prova:"Un solo slot preso: il 7 settembre"},
+      {t:"P3 · Aprire l'account n8n e guardarci dentro", quando:"settembre", stato:"open", prova:"Chiesto il 6 agosto e di nuovo il 7 settembre"},
+      {t:"Call 1 · Le fondamenta — strada scelta area per area, migrazione avviata, dati per il budget", quando:"inizio settembre", stato:"wip", prova:"Svolta il 7 settembre, 132 minuti. La decisione Strada A/B non risulta nelle note; la migrazione non è avviata"},
+      {t:"Call 2 · I due agenti giornalieri in produzione", quando:"metà settembre", stato:"late", prova:"Non a calendario"},
+      {t:"Prova 1 · Ricevi i numeri di ieri senza chiederli", quando:"metà settembre", stato:"open", prova:"Dipende da Call 2 e da Snoots operativo"},
+      {t:"Call 3 · La settimana e il budget — Fase 1 chiusa", quando:"inizio ottobre", stato:"open"},
+      {t:"Prova 2 · Sai in quali aree stai scostando dal budget", quando:"inizio ottobre", stato:"open", prova:"Richiede un anno di budget stagionalizzato su Drive"},
+      {t:"Call 4 · Il cliente che hai già — referto automatico, follow-up 1·7·30·180", quando:"metà ottobre", stato:"open"},
+      {t:"Prova 3 · Un cliente riceve il referto senza che tu lo mandi", quando:"metà ottobre", stato:"open"},
+      {t:"Call 5 · Il motore dei contenuti", quando:"inizio novembre", stato:"open"},
+      {t:"Prova 4 · Pubblichi 5 contenuti a settimana", quando:"inizio novembre", stato:"open"},
+      {t:"Call 6 · L'agenda e il cruscotto degli agenti", quando:"fine novembre", stato:"open"},
+      {t:"Prova 5 · Le richieste d'appuntamento non sono più sul telefonino", quando:"fine novembre", stato:"open"}],
+    paralleli:[
+      {tipo:"Aula", t:"Super Master AI, secondo modulo — Milano, 24–25 settembre", quando:"tra Call 2 e Call 3",
+       influenza:"Il piano lo chiama «rinforzo formativo»: è il momento in cui Antonio mette le mani su n8n. Arrivarci con l'account aperto (P3) cambia il valore delle due giornate"},
+      {tipo:"Fornitore", t:"Snoots — gestionale firmato", quando:"prima del percorso",
+       influenza:"Onboarding e centri di ricavo sono nel Gantt del piano per settembre: dipendono dal fornitore, non da noi"},
+      {tipo:"Extra", t:"Landing emergenze Carloforte", quando:"nata in Tappa 1, in test dall'8 settembre",
+       influenza:"Non è nel piano. Ha già risposto a tre richieste vere: è un argomento per la decisione Strada A/B, non un deliverable dovuto"},
+      {tipo:"Aula", t:"Super Master AI — Milano, 14–16 maggio", quando:"già fatta",
+       influenza:"Il punto di partenza del piano: «non sei un principiante, usi già Claude, Gemini, Claude Design»"}],
+    oltre:[
+      "La landing emergenze funziona prima ancora del primo agente dei numeri: un risultato visibile arrivato in anticipo sul piano",
+      "Tra una call e l'altra il piano promette video, audio e materiali: il report e la presentazione della Tappa 1 sono partiti il giorno dopo"]},
   prossimaMossa:{
     t:"Chiudere le tre cose di agosto, partendo dalla migrazione da Aruba",
     perche:"Il piano le dava per fatte entro fine agosto e sono tutte e tre aperte. La migrazione «blocca metà percorso»: senza, l'agente non legge il cassetto fiscale e lo scostamento a budget non esiste. Il secondo incontro era atteso a metà settembre.",
@@ -672,6 +729,43 @@ const CLIENTS = [
     {nm:"Brevo", st:"Da attivare", cls:"idle", meta:"in attesa dell'account"},
     {nm:"GitHub", st:"Da attivare", cls:"idle", meta:"serve per pubblicare la landing"}
   ],
+  perimetro:{
+    ultimoContatto:"7 set — report della prima lezione inviato a Enrico e Maria alle 14:17",
+    esigenze:[
+      "«La mia clinica sta andando al 35–40%. Ho parecchio margine» — la soglia che si è dato è l'80%",
+      "«Da me ci sono sempre troppi sconti purtroppo»: sconti invisibili finché non è tardi",
+      "«Ce ne perdiamo tantissime ogni giorno»: le opportunità cliniche si perdono in corsia",
+      "La comunicazione pre e post visita esiste nella sua testa e in bozza, non nel processo",
+      "«Il metodo è la costanza»: passi brevi e quotidiani, mai mezza giornata libera",
+      "«Sarò in grado io di crearmi un agente?» — vuole la competenza, non solo il risultato"],
+    comprato:[
+      {t:"P1 · Aprire l'accesso all'account Claude — «la mossa che sblocca tutte le altre»", quando:"entro 7 giorni dal 7 agosto", stato:"late", prova:"Chiesta di nuovo in Tappa 1 (1:05:52): non ancora arrivata"},
+      {t:"P2 · Confermare la migrazione a Snoots e bloccare le sei date", quando:"entro 15 giorni", stato:"late", prova:"Migrazione attesa il 10 settembre, non completata. Una sola data accettata, 5 ottobre, assente dal calendario BVB"},
+      {t:"P3 · Aprire n8n e guardare i video corsi", quando:"entro il 25 settembre", stato:"open", prova:"Account da riconnettere (Tappa 1, 1:18:29)"},
+      {t:"Tappa 1 di 6", quando:"settembre", stato:"done", prova:"Svolta il 7 settembre, 139 minuti; report inviato lo stesso giorno"},
+      {t:"M1 · Il giornaliero, il settimanale, il mensile — circa una settimana per agente", quando:"settembre → ottobre", stato:"wip", prova:"Si costruiscono in staging; mancano dati recenti, cartelle cliniche e storico"},
+      {t:"Tariffario dinamico · Blocco 1, prezzo per fascia di peso", quando:"settembre 2026", stato:"open", prova:"Sviluppo congiunto con Snoots"},
+      {t:"M2 · L'agente di sorveglianza sugli sconti", quando:"ottobre – novembre", stato:"open"},
+      {t:"M3 · Referto → follow-up → richiamo, in automatico", quando:"ottobre – novembre, con Marta", stato:"open", prova:"I template esistono in bozza"},
+      {t:"M4 · Social media manager: otto agenti, dodici workflow, approvazione su Telegram", quando:"dopo M3", stato:"open"},
+      {t:"M5 · Segreteria virtuale con voce umana, dentro Snoots", quando:"in arrivo", stato:"open"},
+      {t:"Nuovo budget annuale sul dato raccolto · Blocco 2 del tariffario", quando:"dicembre – gennaio", stato:"open"}],
+    paralleli:[
+      {tipo:"Analisi", t:"Controllo di gestione — attivo dal 31 marzo", quando:"prima del percorso",
+       influenza:"Il report H1 2026 ha fatto emergere 6.600 € di discrepanze sugli acquisti farmaci: l'azione è la riclassificazione con il commercialista, fuori dalla mentorship ma senza quella il dato di costo del mensile è sporco"},
+      {tipo:"Aula", t:"Super Master AI, secondo modulo — Milano, 25 settembre", quando:"Claude Code e n8n",
+       influenza:"È il binario della competenza: il piano dice che la costruzione la facciamo noi e il saper costruire passa da qui. P3 serve ad arrivarci con il terreno pronto"},
+      {tipo:"Aula", t:"AI Revolution — Napoli, 20 novembre · Direct Management — Roma, novembre", quando:"ottobre – novembre",
+       influenza:"Membri del team a Napoli: primo momento in cui il team entra, dopo la validazione. Non prima"},
+      {tipo:"Fornitore", t:"Snoots — migrazione e tariffario dinamico", quando:"10 settembre e oltre",
+       influenza:"Blocco 1 e Blocco 2 sono sviluppo congiunto BVB · Snoots: la data non dipende solo da noi"},
+      {tipo:"Persona", t:"Maria — socia e collaboratrice", quando:"sempre",
+       influenza:"Il documento è «per Enrico e Maria»: riceve i materiali insieme a lui e valida con lui prima che il team entri"},
+      {tipo:"Extra", t:"Landing della clinica + workflow n8n", quando:"Tappa 1, venti minuti",
+       influenza:"Non è tra le cinque milestone: dimostrazione, non deliverable"}],
+    oltre:[
+      "Il controllo di gestione è in piedi da marzo: la mentorship parte con un report semestrale già letto insieme",
+      "Snoots MCP espone 260 strumenti, «contro i pochi endpoint di prima»: gli agenti si costruiscono senza aspettare la migrazione"]},
   prossimaMossa:{
     t:"Farsi aprire l'accesso all'account Claude, poi bloccare le sei date",
     perche:"Il piano la chiama «la mossa che sblocca tutte le altre»: con l'accesso un agente già validato si replica sul suo account in dieci minuti, senza ogni costruzione diventa una call di supporto. Era attesa entro sette giorni dal 7 agosto: siamo al giorno 32.",
@@ -811,6 +905,38 @@ const CLIENTS = [
     {nm:"Gmail", st:"Attiva", cls:"done", meta:"i report arrivano qui, insieme allo scambio con il commercialista"},
     {nm:"Smart Vet", st:"Da correggere", cls:"wip", meta:"importazione razze incompleta"}
   ],
+  perimetro:{
+    ultimoContatto:"8 set — sollecito al commercialista per i bilanci, il secondo in cinque giorni",
+    esigenze:[
+      "«Non la svolta, ma veramente un braccio destro che mi manca»",
+      "«Adesso sono da sola»: la regia economica è la priorità assoluta",
+      "«So dove utilizzarla, ma mi manca il pratico»: dal sapere al fare",
+      "Dati per decidere i bonus dei collaboratori: l'uso concreto che chiede ai report",
+      "Magazzino, comunicazione al cliente e referti: i processi che restituiscono tempo",
+      "Collaboratori giovani scettici sul gestionale"],
+    comprato:[
+      {t:"Fase 1 · Formazione & abilitazione — C1 pensare, C2 produrre, C3 costruire", quando:"mese 1", stato:"wip", prova:"C1 e C2 fatte tra luglio e agosto; C3 «analista di business» su Claude ancora da completare"},
+      {t:"Igiene del setup: connettori, scheduler mail, cloud", quando:"settimane 1–3", stato:"wip", prova:"Le mail dei report a volte non partono e gli agenti vanno riavviati a mano"},
+      {t:"Collegamento e verifica del gestionale", quando:"settimane 2–3", stato:"done", prova:"Snoots MCP collegato, 250 strumenti, 29 luglio"},
+      {t:"Fase 2 · Build dell'agente di controllo di gestione", quando:"settimane 3–5", stato:"done", prova:"Sei tipi di report escono da soli: KPI giornalieri, clienti, settimana, collaboratori"},
+      {t:"Test & go-live", quando:"settimane 5–6", stato:"wip", prova:"In produzione dal mese di agosto, non ancora stabile"},
+      {t:"Budget preventivo 2026 su due anni di storico", quando:"parte della Fase 2", stato:"late", prova:"Conti economici 2024 e 2025 chiesti il 20 luglio, sollecitati il 4 e l'8 settembre"},
+      {t:"Pagamento Fase 1: 1.500 all'avvio + 2 rate da 1.500", quando:"tre pagamenti", stato:"wip", prova:"Seconda fattura inviata il 1° settembre"},
+      {t:"Fase 3 · Magazzino, recall clienti, supporto refertazione", quando:"mesi 4–6", stato:"open", prova:"385 voci di tariffario in classificazione: è la base"},
+      {t:"Governance dei dati sanitari, formalizzata fin dall'inizio", quando:"attenzione dichiarata nella proposta", stato:"open", prova:"Non risulta formalizzata"},
+      {t:"Fase 4 · Misurare e scalare", quando:"continuo", stato:"open"}],
+    paralleli:[
+      {tipo:"Analisi", t:"Bilanci e costi mensilizzati dal commercialista", quando:"dal 20 luglio",
+       influenza:"È l'unico blocco che dipende da una terza parte. Senza, il budget non si costruisce e la Fase 2 non si chiude"},
+      {tipo:"Aula", t:"Corso FOM con la segretaria", quando:"previsto dal T0 del 22 giugno",
+       influenza:"La C2 della proposta include «il personale operativo, es. la segretaria già in formazione FOM»: è il primo ingresso del team"},
+      {tipo:"Analisi", t:"Report automatico sulle performance dei collaboratori", quando:"ogni settimana",
+       influenza:"Serve per i bonus, ma un agente che legge le performance delle persone richiede che le persone siano informate prima — principio dichiarato da BVB nel piano Di Blasi, vale anche qui"},
+      {tipo:"Fornitore", t:"Snoots — fatture degli agenti e cassetto fiscale", quando:"in corso",
+       influenza:"La triangolazione via mail per approvare le fatture d'acquisto non funziona: va risolta con il team Snoots, non da soli"}],
+    oltre:[
+      "Il cruscotto di gestione «che gira come agente» era l'output atteso ai mesi 2–3: è in produzione dal secondo mese, con numeri veri ogni sera",
+      "Il briefing clientela per competenze e razze su quattro giorni non è nella proposta: è nato dal lavoro sui dati"]},
   prossimaMossa:{
     t:"Chiudere la Fase 2 andando a prendere i bilanci alla fonte, e rifissare la cadenza",
     perche:"L'output della Fase 2 è il cruscotto di gestione che gira come agente: manca solo il budget, fermo dal 20 luglio sul commercialista. E dal 2 settembre non c'è un incontro a calendario, mentre la proposta fissa sessioni di due ore ogni quindici giorni.",
@@ -941,6 +1067,35 @@ function callList(c){
   </div>`;
 }
 
+
+const perLate = c => c.perimetro.comprato.filter(x=>x.stato==="late");
+const perDone = c => c.perimetro.comprato.filter(x=>x.stato==="done").length;
+
+function checkRapido(c){
+  const late = perLate(c);
+  return `<div class="rapid">
+    <div><div class="k">Dove siamo</div><div class="v"><b>${esc(c.avanzamento)}</b>${esc(c.percorso.forma)}</div></div>
+    <div><div class="k">Cosa ha chiesto</div><ul>${c.perimetro.esigenze.slice(0,3).map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>
+    <div><div class="k">Cosa è in ritardo sul piano</div><div class="v"><b style="color:var(--coral)">${late.length} su ${c.perimetro.comprato.length}</b>${late.length?esc(late[0].t.split(" — ")[0]):"nulla"}</div></div>
+    <div><div class="k">Ultimo contatto</div><div class="v">${esc(c.perimetro.ultimoContatto)}<span class="evid">Mossa: ${esc(c.prossimaMossa.t)}</span></div></div>
+  </div>`;
+}
+
+function perimetro(c, asClient){
+  return c.perimetro.comprato.map(x=>`<div class="per ${x.stato}">
+    <span class="b"></span>
+    <span>${esc(x.t)}${x.prova && !asClient ? `<span class="evid">${esc(x.prova)}</span>` : ""}${x.prova && asClient && x.stato!=="open" ? `<span class="evid">${esc(x.prova)}</span>` : ""}</span>
+    <span class="q">${esc(x.quando)}</span>
+  </div>`).join("");
+}
+
+function paralleli(c){
+  return c.perimetro.paralleli.map(x=>`<div class="tp">
+    <span class="tag ${esc(x.tipo)}">${esc(x.tipo)}</span>
+    <span><b>${esc(x.t)}</b> <span style="color:var(--mute)">· ${esc(x.quando)}</span><span class="evid">→ ${esc(x.influenza)}</span></span>
+  </div>`).join("");
+}
+
 /* ═══════════════════ console ═══════════════════ */
 function viewConsole(){
   const inRitardo = CLIENTS.reduce((n,c)=>n+late(c),0);
@@ -992,7 +1147,7 @@ function viewConsole(){
             <div class="kv"><span style="font-weight:700">${esc(c.nome)}</span>
               <span class="chip ${late(c)?"late":"wip"}"><span class="dot"></span>${esc(c.avanzamento)}</span></div>
             <div class="evid">${esc(c.percorso.nome)} · ${esc(c.percorso.forma)}</div>
-            <div class="evid" style="color:var(--coral)">${late(c)?(late(c)===1?"1 azione in ritardo":late(c)+" azioni in ritardo"):""}</div>
+            <div class="evid" style="color:var(--coral)">${perLate(c).length} passaggi del piano in ritardo${late(c)?` · ${late(c)} azion${late(c)===1?"e":"i"} in ritardo`:""}</div>
           </button>`).join("")}
       </div>
     </section>
@@ -1040,6 +1195,9 @@ function viewClient(){
       <button class="btn primary" data-toast="Nuovo incontro creato sul calendario, con invito e link Meet.">Fissa un incontro</button>
     </div>
   </div>
+
+  ${checkRapido(c)}
+  <div style="height:18px"></div>
 
   <div class="mossa">
     <div class="idx">→</div>
@@ -1159,8 +1317,27 @@ function viewClient(){
     </div>
   </div>
 
+  <div class="grid cols-2" style="margin-top:18px">
+    <section class="panel">
+      <header><h3>Il perimetro comprato, passo per passo</h3><span class="count num">${perDone(c)} fatti · ${perLate(c).length} in ritardo · ${c.perimetro.comprato.length} totali</span></header>
+      <p style="color:var(--mute);font-size:12px;margin:0 0 10px">I passaggi chiave così come stanno nel documento di progetto, con la data promessa e la prova dello stato.</p>
+      ${perimetro(c,false)}
+    </section>
+    <div class="stack">
+      <section class="panel">
+        <header><h3>Touchpoint paralleli</h3><span class="count">fuori dal perimetro, ma attivi</span></header>
+        <p style="color:var(--mute);font-size:12px;margin:0 0 6px">Aule, analisi, fornitori, persone. Ognuno dice su cosa influisce: è la differenza tra un'esigenza del cliente e un'azione che quell'informazione può cambiare.</p>
+        ${paralleli(c)}
+      </section>
+      <section class="panel">
+        <header><h3>Oltre le aspettative</h3><span class="count">quello che il piano non prometteva</span></header>
+        <ul style="margin:0;padding-left:16px;font-size:12.5px">${c.perimetro.oltre.map(o=>`<li style="margin-bottom:5px">${esc(o)}</li>`).join("")}</ul>
+      </section>
+    </div>
+  </div>
+
   <section class="panel" style="margin-top:18px">
-    <header><h3>I cantieri aperti</h3><span class="count">ricavati dalle call, non dichiarati a mano</span></header>
+    <header><h3>I sistemi del piano</h3><span class="count">come stanno nel documento di progetto</span></header>
     <div class="grid cols-${c.sistemi.length>3?"2":"3"}">${sistemi(c)}</div>
   </section>`;
 }
@@ -1208,6 +1385,12 @@ function viewPortal(){
         <p style="margin:0 0 12px;font-size:13px">${esc(c.incontri[0].sintesi)}</p>
         <div class="kv" style="font-size:12.5px"><span>Registrazione integrale</span>
           <a class="link" href="${FF(c.incontri[0].ff)}" target="_blank" rel="noopener">rivedila</a></div>
+      </section>
+
+      <section class="panel">
+        <header><h3>Cosa ci siamo detti di fare, e a che punto è</h3><span class="count num">${perDone(c)} di ${c.perimetro.comprato.length}</span></header>
+        <p style="color:var(--mute);font-size:12px;margin:0 0 10px">È il piano che hai ricevuto, riga per riga. Verde fatto, giallo in corso, rosso in ritardo — da parte nostra o tua.</p>
+        ${perimetro(c,true)}
       </section>
 
       <section class="panel">
@@ -1399,7 +1582,16 @@ function reportSheet(){
       ${c.incontri.map(m=>`<p><b>${esc(m.data)} — ${esc(m.t)}</b> (${esc(m.durata)})<br>${esc(m.sintesi)}
         ${m.materiali?`<br><span class="evid">${esc(m.materiali)}</span>`:""}</p>`).join("")}
 
-      <h4>I cantieri aperti</h4>
+      <h4>Il perimetro comprato · ${perDone(c)} fatti, ${perLate(c).length} in ritardo</h4>
+      ${perimetro(c,false)}
+
+      <h4>Touchpoint paralleli</h4>
+      ${paralleli(c)}
+
+      <h4>Oltre le aspettative</h4>
+      <ul>${c.perimetro.oltre.map(o=>`<li>${esc(o)}</li>`).join("")}</ul>
+
+      <h4>I sistemi del piano</h4>
       ${c.sistemi.map(x=>`<p><b>${esc(x.nm)}</b> — ${esc(x.stato.txt)}.<br>${esc(x.desc)}<br>
         <span class="evid">${x.punti.map(esc).join(" · ")}</span></p>`).join("")}
 
@@ -1452,6 +1644,15 @@ function handSheet(){
       <h4>La prossima mossa</h4>
       <p style="margin:0;font-size:13px"><b>${esc(c.prossimaMossa.t)}</b> — ${esc(c.prossimaMossa.perche)}
         <br><span style="color:var(--mute)">Chi: ${esc(c.prossimaMossa.chi)} · ${esc(c.prossimaMossa.entro)}</span></p>
+
+      <h4>Cosa ha chiesto, con le sue parole</h4>
+      ${ul(c.perimetro.esigenze)}
+
+      <h4>Il perimetro comprato · ${perDone(c)} fatti, ${perLate(c).length} in ritardo</h4>
+      ${perimetro(c,false)}
+
+      <h4>Touchpoint paralleli e cosa influenzano</h4>
+      ${paralleli(c)}
 
       <h4>Cosa è stato attivato</h4>
       ${ul(h.attivato)}
