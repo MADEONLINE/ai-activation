@@ -70,21 +70,40 @@ Le azioni in dashboard sono gli action item estratti da Fireflies, con tre aggiu
 
 ---
 
-## 6. I cinque punti non verificati
+## 6. Che cosa NON è stato letto
+
+**Nessun documento di progetto è stato aperto.** Proposte, piani e report vivono come **allegati PDF** dentro le email, e gli allegati Gmail non sono accessibili agli strumenti collegati; su Drive non ci sono. Quello che l'app sa dei progetti viene dal **corpo delle email** e dalle **trascrizioni delle call**, non dai documenti.
+
+Documenti citati ma mai letti:
+
+| Cliente | Documento | Cosa se ne sa |
+|---|---|---|
+| Viglietti | `proposta-Viglietti.pdf` (22/06) | esiste, allegato all'email del punto T0 |
+| Viglietti | `piano-mentorship-viglietti_2.pdf` (07/08) | esiste, insieme al link Calendly e alla Fattura 96/2026 |
+| Di Blasi | allegato di «Il piano di volo» (07/08) | dodici pagine; a pagina 11 le tre cose che servono nei trenta giorni successivi |
+| Di Blasi | proposta di controllo di gestione (31/03), proposta formativa (31/03), report H1 2026 (20/07) | esistono, con oggetto e data |
+| Zanini | report T0 e proposta di mentorship | **previsti** da un action item del 22 giugno; nessuna email di consegna trovata |
+
+Conseguenza diretta: **la struttura a sei tappe di Di Blasi è dedotta**, non letta. L'evento del 7 settembre è una prenotazione Calendly dello stesso tipo di quella di Viglietti, il cui piano parla di sei slot; da lì l'ipotesi. In dashboard la mappa porta il chip *Struttura da confermare* e la spiegazione sotto. Per Viglietti, dove il piano è citato ma non letto, vale lo stesso per i nomi dei tre sistemi.
+
+Basta una delle due per chiudere il punto: caricare quei PDF su Drive, oppure incollarne l'indice.
+
+---
+
+## 7. I punti non verificati segnalati in dashboard
 
 Sono in dashboard, marcati *Da confermare*, invece che risolti a intuito:
 
 1. **Viglietti** — i nomi ufficiali dei tre sistemi vanno letti da `piano-mentorship-viglietti_2.pdf`: gli allegati Gmail non sono leggibili dagli strumenti collegati e il file non è su Drive.
 2. **Viglietti** — due inviti «Spiegare percorso Mentorship» accettati il 13 e 15 luglio, senza evento né registrazione superstite.
 3. **Di Blasi** — la Tappa 2 del 5 ottobre risulta accettata via email ma non esiste sul calendario BVB.
-4. **Di Blasi** — il secondo modulo del Super Master: la call del 7 agosto dice 18 settembre, l'email dello stesso giorno dice **25 settembre a Milano**. In dashboard vale l'email, che è successiva.
+4. **Di Blasi** — la struttura a sei tappe è dedotta dal tipo di prenotazione Calendly, non letta dal piano.
 5. **Zanini** — l'incontro del 2 settembre è a calendario ma non ha registrazione: da verificare se si è svolto.
-
-Anche per Di Blasi il piano (`Mentorship AI - Il piano di volo - Di Blasi_1.pdf`, dodici pagine, due fasi e cinque milestone) è un allegato non leggibile: caricarlo su Drive darebbe alle sei tappe il titolo giusto.
+6. **Zanini** — report T0 e proposta di mentorship risultano previsti da un action item, ma l'email di consegna non è stata trovata.
 
 ---
 
-## 7. Cosa serve per far vivere l'MVP
+## 8. Cosa serve per far vivere l'MVP
 
 Oggi il prototipo mostra una fotografia. Per farla aggiornare da sola, nell'ordine:
 
@@ -98,7 +117,7 @@ Cinque giorni di lavoro. Le richieste di appuntamento e di informazioni sono l'u
 
 ---
 
-## 8. Perché è riproducibile
+## 9. Perché è riproducibile
 
 Il passaggio da uno a tre clienti non ha richiesto una seconda applicazione né un secondo impianto: sono state aggiunte due righe di dati, lette dalle stesse quattro fonti. Per il quarto cliente serve:
 

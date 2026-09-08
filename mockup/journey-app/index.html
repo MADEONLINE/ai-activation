@@ -301,6 +301,14 @@
   .cbtn[aria-current="true"] .ini{background:rgba(255,255,255,.22);color:var(--on-teal)}
   .cbtn .flag{width:6px;height:6px;border-radius:50%;background:var(--coral)}
 
+  .quota{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .qbtn{
+    border:1px solid var(--rule);background:var(--bg-sunk);border-radius:99px;
+    padding:3px 10px;font-size:11.5px;font-weight:600;color:var(--ink-2);
+  }
+  .qbtn:hover{border-color:var(--ink);background:var(--surface)}
+  .qbtn b{font-variant-numeric:tabular-nums}
+
   .rep h4{
     font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
     text-transform:uppercase;color:var(--teal);margin:22px 0 9px;
@@ -380,7 +388,7 @@ const CLIENTS = [
   email:"vigliettibus@hotmail.com", dal:"22 giugno 2026",
   percorso:{nome:"Mentorship AI", forma:"6 tappe, settembre — novembre 2026",
             regola:"Slot da due ore su Meet, almeno dieci giorni tra un incontro e l'altro"},
-  avanzamento:"1 di 6 tappe", rischio:true,
+  avanzamento:"1 di 6 tappe", rischio:true, daPrenotare:5,
   steps:[
     {l:"Tappa 1", s:"7 set 2026", st:"done"},
     {l:"Tappa 2", s:"da fissare", st:"now"},
@@ -498,9 +506,10 @@ const CLIENTS = [
   id:"enrico", nome:"Enrico Di Blasi", breve:"Enrico",
   ruolo:"Titolare · Clinica Veterinaria Di Blasi — con Maria",
   email:"enrico.diblasi@gmail.com", dal:"31 marzo 2026",
-  percorso:{nome:"Mentorship AI", forma:"6 tappe, settembre — novembre 2026",
-            regola:"Due fasi, cinque milestone, tariffario in due blocchi, calendario fino a gennaio"},
-  avanzamento:"1 di 6 tappe", rischio:true,
+  percorso:{nome:"Mentorship AI", forma:"6 tappe ipotizzate, da settembre",
+            regola:"Fatturazione mensile: 1.500 € + IVA, settembre anticipato pagato il 10 agosto, seconda fattura a inizio ottobre",
+            verifica:"La struttura a sei tappe è dedotta dal tipo di prenotazione Calendly, lo stesso di Viglietti. Il piano allegato alla mail del 7 agosto non è stato letto: gli allegati Gmail non sono accessibili agli strumenti collegati."},
+  avanzamento:"1 di 6 tappe", rischio:true, daPrenotare:4,
   steps:[
     {l:"Tappa 1", s:"7 set 2026", st:"done"},
     {l:"Tappa 2", s:"5 ott, da confermare", st:"now"},
@@ -597,7 +606,7 @@ const CLIENTS = [
     {t:"Proposta formativa + economica", q:"Master AI Manager Vet e Clinic Management, con Maria", d:"31 mar · 23 apr"},
     {t:"Primi report", q:"Fotografia attuale del business", d:"7 giu"},
     {t:"Report H1 2026", q:"Primo semestre della clinica", d:"20 lug"},
-    {t:"Mentorship AI — Il piano di volo — Di Blasi_1.pdf", q:"Dodici pagine: due fasi, cinque milestone, calendario fino a gennaio", d:"7 ago"},
+    {t:"Allegato alla mail «Il piano di volo» — non aperto", q:"Dodici pagine; a pagina 11 le tre cose che servono nei trenta giorni successivi", d:"7 ago"},
     {t:"NUOVO Cruscotto_CdG_DiBlasi_2026_rev", q:"Budget corretto, su Drive condiviso", d:"11 ago"},
     {t:"Fattura n° 1 Mentorship AI", q:"1.500 € + IVA, settembre anticipato", d:"10 ago", interno:true},
     {t:"Report prima lezione + presentazione", q:"Inviati a Enrico e Maria", d:"7 set"}
@@ -635,7 +644,7 @@ const CLIENTS = [
   email:"stefaniazaninivet@gmail.com", dal:"22 giugno 2026",
   percorso:{nome:"Mentorship AI", forma:"affiancamento ogni 15 giorni, da luglio",
             regola:"Non a tappe: cadenza quindicinale, fatturazione mensile"},
-  avanzamento:"7 incontri · 2° mese", rischio:true,
+  avanzamento:"7 incontri · 2° mese", rischio:true, daPrenotare:0,
   steps:[
     {l:"22 giu", s:"T0", st:"done"}, {l:"17 lug", s:"1º appuntamento", st:"done"},
     {l:"20 lug", s:"follow-up", st:"done"}, {l:"22 lug", s:"agenti KPI", st:"done"},
@@ -710,7 +719,7 @@ const CLIENTS = [
             "Importazione razze da Smart Vet da correggere"]}
   ],
   materiali:[
-    {t:"Report T0 e proposta di mentorship", q:"Valutazione e programma di affiancamento ogni 15 giorni", d:"giu"},
+    {t:"Report T0 e proposta di mentorship — invio non verificato", q:"Previsti dalla call del 22 giugno; nessuna email di consegna trovata", d:"giu"},
     {t:"Report automatici giornalieri e settimanali", q:"KPI, clienti, collaboratori, giorno della settimana", d:"in corso"},
     {t:"Drive condiviso dati contabili e bilanci", q:"Cartella per il controllo di gestione", d:"lug"},
     {t:"Fattura 2° mese di Mentorship", q:"Inviata il 1° settembre", d:"1 set", interno:true}
@@ -814,11 +823,22 @@ function viewConsole(){
   const inRitardo = CLIENTS.reduce((n,c)=>n+late(c),0);
   const bvbAperte = CLIENTS.reduce((n,c)=>n+openBvb(c),0);
   const senzaData = CLIENTS.filter(c=>!c.prossimo || c.prossimo.verifica).length;
+  const daPren = CLIENTS.reduce((n,c)=>n+c.daPrenotare, 0);
+  const perCliente = f => CLIENTS.map(c=>({id:c.id, breve:c.breve, v:f(c)})).filter(x=>x.v);
   const daFare = [
-    {t:"Azioni cliente in ritardo", n:inRitardo, cls:"late", d:"su tutti e tre i percorsi"},
-    {t:"Azioni BVB aperte o in corso", n:bvbAperte, cls:"wip", d:"assegnate a Massimo dalle call"},
-    {t:"Clienti senza prossimo incontro certo", n:senzaData, cls:"late", d:"Enrico da riconfermare, Stefania nessuno"},
-    {t:"Tappe di percorso ancora da prenotare", n:9, cls:"wip", d:"5 per Antonio, 4 per Enrico"}
+    {t:`${inRitardo} azioni dei clienti sono in ritardo`,
+     d:"la data dichiarata in call o in email è già passata",
+     chip:{cls:"late", txt:"in ritardo"}, quota:perCliente(late)},
+    {t:`${bvbAperte} azioni BVB sono aperte o in corso`,
+     d:"quelle assegnate a Massimo negli action item delle call, non ancora chiuse",
+     chip:{cls:"wip", txt:"da fare"}, quota:perCliente(openBvb)},
+    {t:`${senzaData} clienti non hanno un prossimo incontro certo`,
+     d:"nessuna data valida sul calendario di lavoro BVB",
+     chip:{cls:"late", txt:"da fissare"},
+     quota:[{id:"enrico", breve:"Enrico", v:"5 ott da riconfermare"}, {id:"stefania", breve:"Stefania", v:"nessuno dal 2 set"}]},
+    {t:`${daPren} incontri del pacchetto restano da prenotare`,
+     d:"solo i percorsi a sei tappe: Stefania è a cadenza quindicinale e non ha tappe",
+     chip:{cls:"wip", txt:"da prenotare"}, quota:perCliente(c=>c.daPrenotare)}
   ];
   return `
   <div class="banner" style="margin:22px 0 18px">
@@ -828,11 +848,15 @@ function viewConsole(){
 
   <div class="grid cols-2">
     <section class="panel">
-      <header><h3>Da fare oggi</h3><span class="count">8 settembre 2026</span></header>
+      <header><h3>Da fare oggi</h3><span class="count">8 settembre 2026 · conteggi sui tre percorsi</span></header>
       <div class="stack divide">
-        ${daFare.map(x=>`<div class="kv">
-          <span>${x.t}<span class="evid">${x.d}</span></span>
-          <span class="chip ${x.cls}"><span class="dot"></span><span class="num">${x.n}</span></span>
+        ${daFare.map(x=>`<div>
+          <div class="kv">
+            <span style="font-weight:700">${x.t}</span>
+            <span class="chip ${x.chip.cls}"><span class="dot"></span>${x.chip.txt}</span>
+          </div>
+          <div class="evid">${x.d}</div>
+          <div class="quota">${x.quota.map(q=>`<button class="qbtn" data-open="${q.id}">${esc(q.breve)} <b>${esc(String(q.v))}</b></button>`).join("")}</div>
         </div>`).join("")}
       </div>
     </section>
@@ -895,9 +919,12 @@ function viewClient(){
   ${figure(c)}
 
   <section class="panel" style="margin-top:18px">
-    <header><h3>${esc(c.percorso.nome)}</h3><span class="count num">${esc(c.avanzamento)}</span></header>
+    <header><h3>${esc(c.percorso.nome)}</h3>
+      ${c.percorso.verifica?`<span class="chip wip"><span class="dot"></span>Struttura da confermare</span>`:""}
+      <span class="count num">${esc(c.avanzamento)}</span></header>
     ${track(c)}
     <p style="margin:12px 0 0;font-size:12px;color:var(--mute)">${esc(c.percorso.regola)}</p>
+    ${c.percorso.verifica?`<p style="margin:6px 0 0;font-size:12px;color:var(--gold)">${esc(c.percorso.verifica)}</p>`:""}
     <div class="warn" style="margin-top:14px">
       <b>${esc(c.allerta.t)}.</b> ${esc(c.allerta.m)}
     </div>
@@ -1103,7 +1130,9 @@ function viewBack(){
     ["Viglietti", "I nomi ufficiali dei tre sistemi vanno letti da piano-mentorship-viglietti_2.pdf, allegato non leggibile dagli strumenti collegati."],
     ["Viglietti", "Due inviti «Spiegare percorso Mentorship» accettati il 13 e 15 luglio, senza evento né registrazione superstite."],
     ["Di Blasi", "La Tappa 2 del 5 ottobre risulta accettata via email ma non esiste sul calendario BVB."],
-    ["Di Blasi", "Il secondo modulo del Super Master: la call del 7 agosto dice 18 settembre, l'email dello stesso giorno dice 25 settembre a Milano."],
+    ["Di Blasi", "La struttura a sei tappe è dedotta dal tipo di prenotazione Calendly, non letta dal piano: quel documento è un allegato non accessibile."],
+    ["Tutti", "Nessun documento di progetto è stato aperto: proposte, piani e report vivono come allegati PDF nelle email, e gli allegati Gmail non sono leggibili dagli strumenti collegati. Quello che l'app sa dei piani viene dal corpo delle email e dalle call, non dai documenti."],
+    ["Zanini", "Il report T0 e la proposta di mentorship risultano previsti da un action item del 22 giugno, ma non è stata trovata l'email che li consegna."],
     ["Zanini", "L'incontro del 2 settembre è a calendario ma non ha registrazione: da verificare se si è svolto."]
   ];
   return `
