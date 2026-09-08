@@ -323,9 +323,9 @@ const C = {
   calendly:"https://calendly.com/massimoserreri/consulenza-ai-mentor-ai",
 
   figure:[
-    {n:"4", l:"call registrate con Antonio dal 28 maggio — 211 minuti", src:"Fireflies"},
-    {n:"5", l:"tappe del percorso ancora da fissare su Calendly", src:"Gmail 07/08"},
-    {n:"80–90", l:"messaggi al giorno gestiti in clinica", src:"Fireflies 07/09"},
+    {n:"1 di 6", l:"tappe del percorso svolte", src:"Calendar 07/09"},
+    {n:"5", l:"tappe ancora da fissare su Calendly", src:"Gmail 07/08"},
+    {n:"132′", l:"durata della Tappa 1", src:"Fireflies 07/09"},
     {n:"3", l:"richieste già gestite dal sistema emergenze", src:"Gmail 08/09"}
   ],
 
@@ -534,14 +534,13 @@ function viewBvb(){
   ${figure()}
 
   <section class="panel" style="margin-top:18px">
-    <header><h3>Percorso Mentorship AI</h3><span class="count num">${C.fatte} di ${C.totali} tappe · quarta call insieme</span></header>
+    <header><h3>Percorso Mentorship AI</h3><span class="count num">${C.fatte} di ${C.totali} tappe fatte</span></header>
     ${trackTappe()}
-    <div class="banner" style="margin-top:16px">
-      <b>Tappa 1 non è la prima call.</b>
-      <span style="color:var(--mute)">È il primo dei sei incontri del percorso, prenotato con il link Calendly del 7 agosto.
-      Prima ci sono già state tre call registrate con Antonio, dal 28 maggio: le trovi qui sotto in “Prima del percorso”.</span>
-    </div>
-    <div class="warn" style="margin-top:12px">
+    <p style="margin:12px 0 0;font-size:12px;color:var(--mute)">
+      Le tappe contano solo i sei incontri del pacchetto, prenotati con il link Calendly del 7 agosto.
+      Le tre call precedenti — dal 28 maggio — stanno sotto “Prima del percorso” e non entrano nel conteggio.
+    </p>
+    <div class="warn" style="margin-top:14px">
       <b>Le cinque tappe successive non sono ancora a calendario.</b> Il link Calendly è partito il 7 agosto.
       Con dieci giorni minimi tra un incontro e l'altro, novembre si copre solo se la Tappa 2 entra entro fine settembre.
     </div>
@@ -638,8 +637,8 @@ function viewPortal(){
     <div class="label">Il mio percorso con BRAVE Vet Business</div>
     <h2 class="serif" style="margin:6px 0 4px">Tappa 1 fatta. Restano cinque incontri da fissare.</h2>
     <p style="color:var(--mute);max-width:64ch;margin:0 0 18px">
-      Ciao Antonio. Ci siamo visti quattro volte da fine maggio; il 7 settembre è stata la prima delle sei tappe del
-      percorso, e insieme abbiamo costruito il primo prototipo: oggi quel sistema ha già risposto a tre richieste vere.
+      Ciao Antonio. Il 7 settembre abbiamo fatto la prima delle sei tappe del percorso e costruito insieme il primo
+      prototipo: oggi quel sistema ha già risposto a tre richieste vere.
       Il prossimo passo dipende da te — scegliere le date delle prossime cinque tappe.
     </p>
     ${trackTappe()}
@@ -680,7 +679,7 @@ function viewPortal(){
       </section>
 
       <section class="panel">
-        <header><h3>Le nostre call</h3><span class="count num">4 · 211 minuti</span></header>
+        <header><h3>Le nostre call</h3><span class="count">4 registrate · 1 è una tappa</span></header>
         <div class="stack divide" style="font-size:12.5px">
           <div class="kv"><span><span class="mono" style="color:var(--mute)">28 mag</span> &nbsp;Super Master AI — istruzioni abilitanti <span style="color:var(--mute)">· 22 min</span></span>
             <a class="link" href="${FF(CALL_0)}" target="_blank" rel="noopener">rivedi</a></div>

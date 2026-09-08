@@ -31,7 +31,7 @@ Distinzione che vale la pena tenere ferma, perché la prima versione della dashb
 - **Prima call registrata con Antonio: 28 maggio 2026.** È una sessione di gruppo del Super Master AI in cui Antonio interviene e dichiara le proprie motivazioni.
 - **Tappa 1 del percorso: 7 settembre 2026.** Che sia la prima delle sei tappe è confermato da due elementi indipendenti: l'evento a calendario è una prenotazione Calendly del tipo *Consulenza AI - Mentor AI*, cioè lo stesso link dei sei slot inviato il 7 agosto; e il documento inviato il giorno dopo si chiama `Report-Tappa-1-Mentorship-AI-Viglietti.pdf`.
 
-Quando il percorso viene aperto, quindi, la relazione con il cliente ha già 102 minuti di call alle spalle. La dashboard li mostra sotto «Prima del percorso» e non li conteggia tra le tappe.
+**Il conteggio delle tappe resta stretto:** contano solo i sei incontri del pacchetto, quelli prenotabili con il link Calendly. Le tre call precedenti — 102 minuti complessivi — stanno sotto «Prima del percorso» come contesto della relazione e non entrano nella mappa di avanzamento. È la regola giusta anche per i clienti successivi: la mappa misura il pacchetto venduto, non la frequentazione.
 
 ### Un buco nei dati: luglio
 
@@ -79,7 +79,7 @@ Lo stato è assegnato solo dove esiste una prova nei sistemi:
 
 ## 5. Le due viste
 
-**Lato BVB** — anagrafica e percorso, quattro numeri di sintesi presi dai dati (4 call registrate per 211 minuti, 5 tappe da fissare, 80–90 messaggi al giorno, 3 richieste già gestite dal sistema emergenze), mappa delle sei tappe con la distinzione tra tappa e call e l'avviso sul rischio novembre, prossimo appuntamento, incontri con registrazione e materiali, storia di come è nato il cliente, le due liste di azioni, note interne, i tre cantieri.
+**Lato BVB** — anagrafica e percorso, quattro numeri di sintesi presi dai dati (1 di 6 tappe svolte, 5 da fissare, 132′ di Tappa 1, 3 richieste già gestite dal sistema emergenze), mappa delle sei tappe con l'avviso sul rischio novembre, prossimo appuntamento, incontri con registrazione e materiali, storia di come è nato il cliente, le due liste di azioni, note interne, i tre cantieri.
 
 **Lato cliente** — la stessa sostanza senza il retro: niente note interne, niente fattura, niente altri clienti. In cima una sola cosa da fare («prenota le cinque tappe», con il link Calendly reale), poi cosa è successo in Tappa 1, l'elenco delle quattro call con il link per rivederle, i sistemi in costruzione, le sue azioni con il rimando al minuto, i materiali ricevuti e i due pulsanti di comunicazione.
 
