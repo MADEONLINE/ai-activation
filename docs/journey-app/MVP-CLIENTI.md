@@ -70,36 +70,38 @@ Le azioni in dashboard sono gli action item estratti da Fireflies, con tre aggiu
 
 ---
 
-## 6. Che cosa NON è stato letto
+## 6. I documenti di progetto, ora letti
 
-**Nessun documento di progetto è stato aperto.** Proposte, piani e report vivono come **allegati PDF** dentro le email, e gli allegati Gmail non sono accessibili agli strumenti collegati; su Drive non ci sono. Quello che l'app sa dei progetti viene dal **corpo delle email** e dalle **trascrizioni delle call**, non dai documenti.
+L'8 settembre i tre documenti sono stati caricati e letti. Da lì vengono i nomi dei sistemi, le cadenze e le milestone che prima erano dedotti.
 
-Documenti citati ma mai letti:
-
-| Cliente | Documento | Cosa se ne sa |
+| Cliente | Documento | Cosa ha cambiato |
 |---|---|---|
-| Viglietti | `proposta-Viglietti.pdf` (22/06) | esiste, allegato all'email del punto T0 |
-| Viglietti | `piano-mentorship-viglietti_2.pdf` (07/08) | esiste, insieme al link Calendly e alla Fattura 96/2026 |
-| Di Blasi | allegato di «Il piano di volo» (07/08) | dodici pagine; a pagina 11 le tre cose che servono nei trenta giorni successivi |
-| Di Blasi | proposta di controllo di gestione (31/03), proposta formativa (31/03), report H1 2026 (20/07) | esistono, con oggetto e data |
-| Zanini | report T0 e proposta di mentorship | **previsti** da un action item del 22 giugno; nessuna email di consegna trovata |
+| **Viglietti** | *Il piano dei 3 mesi* — Ambulatorio Veterinario Viglietti, Carloforte | I tre sistemi hanno il nome vero: i quattro agenti dei numeri, la comunicazione che si scrive da sola, l'agenda che smette di soffocare. Sei incontri con titolo, output e KPI. Le tre cose di agosto. La decisione Strada A / Strada B |
+| **Di Blasi** | *Il piano di volo · Tappa 0* — per Enrico e Maria | Cinque milestone verificabili, non quattro cantieri dedotti. Sei tappe una ogni dieci giorni, calendario fino a gennaio. Le tre mosse dei 30 giorni con le loro scadenze |
+| **Zanini** | *Percorso AI 2026* — metodo FARO | Non una cadenza generica: quattro fasi FARO, maturità L2 misurata a 46/100, investimento Fase 1 di 4.500 € in tre pagamenti |
 
-Conseguenza diretta: **la struttura a sei tappe di Di Blasi è dedotta**, non letta. L'evento del 7 settembre è una prenotazione Calendly dello stesso tipo di quella di Viglietti, il cui piano parla di sei slot; da lì l'ipotesi. In dashboard la mappa porta il chip *Struttura da confermare* e la spiegazione sotto. Per Viglietti, dove il piano è citato ma non letto, vale lo stesso per i nomi dei tre sistemi.
+### Cosa ho dovuto correggere
 
-Basta una delle due per chiudere il punto: caricare quei PDF su Drive, oppure incollarne l'indice.
+- **Viglietti non è in provincia di Olbia: la clinica è a Carloforte**, ed è un *Ambulatorio*, non una Clinica.
+- **Antonio ha già firmato Snoots.** L'app lo dava come «da attivare»: il gestionale su cui poggia il percorso è deciso.
+- **I «20 messaggi» non sono 80–90.** Il piano parla di venti richieste di appuntamento in coda; gli 80–90 messaggi quotidiani vengono dalla call e sono un'altra cosa.
+- **La landing emergenze non è nel piano di Viglietti.** È nata in Tappa 1: va decisa, non data per acquisita.
+- **La struttura di Di Blasi non era un'ipotesi:** sei tappe una ogni dieci giorni, confermate. Il chip «da confermare» è stato tolto.
+- **Il Master di Milano è il 25 settembre**, confermato dal piano di Di Blasi. Il dubbio sulle date è chiuso.
+- **Le cinque milestone di Di Blasi** hanno sostituito i quattro cantieri che avevo ricavato dalle call, che ne coglievano solo una parte.
 
 ---
 
 ## 7. I punti non verificati segnalati in dashboard
 
-Sono in dashboard, marcati *Da confermare*, invece che risolti a intuito:
-
-1. **Viglietti** — i nomi ufficiali dei tre sistemi vanno letti da `piano-mentorship-viglietti_2.pdf`: gli allegati Gmail non sono leggibili dagli strumenti collegati e il file non è su Drive.
-2. **Viglietti** — due inviti «Spiegare percorso Mentorship» accettati il 13 e 15 luglio, senza evento né registrazione superstite.
-3. **Di Blasi** — la Tappa 2 del 5 ottobre risulta accettata via email ma non esiste sul calendario BVB.
-4. **Di Blasi** — la struttura a sei tappe è dedotta dal tipo di prenotazione Calendly, non letta dal piano.
-5. **Zanini** — l'incontro del 2 settembre è a calendario ma non ha registrazione: da verificare se si è svolto.
-6. **Zanini** — report T0 e proposta di mentorship risultano previsti da un action item, ma l'email di consegna non è stata trovata.
+1. **Viglietti** — la decisione Strada A / Strada B, che il piano definisce «la scelta più importante dei prossimi tre mesi» da prendere area per area alla call 1, non risulta presa nelle note del 7 settembre.
+2. **Viglietti** — la landing emergenze è fuori piano: entra nel percorso o resta un fuori programma?
+3. **Viglietti** — due inviti «Spiegare percorso Mentorship» accettati il 13 e 15 luglio, senza evento né registrazione superstite.
+4. **Di Blasi** — la Tappa 2 del 5 ottobre è accettata via email ma non esiste sul calendario BVB, mentre il piano chiede le sei date sul calendario condiviso.
+5. **Di Blasi** — gli acquisti extra-UE non passano dal cassetto fiscale: vanno quantificati prima di fidarsi del dato di costo.
+6. **Di Blasi** — l'agente che legge le performance delle persone richiede una dichiarazione sottoscritta prima dell'attivazione.
+7. **Zanini** — l'incontro del 2 settembre è a calendario ma non ha registrazione.
+8. **Zanini** — la governance dei dati sanitari, indicata nella proposta come attenzione da formalizzare fin dall'inizio, non risulta formalizzata.
 
 ---
 

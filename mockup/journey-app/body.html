@@ -294,6 +294,32 @@
   .cbtn[aria-current="true"] .ini{background:rgba(255,255,255,.22);color:var(--on-teal)}
   .cbtn .flag{width:6px;height:6px;border-radius:50%;background:var(--coral)}
 
+  .mossa{
+    display:grid;grid-template-columns:auto 1fr;gap:0 16px;
+    background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--gold);
+    border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);
+  }
+  .mossa .idx{
+    grid-row:1/4;width:34px;height:34px;border-radius:50%;background:var(--gold-soft);
+    color:var(--gold);display:grid;place-items:center;font-weight:800;font-size:15px;
+  }
+  .mossa h3{font-family:"Fraunces",Georgia,serif;font-size:19px;font-weight:600;letter-spacing:-.01em;margin-bottom:4px}
+  .mossa .why{font-size:13px;color:var(--ink-2);margin:0 0 10px}
+  .mossa .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--mute)}
+
+  .hand h4{
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    margin:20px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--rule);color:var(--teal);
+  }
+  .hand h4:first-child{margin-top:0}
+  .hand ul{margin:0;padding-left:17px;font-size:13px}
+  .hand li{margin-bottom:5px}
+  .hand .attenzione{color:var(--coral)}
+
+  .check{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;cursor:pointer;padding:2px 0}
+  .check input{margin:2px 0 0;accent-color:var(--teal);flex:none;width:15px;height:15px}
+  .check.done span{color:var(--mute);text-decoration:line-through}
+
   .quota{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
   .qbtn{
     border:1px solid var(--rule);background:var(--bg-sunk);border-radius:99px;
@@ -375,25 +401,28 @@ const CLIENTS = [
 /* ═══════════════════ ANTONIO VIGLIETTI ═══════════════════ */
 {
   id:"antonio", nome:"Antonio Viglietti", breve:"Antonio",
-  ruolo:"Direttore sanitario · Clinica Veterinaria Viglietti",
+  ruolo:"Titolare · Ambulatorio Veterinario Viglietti, Carloforte",
   email:"vigliettibus@hotmail.com", dal:"22 giugno 2026",
-  percorso:{nome:"Mentorship AI", forma:"6 tappe, settembre — novembre 2026",
-            regola:"Slot da due ore su Meet, almeno dieci giorni tra un incontro e l'altro"},
+  percorso:{nome:"Il piano dei 3 mesi", forma:"6 incontri, uno ogni 10–15 giorni, settembre — novembre 2026",
+            regola:"Agosto resta fuori: è la stagione. Tra una call e l'altra arrivano video, audio e materiali",
+            fonte:"piano-mentorship-viglietti.pdf, letto l'8 settembre"},
   avanzamento:"1 di 6 tappe", rischio:true, daPrenotare:5,
   steps:[
-    {l:"Tappa 1", s:"7 set 2026", st:"done"},
-    {l:"Tappa 2", s:"da fissare", st:"now"},
-    {l:"Tappa 3", s:"da fissare"}, {l:"Tappa 4", s:"da fissare"},
-    {l:"Tappa 5", s:"da fissare"}, {l:"Tappa 6", s:"da fissare"}
+    {l:"Le fondamenta", s:"7 set · svolta", st:"done"},
+    {l:"I due agenti giornalieri", s:"metà set · da fissare", st:"now"},
+    {l:"La settimana e il budget", s:"inizio ott"},
+    {l:"Il cliente che hai già", s:"metà ott"},
+    {l:"Il motore dei contenuti", s:"inizio nov"},
+    {l:"L'agenda e il cruscotto", s:"fine nov"}
   ],
   figure:[
-    {n:"1 di 6", l:"tappe del percorso svolte"},
-    {n:"5", l:"tappe ancora da fissare su Calendly"},
-    {n:"132′", l:"durata della Tappa 1"},
-    {n:"3", l:"richieste già gestite dal sistema emergenze"}
+    {n:"1 di 6", l:"incontri del piano svolti"},
+    {n:"0 di 3", l:"cose di agosto chiuse: migrazione, slot, n8n"},
+    {n:"20", l:"messaggi di richiesta appuntamento in coda sul telefonino"},
+    {n:"1 ogni 5–7 gg", l:"post pubblicati oggi, un'ora l'uno"}
   ],
-  allerta:{t:"Le cinque tappe successive non sono a calendario",
-    m:"Il link Calendly è partito il 7 agosto. Con dieci giorni minimi tra un incontro e l'altro, novembre si copre solo se la Tappa 2 entra entro fine settembre."},
+  allerta:{t:"Nessuna delle tre cose di agosto è chiusa",
+    m:"Il piano ne chiedeva tre, entro fine agosto: migrare la fatturazione da Aruba (blocca metà percorso), prenotare i sei slot, aprire n8n. Sono tutte e tre aperte, e la prima blocca l'agente dello scostamento a budget. Il secondo incontro era atteso a metà settembre: è adesso."},
   prossimo:{t:"Landing Emergency — test", quando:"Martedì 8 settembre · 15:00–15:30",
     meet:"https://meet.google.com/fjs-ogrv-xhz",
     nota:"Verifica del prototipo costruito in Tappa 1. Invito accettato alle 12:58.", src:"Calendar"},
@@ -443,22 +472,26 @@ const CLIENTS = [
     {t:"Inviare il report di profilazione T0", chi:"bvb", stato:"ok", src:"Profilazione · 26:37", link:T(A1,1597), nota:"Fatto il 22 giugno, con la proposta di percorso"}
   ],
   sistemi:[
-    {nm:"Sistema emergenze — Carloforte", stato:{cls:"wip", txt:"In test oggi"}, src:"Fireflies 07/09 · Gmail 08/09",
-     desc:"Landing page dedicata a emergenze e turisti: il modulo raccoglie specie, sintomi e possibilità di raggiungere la clinica, classifica l'urgenza e coinvolge il direttore sanitario nei casi gravi.",
-     punti:["Prototipo HTML + webhook n8n costruito in diretta il 7 settembre",
-            "Tre risposte già generate e inviate l'8 settembre: Gatto, Gatta europea, Cane meticcio",
-            "Ogni risposta dichiara di essere scritta da un assistente artificiale",
-            "Da chiudere: credenziali SMTP e pubblicazione su Netlify o GitHub"]},
-    {nm:"Sistema dati ed economia", stato:{cls:"late", txt:"In attesa del primo domino"}, src:"Fireflies 06/08 · 07/09",
-     desc:"Analisi di fatture d'acquisto e centri di costo per passare da una gestione reattiva a una predittiva. Avvio con dati reali previsto a gennaio.",
-     punti:["Bloccato dalla migrazione della fatturazione da Aruba, da chiudere ad agosto",
-            "Oggi l'export delle fatture è manuale e lungo",
-            "A valle: accesso all'ambiente Snoots"]},
-    {nm:"Comunicazione e marketing", stato:{cls:"idle", txt:"Da avviare — fase con Marta"}, src:"Fireflies 06/08",
-     desc:"Segmentazione dei clienti per comportamento e frequenza, comunicazioni differenziate via Brevo, piano editoriale e contenuti video assistiti.",
-     punti:["Richiede l'account Brevo, ancora da aprire",
-            "Marta Dessena porta i modelli per reel e piano editoriale",
-            "Alta stagione estiva che vale circa metà del volume"]}
+    {nm:"I quattro agenti dei numeri", stato:{cls:"late", txt:"Fermo sul primo domino"}, src:"Piano, pag. 5 · Fase 1 con Massimo",
+     desc:"Non un cruscotto da guardare: quattro agenti che lavorano mentre visiti e consegnano il risultato. KPI economici e analisi servizi ogni mattina, consuntivo ogni lunedì, scostamento a budget ogni mese.",
+     punti:["Attesi in produzione: i due giornalieri da metà settembre, gli altri due da inizio ottobre",
+            "Il quarto agente richiede un anno di budget stagionalizzato su Drive — a Carloforte il secchio si riempie d'estate",
+            "Senza la migrazione da Aruba l'agente non legge il cassetto fiscale: niente costi, niente margini"]},
+    {nm:"La comunicazione che si scrive da sola", stato:{cls:"idle", txt:"Da ottobre — Fase 2 con Marta"}, src:"Piano, pag. 6 · Fase 2 con Marta",
+     desc:"Prima i clienti che hai già, poi quelli che devono trovarti. Follow-up 1 · 7 · 30 · 180 differenziato per tipo di visita, motore dei contenuti su più agenti, presenza su Google resa intenzionale.",
+     punti:["Il confine l'ha tracciato lui: congressi e relazioni scientifiche restano sue",
+            "Obiettivo dichiarato: da 1 post ogni 5–7 giorni a 5 a settimana, senza tempo suo in più",
+            "Alcuni clienti sono arrivati per una competenza mai promossa, dedotta da foto su Google"]},
+    {nm:"L'agenda che smette di soffocare", stato:{cls:"idle", txt:"Ultimo pezzo — novembre"}, src:"Piano, pag. 7 · nodo trasversale",
+     desc:"Un canale unico che raccoglie, qualifica e propone gli slot, collegato al gestionale e agli agenti dei numeri. È il dolore più concreto, ma arriva per ultimo di proposito.",
+     punti:["Ha bisogno dei servizi catalogati (Fase 2) e del gestionale che risponde (Fase 1)",
+            "Montarlo per primo significherebbe montarlo due volte",
+            "Oggi: venti messaggi in coda sul telefonino, nessuna traccia di chi non è stato richiamato"]},
+    {nm:"Landing emergenze — fuori piano", stato:{cls:"wip", txt:"Nata in Tappa 1"}, src:"Fireflies 07/09 · Gmail 08/09",
+     desc:"Non è nel piano dei tre mesi: è un prototipo costruito in diretta durante il primo incontro, che l'8 settembre ha già risposto a tre richieste vere.",
+     punti:["Prototipo HTML e webhook n8n, in test",
+            "Da chiudere: credenziali SMTP e pubblicazione",
+            "Da decidere: se entra nel percorso o resta un fuori programma"]}
   ],
   materiali:[
     {t:"proposta-Viglietti.pdf", q:"Proposta di percorso + report T0", d:"22 giu"},
@@ -476,8 +509,27 @@ const CLIENTS = [
     {nm:"n8n", st:"In test", cls:"wip", meta:"workflow emergenze su istanza BVB; account cliente da creare"},
     {nm:"Brevo", st:"Da attivare", cls:"idle", meta:"in attesa dell'account di Antonio"},
     {nm:"GitHub", st:"Da attivare", cls:"idle", meta:"serve per pubblicare la landing"},
-    {nm:"Snoots", st:"Da attivare", cls:"idle", meta:"dopo la migrazione da Aruba"}
+    {nm:"Snoots", st:"Firmato", cls:"done", meta:"il gestionale su cui poggia il percorso è deciso"}
   ],
+  prossimaMossa:{
+    t:"Chiudere le tre cose di agosto, partendo dalla migrazione da Aruba",
+    perche:"Il piano le dava per fatte entro fine agosto e sono tutte e tre aperte. La migrazione «blocca metà percorso»: senza, l'agente non legge il cassetto fiscale e lo scostamento a budget non esiste. Il secondo incontro era atteso a metà settembre.",
+    chi:"Massimo — mandare il nome della piattaforma compatibile e fissare la call 2 nella stessa telefonata",
+    entro:"entro il 15 settembre",
+    regola:"prerequisito del piano scaduto che blocca un sistema intero"},
+  handover:{
+    attivato:["Landing emergenze Carloforte: prototipo HTML e webhook n8n, in test dall'8 settembre",
+      "Fireflies attivo su tutte le call",
+      "Nessun account del cliente ancora aperto: n8n, Brevo, GitHub e Snoots sono tutti da fare"],
+    detto:["Promesso il workflow emergenze completo con risposta automatica e il codice condiviso",
+      "Promesso l'ecosistema Claude aziendale con competenze e Genius One",
+      "Concordato che si parte con i dati veri a gennaio"],
+    attese:["Ridurre gli 80–90 messaggi al giorno: è il dolore che l'ha portato qui",
+      "Vuole vedere fare, non sentire spiegare: in Tappa 1 il prototipo in diretta ha funzionato meglio di ogni spiegazione",
+      "L'alta stagione estiva vale circa metà del volume: le emergenze dei turisti sono il caso d'uso che sente"],
+    attenzioni:["Separare account personale e clinico è una sua richiesta esplicita",
+      "Ogni tappa deve chiudersi con una cosa che gira, non con un concetto",
+      "La migrazione da Aruba è ferma da agosto: è il primo domino, non un dettaglio"]},
   note:"Impara facendo, non a teoria: in Tappa 1 il prototipo costruito in diretta ha funzionato meglio di qualsiasi spiegazione. Il freno non è la volontà ma il tempo — 80–90 messaggi al giorno. Ogni tappa deve chiudersi con una cosa che gira.",
   portal:{
     titolo:"Tappa 1 fatta. Restano cinque incontri da fissare.",
@@ -497,24 +549,24 @@ const CLIENTS = [
   id:"enrico", nome:"Enrico Di Blasi", breve:"Enrico",
   ruolo:"Titolare · Clinica Veterinaria Di Blasi — con Maria",
   email:"enrico.diblasi@gmail.com", dal:"31 marzo 2026",
-  percorso:{nome:"Mentorship AI", forma:"6 tappe ipotizzate, da settembre",
-            regola:"Fatturazione mensile: 1.500 € + IVA, settembre anticipato pagato il 10 agosto, seconda fattura a inizio ottobre",
-            verifica:"La struttura a sei tappe è dedotta dal tipo di prenotazione Calendly, lo stesso di Viglietti. Il piano allegato alla mail del 7 agosto non è stato letto: gli allegati Gmail non sono accessibili agli strumenti collegati."},
+  percorso:{nome:"Il piano di volo", forma:"6 tappe, una ogni dieci giorni, settembre — novembre; calendario fino a gennaio",
+            regola:"Cadenza, non intensità: nessun blocco di lavoro sopra i trenta minuti. Costruiamo noi, lui decide e valida",
+            fonte:"Mentorship AI · Il piano di volo · Di Blasi, letto l'8 settembre"},
   avanzamento:"1 di 6 tappe", rischio:true, daPrenotare:4,
   steps:[
-    {l:"Tappa 1", s:"7 set 2026", st:"done"},
-    {l:"Tappa 2", s:"5 ott, da confermare", st:"now"},
+    {l:"Tappa 1", s:"7 set · svolta", st:"done"},
+    {l:"Tappa 2", s:"5 ott · da riconfermare", st:"now"},
     {l:"Tappa 3", s:"da fissare"}, {l:"Tappa 4", s:"da fissare"},
     {l:"Tappa 5", s:"da fissare"}, {l:"Tappa 6", s:"da fissare"}
   ],
   figure:[
-    {n:"1 di 6", l:"tappe del percorso svolte"},
-    {n:"139′", l:"durata della Tappa 1"},
-    {n:"6.600 €", l:"discrepanze contabili da riclassificare"},
-    {n:"260", l:"strumenti esposti da Snoots via MCP"}
+    {n:"35–40 → 80%", l:"dove sente la clinica oggi e la soglia che si è dato"},
+    {n:"5", l:"milestone verificabili entro dicembre"},
+    {n:"1 di 3", l:"mosse dei 30 giorni chiuse: manca Claude e le date"},
+    {n:"6.600 €", l:"discrepanze contabili ancora da riclassificare"}
   ],
-  allerta:{t:"La Tappa 2 del 5 ottobre non è sul calendario BVB",
-    m:"Enrico ha accettato l'invito per lunedì 5 ottobre 11:00–13:00 il 7 agosto, ma l'evento non compare sul calendario di lavoro: o è stato creato altrove, o è stato cancellato. Da verificare prima di considerarla prenotata. Le tappe 3–6 restano comunque da fissare."},
+  allerta:{t:"Le sei date non sono bloccate e l'accesso a Claude non è arrivato",
+    m:"Il piano chiedeva tre mosse in trenta giorni: accesso all'account Claude entro 7 giorni — «la mossa che sblocca tutte le altre» — migrazione Snoots confermata e sei date sul calendario condiviso entro 15 giorni, n8n entro il 25 settembre. Siamo al giorno 32: l'unica tappa a calendario è quella del 5 ottobre, che sul calendario BVB non risulta."},
   prossimo:{t:"Tappa 2 — Mentorship AI", quando:"Lunedì 5 ottobre · 11:00–13:00",
     meet:"https://meet.google.com/jep-aenp-utu",
     nota:"Invito accettato il 7 agosto. Non presente sul calendario BVB: da riconfermare.", src:"Gmail 07/08", verifica:true},
@@ -571,26 +623,34 @@ const CLIENTS = [
     {t:"Consegnare il report H1 2026 della clinica", chi:"bvb", stato:"ok", src:"Gmail 20/07"}
   ],
   sistemi:[
-    {nm:"Controllo di gestione", stato:{cls:"done", txt:"Attivo da marzo"}, src:"Gmail 07/06 · 20/07 · 11/08",
-     desc:"Il percorso più vecchio e l'unico che produce già documenti: fotografia iniziale a giugno, report del primo semestre a luglio, cruscotto 2026 corretto ad agosto.",
+    {nm:"1 · Il manager che ti aspetta ogni mattina", stato:{cls:"wip", txt:"In staging"}, src:"Piano, pag. 6 · Fase 1",
+     desc:"Tre agenti in sequenza, costruiti e validati uno alla volta, circa una settimana l'uno: il giornaliero con incassi, prestazioni e centri di ricavo e costo; il settimanale che diventa tendenza; il mensile che è il vero controllo di gestione.",
+     punti:["Si costruiscono in staging mentre la migrazione è in corso: al go-live basta cambiare l'indirizzo MCP",
+            "Un agente separato mappa il comportamento d'acquisto dei clienti — la domanda che non si è mai potuto porre",
+            "Da chiarire: gli acquisti extra-UE non passano dal cassetto fiscale, vanno quantificati prima di fidarsi del dato di costo"]},
+    {nm:"2 · La fine degli sconti invisibili", stato:{cls:"idle", txt:"Attesa ott–nov"}, src:"Piano, pag. 7 · Fase 1",
+     desc:"Un agente legge le fatture emesse e le confronta con il tariffario: dove il prezzo applicato non corrisponde, lo segnala. Finché lo sconto resta invisibile non è una scelta commerciale, è una perdita silenziosa.",
+     punti:["Si aggancia al tariffario dinamico sviluppato con Snoots, in due blocchi",
+            "Blocco 1, prezzo per fascia di peso: settembre 2026",
+            "Blocco 2, margine di contribuzione e prezzo consigliato: dicembre 2026 – gennaio 2027"]},
+    {nm:"3 · Il percorso che si chiude da solo", stato:{cls:"idle", txt:"Fase 2 con Marta"}, src:"Piano, pag. 8 · Fase 2",
+     desc:"Dal referto al follow-up al richiamo, in automatico dal gestionale. I template esistono già in bozza: si personalizzano, si mettono in linea e partono.",
+     punti:["Risponde ai documenti pre e post chirurgici che Enrico e Maria preparano e che oggi non partono",
+            "Regola dura: se l'informazione in cartella non c'è, l'agente non la può usare",
+            "La firma resta del medico: gli agenti eseguono, non decidono"]},
+    {nm:"4 · Il social media manager automatizzato", stato:{cls:"idle", txt:"Fase 2 con Marta"}, src:"Piano, pag. 8 · Fase 2",
+     desc:"Otto agenti e dodici workflow n8n già pronti. Le bozze arrivano in approvazione su Telegram; l'unico input umano che resta è la foto fatta in clinica.",
+     punti:["Testo, immagine e pubblicazione sui canali li fa il sistema",
+            "Parte dopo il percorso del cliente interno, non prima"]},
+    {nm:"5 · Il telefono che smette di essere un collo di bottiglia", stato:{cls:"idle", txt:"In arrivo dentro Snoots"}, src:"Piano, pag. 8 · Fase 2",
+     desc:"Segreteria virtuale con voce umana: riconosce il cliente dal numero, conosce la storia del paziente, prende appuntamenti da sola e fa anche i richiami in uscita.",
+     punti:["Ogni telefonata trascritta e consultabile",
+            "I primi mesi servono a testare su piccoli numeri e rileggere tutto"]},
+    {nm:"Controllo di gestione — la base già in piedi", stato:{cls:"done", txt:"Attivo da marzo"}, src:"Gmail 07/06 · 20/07 · 11/08",
+     desc:"Precede il percorso e lo alimenta: fotografia iniziale a giugno, report del primo semestre a luglio, cruscotto 2026 corretto ad agosto.",
      punti:["Report H1 2026 consegnato il 20 luglio",
             "Cruscotto CdG 2026 rev nella cartella condivisa su Drive",
-            "Aperto: 6.600 € di discrepanze sugli acquisti farmaci da riclassificare"]},
-    {nm:"Agenti KPI su Snoots", stato:{cls:"wip", txt:"Bloccato sui dati"}, src:"Fireflies 07/08 · 07/09",
-     desc:"Agenti che leggono il gestionale e restituiscono KPI giornalieri e settimanali, con il metodo F.A.R.E. sui centri di business. Stima dichiarata: 15 ore di lavoro manuale al mese.",
-     punti:["Snoots MCP collegato: 260 strumenti esposti",
-            "Mancano dati recenti, cartelle cliniche e storico completo",
-            "La migrazione dati è la condizione perché il primo agente parta"]},
-    {nm:"Landing e workflow della clinica", stato:{cls:"wip", txt:"Prototipo fatto"}, src:"Fireflies 07/09",
-     desc:"Landing page della Clinica Veterinaria Di Blasi con workflow n8n collegato, costruita in diretta in circa venti minuti durante la Tappa 1.",
-     punti:["Da verificare la variante dedicata alla chirurgia",
-            "Serve l'account GitHub per pubblicarla",
-            "Enrico deve studiarne l'architettura per poterla modificare"]},
-    {nm:"Fidelizzazione e segreteria virtuale", stato:{cls:"idle", txt:"Fase con Marta"}, src:"Fireflies 07/08",
-     desc:"Percorso di fidelizzazione clienti con marketing automatico e segreteria virtuale integrata al gestionale per alleggerire la gestione telefonica.",
-     punti:["Template comunicativi da personalizzare e testare",
-            "Il team entra solo dopo la validazione del percorso AI",
-            "Formazione lato marketing e customer care a seguire"]}
+            "Aperto: 6.600 € di discrepanze sugli acquisti farmaci"]}
   ],
   materiali:[
     {t:"Proposta Controllo di Gestione", q:"Percorso annuale per la clinica", d:"31 mar"},
@@ -612,6 +672,28 @@ const CLIENTS = [
     {nm:"Brevo", st:"Da attivare", cls:"idle", meta:"in attesa dell'account"},
     {nm:"GitHub", st:"Da attivare", cls:"idle", meta:"serve per pubblicare la landing"}
   ],
+  prossimaMossa:{
+    t:"Farsi aprire l'accesso all'account Claude, poi bloccare le sei date",
+    perche:"Il piano la chiama «la mossa che sblocca tutte le altre»: con l'accesso un agente già validato si replica sul suo account in dieci minuti, senza ogni costruzione diventa una call di supporto. Era attesa entro sette giorni dal 7 agosto: siamo al giorno 32.",
+    chi:"Massimo — cinque minuti di Enrico e due notifiche da approvare",
+    entro:"questa settimana",
+    regola:"mossa dichiarata abilitante nel piano, scaduta da oltre tre settimane"},
+  handover:{
+    attivato:["Controllo di gestione: cruscotto CdG 2026 rev su Drive, report H1 2026 consegnato a luglio",
+      "Snoots MCP collegato: 260 strumenti esposti",
+      "Landing della clinica e workflow n8n creati in diretta in Tappa 1",
+      "n8n da riconnettere; Brevo e GitHub non ancora aperti"],
+    detto:["Promesso il primo agente operativo sui KPI giornalieri: è il risultato che aspetta",
+      "Promesse le slide operative, il workflow n8n della clinica e la verifica della landing chirurgica",
+      "Concordato 1.500 € + IVA al mese: settembre anticipato pagato il 10 agosto, seconda fattura a inizio ottobre"],
+    attese:["Obiettivo dichiarato: +35–40% di performance della clinica",
+      "Vuole passare da una gestione reattiva a una predittiva, con i numeri in mano",
+      "Ha chiesto aiuto anche su leadership e gestione del team: è una richiesta personale, non solo tecnica",
+      "Il team entra solo dopo la validazione del percorso, per evitare resistenze interne"],
+    attenzioni:["Maria va tenuta dentro a ogni passaggio: riceve i materiali insieme a lui",
+      "Bassa tolleranza al rischio non tutelato: ha lasciato il mercato azionario dopo sette-otto anni con una perdita, per stress",
+      "6.600 € di discrepanze contabili ancora aperte con il commercialista",
+      "La Tappa 2 del 5 ottobre non risulta sul calendario BVB"]},
   note:"Il più avanti di tutti sul controllo di gestione, il più indietro sull'infrastruttura: gli account non sono ancora suoi. Ha già pagato settembre. Maria va tenuta dentro a ogni passaggio — riceve i materiali insieme a lui. Il rischio non è la motivazione, è che la migrazione dati slitti e il primo agente non parta.",
   portal:{
     titolo:"Tappa 1 fatta. Il primo agente aspetta i tuoi dati.",
@@ -633,24 +715,25 @@ const CLIENTS = [
   id:"stefania", nome:"Stefania Zanini", breve:"Stefania",
   ruolo:"Titolare · Ambulatorio Veterinario Zanini, Bertiolo",
   email:"stefaniazaninivet@gmail.com", dal:"22 giugno 2026",
-  percorso:{nome:"Mentorship AI", forma:"affiancamento ogni 15 giorni, da luglio",
-            regola:"Non a tappe: cadenza quindicinale, fatturazione mensile"},
-  avanzamento:"7 incontri · 2° mese", rischio:true, daPrenotare:0,
+  percorso:{nome:"Percorso AI · metodo FARO", forma:"quattro fasi, sessioni da 2 ore ogni 15 giorni",
+            regola:"Fase 1 · 4.500 € in tre pagamenti: 1.500 all'avvio più due rate anticipate. Non si implementa nulla su persone non formate",
+            fonte:"Proposta AI Stefania Zanini, letta l'8 settembre"},
+  avanzamento:"Fase 2 di 4 · 2° mese", rischio:true, daPrenotare:0,
   steps:[
-    {l:"22 giu", s:"T0", st:"done"}, {l:"17 lug", s:"1º appuntamento", st:"done"},
-    {l:"20 lug", s:"follow-up", st:"done"}, {l:"22 lug", s:"agenti KPI", st:"done"},
-    {l:"29 lug", s:"agentificazione", st:"done"}, {l:"7 ago", s:"valutazioni", st:"done"},
-    {l:"21 ago", s:"progressi", st:"done"}, {l:"2 set", s:"senza registrazione", st:"now"},
-    {l:"metà set", s:"da fissare"}
+    {l:"F · Fotografa", s:"maturità L2, 46/100", st:"done"},
+    {l:"A · Formazione", s:"mese 1 · fatta", st:"done"},
+    {l:"A · Agentificazione", s:"mesi 2–3 · in corso", st:"now"},
+    {l:"R · Relazione", s:"mesi 4–6"},
+    {l:"O · Ottimizza", s:"continuo"}
   ],
   figure:[
+    {n:"46/100", l:"indice di maturità AI a giugno — livello L2, Sperimentatore"},
     {n:"€ 25.776", l:"fatturato settimana 24–30 agosto, dal report automatico"},
     {n:"6", l:"tipi di report che gli agenti inviano da soli"},
-    {n:"385", l:"voci di tariffario da classificare per centro di ricavo"},
-    {n:"7", l:"incontri svolti da giugno"}
+    {n:"385", l:"voci di tariffario da classificare per centro di ricavo"}
   ],
-  allerta:{t:"Nessun prossimo incontro a calendario, e i bilanci non arrivano",
-    m:"L'ultimo evento è del 2 settembre e non ha registrazione. Con la cadenza quindicinale il prossimo era atteso intorno al 16 settembre. In parallelo i conti economici 2024 e 2025 sono stati chiesti al commercialista il 20 luglio e sollecitati il 4 e l'8 settembre: senza quelli il budget non si costruisce."},
+  allerta:{t:"La Fase 2 è quasi fatta, ma il budget è fermo e il prossimo incontro non c'è",
+    m:"L'output della Fase 2 è il cruscotto di gestione che gira come agente: i report automatici ci sono già. Manca il budget, fermo dal 20 luglio sui conti economici che il commercialista non manda, sollecitati il 4 e l'8 settembre. E dal 2 settembre non c'è un incontro a calendario, mentre la cadenza è quindicinale."},
   prossimo:null,
   origine:[
     {data:"28 mag", t:"Super Master AI — istruzioni abilitanti", src:"Calendar", verifica:true,
@@ -693,7 +776,7 @@ const CLIENTS = [
     {t:"Presentare il sistema di segreteria digitale", chi:"bvb", stato:"open", src:"22 lug · 22:58", link:T(S4,1378), nota:"Previsto per settembre"}
   ],
   sistemi:[
-    {nm:"Agenti di reporting", stato:{cls:"done", txt:"In produzione"}, src:"Gmail, ogni giorno",
+    {nm:"Controllo di gestione — il processo-simbolo d'ingresso", stato:{cls:"done", txt:"In produzione"}, src:"Proposta, pag. 11 · Gmail ogni giorno",
      desc:"Sei tipi di report escono da soli e arrivano a Stefania e a BVB: KPI economico-finanziari del giorno, mix servizi e comportamento clienti, performance settimanale, performance dei collaboratori, andamento per giorno della settimana, briefing clientela su quattro giorni.",
      punti:["Consegna via Brevo e dall'indirizzo della clinica",
             "Numeri veri: settimana 24–30 agosto, 25.776 € di fatturato; 3 settembre, 5.258 € e 37 clienti",
@@ -707,7 +790,11 @@ const CLIENTS = [
      desc:"Le 385 voci del tariffario standard vengono classificate per centro di ricavo: è la base perché i report economici dicano qualcosa di leggibile.",
      punti:["Restano le voci «non classificate» da catalogare",
             "Magazzino e tracciabilità farmaci indicati come area critica",
-            "Importazione razze da Smart Vet da correggere"]}
+            "Importazione razze da Smart Vet da correggere"]},
+    {nm:"Fase 3 — magazzino, comunicazione, referti", stato:{cls:"idle", txt:"Mesi 4–6"}, src:"Proposta, pag. 8 e 11",
+     desc:"L'estensione prevista dopo la gestione: scorte, scadenze e riordini; richiami e recupero dei proprietari dormienti; supporto alla stesura dei referti per i colleghi.",
+     punti:["Parte quando la Fase 2 è chiusa e il team è più autonomo",
+            "La governance dei dati sanitari va formalizzata fin dall'inizio — è un'attenzione dichiarata nella proposta"]}
   ],
   materiali:[
     {t:"Report T0 e proposta di mentorship — invio non verificato", q:"Previsti dalla call del 22 giugno; nessuna email di consegna trovata", d:"giu"},
@@ -724,6 +811,28 @@ const CLIENTS = [
     {nm:"Gmail", st:"Attiva", cls:"done", meta:"i report arrivano qui, insieme allo scambio con il commercialista"},
     {nm:"Smart Vet", st:"Da correggere", cls:"wip", meta:"importazione razze incompleta"}
   ],
+  prossimaMossa:{
+    t:"Chiudere la Fase 2 andando a prendere i bilanci alla fonte, e rifissare la cadenza",
+    perche:"L'output della Fase 2 è il cruscotto di gestione che gira come agente: manca solo il budget, fermo dal 20 luglio sul commercialista. E dal 2 settembre non c'è un incontro a calendario, mentre la proposta fissa sessioni di due ore ogni quindici giorni.",
+    chi:"Massimo — vale la pena scrivere direttamente al commercialista, con Stefania in copia",
+    entro:"entro questa settimana",
+    regola:"cadenza superata più un blocco esterno che non si sblocca da solo"},
+  handover:{
+    attivato:["Sei report automatici in produzione, via Brevo e dall'indirizzo della clinica",
+      "Snoots MCP collegato: 250 strumenti",
+      "Agente di monitoraggio economico quotidiano e agente di monitoraggio clienti attivi",
+      "Competenza «analista di business» su Claude ancora da completare"],
+    detto:["Promesso il foglio di budget preventivo 2026 e il drive condiviso per i dati contabili",
+      "Promesso il sistema di segreteria digitale, previsto per settembre",
+      "Promessa l'estensione dell'analisi alle schede cliniche"],
+    attese:["Vuole dati per decidere i bonus dei collaboratori: è l'uso concreto che chiede ai report",
+      "Collaboratori giovani scettici sul gestionale: la resistenza è culturale, non tecnica",
+      "Sovraccarico telefonico: la segreteria digitale è attesa",
+      "Magazzino e tracciabilità farmaci indicati da lei come area critica"],
+    attenzioni:["Delega volentieri la costruzione dei documenti: ha chiesto esplicitamente che il budget lo faccia Massimo",
+      "Aggiornamenti rapidi via WhatsApp, non via email",
+      "I report a volte non partono e gli agenti vanno riavviati a mano: se ne accorge lei prima di noi",
+      "I solleciti al commercialista passano da lei: l'ultimo è dell'8 settembre"]},
   note:"È il cliente più avanti: qui gli agenti sono già in produzione e producono numeri veri ogni giorno. Il lavoro non è più costruire, è rendere stabile — mail che non partono, riavvii manuali, dati anagrafici sporchi. Due cose la frenano e nessuna delle due è tecnica: il commercialista che non manda i bilanci e il prossimo incontro non fissato.",
   portal:{
     titolo:"I tuoi agenti lavorano. Adesso vanno resi stabili.",
@@ -742,10 +851,33 @@ const CLIENTS = [
 }
 ];
 
+/* ═══════════════════ validazione e onboarding ═══════════════════ */
+const VALIDAZIONE = [
+  {t:"Dati verificati con il cliente", d:"ogni percorso riletto con lui: tappe, azioni aperte, date. Quello che l'app deduce va confermato a voce"},
+  {t:"Documenti di progetto caricati su Drive", d:"proposte e piani oggi sono allegati email non leggibili: finché non sono su Drive, la struttura del percorso resta un'ipotesi"},
+  {t:"Link cliente provato su telefono", d:"aperto da fuori, senza sessione: deve mostrare solo il suo percorso"},
+  {t:"Nessun dato interno visibile lato cliente", d:"note interne, fatture e margini restano fuori: controllo voce per voce"},
+  {t:"Informativa e consenso alla registrazione", d:"Fireflies registra: consenso raccolto e conservazione dichiarata"},
+  {t:"Conservazione decisa", d:"registrazione, trascrizione e report: per quanto tempo, e chi può cancellarli"},
+  {t:"Chi aggiorna, e quando", d:"finché non è collegato alle fonti, qualcuno rilegge i tre percorsi ogni lunedì"},
+  {t:"Passaggio di consegne provato", d:"Marta apre il brief di un cliente che non segue e dice se le basta"}
+];
+const ONBOARDING = [
+  {t:"Il cliente conferma e paga la prima mensilità", d:"è il momento in cui entra: prima è un prospect, non un percorso"},
+  {t:"Si apre lo spazio dal template giusto", d:"a tappe prenotabili oppure a cadenza: la forma decide come si misura l'avanzamento"},
+  {t:"Si registra il suo indirizzo email", d:"è la chiave che collega calendario, posta e registrazioni: senza, non si popola nulla"},
+  {t:"Si carica il documento di progetto su Drive", d:"nella sua cartella cliente: da lì escono i titoli delle tappe e i nomi dei sistemi"},
+  {t:"Si assegna il consulente", d:"Massimo o Marta; il brief di passaggio nasce già popolato"},
+  {t:"Si manda il link personale", d:"da quel momento il cliente vede il percorso aggiornarsi da solo"}
+];
+function valGet(i){ try{ return localStorage.getItem("bvb.val."+i) === "1"; }catch(e){ return false; } }
+function valSet(i,v){ try{ localStorage.setItem("bvb.val."+i, v?"1":"0"); }catch(e){} }
+
 /* ═══════════════════ stato ═══════════════════ */
 let mode = "console";              // console | client | portal | backoffice
 let current = CLIENTS[1];          // Enrico è il caso con più storia
 let sheet = null;
+let soloCliente = false;
 
 const $ = s => document.querySelector(s);
 const view = $("#view");
@@ -902,20 +1034,37 @@ function viewClient(){
     </div>
     <div style="margin-left:auto;display:flex;gap:8px">
       <button class="btn" data-report="1">Report di progetto</button>
+      <button class="btn" data-hand="1">Passaggio di consegne</button>
+      <button class="btn" data-copy="${c.id}">Copia link cliente</button>
       <button class="btn" data-goportal="1">Vedi come ${esc(c.breve)}</button>
       <button class="btn primary" data-toast="Nuovo incontro creato sul calendario, con invito e link Meet.">Fissa un incontro</button>
     </div>
   </div>
 
+  <div class="mossa">
+    <div class="idx">→</div>
+    <div>
+      <div class="label">Prossima mossa consigliata</div>
+      <h3>${esc(c.prossimaMossa.t)}</h3>
+    </div>
+    <p class="why" style="grid-column:2">${esc(c.prossimaMossa.perche)}</p>
+    <div class="meta" style="grid-column:2">
+      <span class="chip wip"><span class="dot"></span>${esc(c.prossimaMossa.entro)}</span>
+      <span><b>Chi:</b> ${esc(c.prossimaMossa.chi)}</span>
+      <span class="src" style="margin-left:auto">regola: ${esc(c.prossimaMossa.regola)}</span>
+    </div>
+  </div>
+
+  <div style="height:18px"></div>
   ${figure(c)}
 
   <section class="panel" style="margin-top:18px">
     <header><h3>${esc(c.percorso.nome)}</h3>
-      ${c.percorso.verifica?`<span class="chip wip"><span class="dot"></span>Struttura da confermare</span>`:""}
+      ${c.percorso.fonte?`<span class="src">dal piano · ${esc(c.percorso.fonte)}</span>`:""}
       <span class="count num">${esc(c.avanzamento)}</span></header>
     ${track(c)}
     <p style="margin:12px 0 0;font-size:12px;color:var(--mute)">${esc(c.percorso.regola)}</p>
-    ${c.percorso.verifica?`<p style="margin:6px 0 0;font-size:12px;color:var(--gold)">${esc(c.percorso.verifica)}</p>`:""}
+
     <div class="warn" style="margin-top:14px">
       <b>${esc(c.allerta.t)}.</b> ${esc(c.allerta.m)}
     </div>
@@ -1130,7 +1279,7 @@ function viewBack(){
   <div style="margin:24px 0 18px">
     <div class="label">Back office</div>
     <h2 class="serif" style="font-size:clamp(22px,3.2vw,30px);margin-top:4px">Da dove arriva ogni dato di questa app</h2>
-    <p style="color:var(--mute);max-width:66ch">Nessun campo è stato compilato a mano. I tre percorsi sono ricostruiti dai sistemi già in uso: 17 call trascritte, gli eventi di calendario, la posta e i documenti su Drive. Quello che manca qui, manca anche là.</p>
+    <p style="color:var(--mute);max-width:70ch">Nessun campo è stato compilato a mano. I tre percorsi sono ricostruiti dai sistemi già in uso — 17 call trascritte, gli eventi di calendario, la posta, i documenti su Drive — e <b>dai tre documenti di progetto, letti l'8 settembre</b>: il piano dei tre mesi di Viglietti, il piano di volo di Di Blasi, la proposta di percorso AI di Zanini. Da lì vengono i nomi dei sistemi, la cadenza e le milestone.</p>
   </div>
 
   <div class="grid cols-2">
@@ -1161,6 +1310,39 @@ function viewBack(){
         <div class="stack">
           ${dubbi.map(d=>`<div class="warn"><b>${esc(d[0])}</b> — ${esc(d[1])}</div>`).join("")}
         </div>
+      </section>
+
+      <section class="panel">
+        <header><h3>Link per cliente</h3><span class="count">da condividere</span></header>
+        <p style="color:var(--mute);font-size:12px;margin:0 0 12px">Ogni cliente ha un indirizzo suo. Chi lo apre vede solo il proprio percorso: niente portafoglio, niente note interne, nessun altro cliente raggiungibile.</p>
+        <div class="stack divide" style="font-size:12.5px">
+          ${CLIENTS.map(c=>`<div class="kv">
+            <span><strong>${esc(c.nome)}</strong><br><span class="mono" style="color:var(--mute)">#/cliente/${c.id}</span></span>
+            <span class="tl-actions">
+              <a class="btn sm ghost" href="#/cliente/${c.id}" style="text-decoration:none">Apri</a>
+              <button class="btn sm" data-copy="${c.id}">Copia</button>
+            </span>
+          </div>`).join("")}
+        </div>
+      </section>
+
+      <section class="panel">
+        <header><h3>Validazione per la messa online</h3><span class="count" id="valCount"></span></header>
+        <p style="color:var(--mute);font-size:12px;margin:0 0 12px">Uso interno. Ogni voce va spuntata da una persona, non dal sistema.</p>
+        <div class="stack" id="valList">
+          ${VALIDAZIONE.map((v,i)=>`<label class="check" data-val="${i}">
+            <input type="checkbox" ${valGet(i)?"checked":""}>
+            <span><b>${esc(v.t)}</b><span class="evid">${esc(v.d)}</span></span>
+          </label>`).join("")}
+        </div>
+      </section>
+
+      <section class="panel">
+        <header><h3>Quando un cliente conferma la mentorship</h3><span class="count">procedura</span></header>
+        <div class="stack divide" style="font-size:12.5px">
+          ${ONBOARDING.map((o,i)=>`<div><b><span class="mono">${i+1}</span> &nbsp;${esc(o.t)}</b><span class="evid">${esc(o.d)}</span></div>`).join("")}
+        </div>
+        <div style="margin-top:14px"><button class="btn" data-toast="In V1 questo apre il modulo: nome, email, forma del percorso, consulente. Il resto si popola da solo dalle quattro fonti.">Aggiungi un cliente</button></div>
       </section>
 
       <section class="panel">
@@ -1247,6 +1429,63 @@ function reportSheet(){
   </div></div>`;
 }
 
+
+/* ═══════════════════ brief di passaggio di consegne ═══════════════════ */
+function handSheet(){
+  const c = current, h = c.handover;
+  const ul = (arr, cls) => `<ul>${arr.map(x=>`<li${cls?` class="${cls}"`:""}>${esc(x)}</li>`).join("")}</ul>`;
+  return `<div class="overlay" data-close="1"><div class="sheet" style="max-width:760px" role="dialog" aria-modal="true" aria-label="Passaggio di consegne">
+    <header>
+      <div>
+        <div class="label">Brief di passaggio di consegne · Massimo ⇄ Marta</div>
+        <h3 class="serif" style="font-size:23px;margin:5px 0 3px">${esc(c.nome)}</h3>
+        <div style="color:var(--mute);font-size:12.5px">Chi prende in mano questo cliente legge questa pagina e sa dove siamo, cosa gira, cosa è stato promesso e cosa non va toccato.</div>
+      </div>
+      <button class="x" data-close="1" aria-label="Chiudi">×</button>
+    </header>
+    <div class="body hand">
+      <h4>Dove siamo</h4>
+      <p style="margin:0 0 6px;font-size:13px"><b>${esc(c.avanzamento)}</b> · ${esc(c.percorso.nome)}, ${esc(c.percorso.forma)}.
+        Ultimo incontro: ${esc(c.incontri[0].data)} — ${esc(c.incontri[0].t)} (${esc(c.incontri[0].durata)}).</p>
+      <p style="margin:0;font-size:13px;color:var(--coral)"><b>${esc(c.allerta.t)}.</b> ${esc(c.allerta.m)}</p>
+
+      <h4>La prossima mossa</h4>
+      <p style="margin:0;font-size:13px"><b>${esc(c.prossimaMossa.t)}</b> — ${esc(c.prossimaMossa.perche)}
+        <br><span style="color:var(--mute)">Chi: ${esc(c.prossimaMossa.chi)} · ${esc(c.prossimaMossa.entro)}</span></p>
+
+      <h4>Cosa è stato attivato</h4>
+      ${ul(h.attivato)}
+
+      <h4>Cosa è stato detto e promesso</h4>
+      ${ul(h.detto)}
+
+      <h4>Aspettative ed esigenze del cliente</h4>
+      ${ul(h.attese)}
+
+      <h4>Attenzioni — leggere prima di parlargli</h4>
+      ${ul(h.attenzioni, "attenzione")}
+
+      <h4>Impegni BVB ancora aperti · ${az(c,"bvb").filter(a=>a.stato!=="ok").length}</h4>
+      ${ul(az(c,"bvb").filter(a=>a.stato!=="ok").map(a=>a.t + (a.nota?" — "+a.nota:"")))}
+
+      <h4>Cosa aspettiamo dal cliente · ${az(c,"cliente").filter(a=>a.stato!=="ok").length}</h4>
+      ${ul(az(c,"cliente").filter(a=>a.stato!=="ok").map(a=>a.t + (a.stato==="late"?" (in ritardo)":"")))}
+
+      <h4>Da riascoltare</h4>
+      <div class="stack divide" style="font-size:12.5px">
+        ${c.call.map(k=>`<div class="kv"><span><span class="mono" style="color:var(--mute)">${esc(k.d)}</span> &nbsp;${esc(k.t)} · ${esc(k.m)}</span>
+          <a class="link" href="${FF(k.ff)}" target="_blank" rel="noopener">apri</a></div>`).join("")}
+      </div>
+
+      <p class="label" style="margin-top:22px">Ricostruito da Fireflies, Gmail, Calendar e Drive. Aggiornato all'8 settembre 2026.</p>
+    </div>
+    <footer>
+      <button class="btn primary" data-print="1">Stampa o salva in PDF</button>
+      <button class="btn ghost" data-close="1">Chiudi</button>
+    </footer>
+  </div></div>`;
+}
+
 /* ═══════════════════ moduli ═══════════════════ */
 function sheetForm(kind){
   const c = current, app = kind === "appuntamento";
@@ -1281,8 +1520,20 @@ function sheetForm(kind){
 }
 
 /* ═══════════════════ render ═══════════════════ */
+function leggiLink(){
+  const m = (location.hash || "").match(/^#\/cliente\/([a-z]+)$/);
+  if(m){
+    const found = CLIENTS.find(c=>c.id===m[1]);
+    if(found){ current = found; mode = "portal"; soloCliente = true; sheet = null; return true; }
+  }
+  soloCliente = false;
+  return false;
+}
+
 function render(){
   const isPortal = mode === "portal";
+  document.querySelector(".switch").hidden = soloCliente;
+  $("#searchWrap").hidden = soloCliente;
   $("#searchWrap").style.visibility = isPortal ? "hidden" : "visible";
   $("#ctxLabel").textContent = isPortal ? "Vista di " + current.nome
     : mode === "backoffice" ? "Back office" : "Console BraveVETBusiness";
@@ -1292,7 +1543,12 @@ function render(){
   $("#tabPortal").textContent = mode === "console" ? "Lato cliente" : "Vista " + current.breve;
 
   const bar = $("#clientBar");
-  if(mode === "console"){
+  if(soloCliente){
+    bar.hidden = false;
+    bar.innerHTML = `<span class="label lbl">Link condiviso con ${esc(current.nome)}</span>
+      <span class="src">questa è la pagina che vede il cliente: nessun altro percorso è raggiungibile</span>
+      <button class="cbtn" data-exit="1" style="margin-left:auto">Esci dall'anteprima</button>`;
+  } else if(mode === "console"){
     bar.hidden = true; bar.innerHTML = "";
   } else {
     bar.hidden = false;
@@ -1308,7 +1564,7 @@ function render(){
              : mode === "client" ? viewClient()
              : mode === "portal" ? viewPortal()
              : viewBack();
-  view.innerHTML = main + (sheet === "report" ? reportSheet() : sheet ? sheetForm(sheet) : "");
+  view.innerHTML = main + (sheet === "report" ? reportSheet() : sheet === "hand" ? handSheet() : sheet ? sheetForm(sheet) : "");
   window.scrollTo({top:0, behavior:"instant"});
 }
 
@@ -1323,7 +1579,7 @@ function toast(msg){
 }
 
 document.addEventListener("click", e=>{
-  const t = e.target.closest("[data-open],[data-switch],[data-back],[data-print],[data-report],[data-form],[data-goportal],[data-close],[data-toast]");
+  const t = e.target.closest("[data-open],[data-switch],[data-back],[data-print],[data-report],[data-hand],[data-copy],[data-exit],[data-form],[data-goportal],[data-close],[data-toast]");
   if(!t) return;
   if(t.dataset.switch){
     const found = CLIENTS.find(c=>c.id===t.dataset.switch);
@@ -1332,8 +1588,16 @@ document.addEventListener("click", e=>{
     sheet = null; render(); return;
   }
   if(t.dataset.back){ mode="console"; sheet=null; render(); return; }
+  if(t.dataset.exit){ history.replaceState(null,"",location.pathname); soloCliente=false; mode="client"; sheet=null; render(); return; }
   if(t.dataset.print){ window.print(); return; }
   if(t.dataset.report){ sheet="report"; render(); return; }
+  if(t.dataset.hand){ sheet="hand"; render(); return; }
+  if(t.dataset.copy){
+    const url = location.origin + location.pathname + "#/cliente/" + t.dataset.copy;
+    if(navigator.clipboard) navigator.clipboard.writeText(url).catch(()=>{});
+    toast("Link copiato: " + url);
+    return;
+  }
   if(t.dataset.open){
     const found = CLIENTS.find(c=>c.id===t.dataset.open);
     if(found) current = found;
@@ -1343,6 +1607,14 @@ document.addEventListener("click", e=>{
   if(t.dataset.form){ sheet=t.dataset.form; render(); return; }
   if(t.dataset.toast){ toast(t.dataset.toast); }
   if(t.dataset.close === "1" && (e.target===t || t.classList.contains("x") || t.classList.contains("btn"))){ sheet=null; render(); }
+});
+
+document.addEventListener("change", e=>{
+  const l = e.target.closest("[data-val]");
+  if(!l) return;
+  const i = l.dataset.val, on = e.target.checked;
+  valSet(i, on);
+  l.classList.toggle("done", on);
 });
 
 $("#tabConsole").onclick = ()=>{ mode="console"; sheet=null; render(); };
@@ -1371,7 +1643,9 @@ q.addEventListener("keydown", e=>{
 });
 document.addEventListener("click", e=>{ if(!e.target.closest("#searchWrap")) results.hidden = true; });
 document.addEventListener("keydown", e=>{ if(e.key==="Escape" && sheet){ sheet=null; render(); } });
+window.addEventListener("hashchange", ()=>{ leggiLink(); render(); });
 
+leggiLink();
 render();
 
 </script>
