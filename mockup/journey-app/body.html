@@ -255,7 +255,26 @@
   .cols-2{grid-template-columns:1.55fr 1fr}
   .cols-25{grid-template-columns:1fr 1fr}
   @media (max-width:940px){.cols-3,.cols-2,.cols-25{grid-template-columns:1fr}}
+  /* ---------- v2: dati reali ---------- */
+  .src{
+    font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--mute);border:1px solid var(--rule);border-radius:4px;padding:2px 6px;white-space:nowrap;
+  }
+  a.link{color:var(--teal);text-decoration:underline;text-underline-offset:2px;font-weight:600}
+  a.link:hover{color:var(--teal-deep)}
+  .evid{font-size:11.5px;color:var(--mute);display:block;margin-top:2px}
+  .sys{border:1px solid var(--rule);border-radius:9px;padding:14px;background:var(--surface-2)}
+  .sys h4{font-size:13.5px;font-weight:700;margin-bottom:2px}
+  .sys ul{margin:9px 0 0;padding-left:16px;font-size:12.5px;color:var(--ink-2)}
+  .sys li{margin-bottom:3px}
+  .figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:9px;overflow:hidden}
+  .fig{background:var(--surface);padding:12px 14px}
+  .fig b{display:block;font-family:"Fraunces",serif;font-size:21px;font-weight:600;letter-spacing:-.01em}
+  .fig span{font-size:11.5px;color:var(--mute)}
+  .owner{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mute)}
+  .warn{background:var(--coral-soft);border-left:2px solid var(--coral);padding:10px 12px;border-radius:0 8px 8px 0;font-size:12.5px}
 </style>
+
 
 <header class="topbar">
   <div class="row">
@@ -272,8 +291,8 @@
       <div class="results" id="results" hidden></div>
     </div>
     <div class="switch" role="group" aria-label="Cambia vista">
-      <button id="tabConsole" aria-pressed="true">Console BVB</button>
-      <button id="tabPortal" aria-pressed="false">Vista cliente</button>
+      <button id="tabBvb" aria-pressed="true">Lato BVB</button>
+      <button id="tabPortal" aria-pressed="false">Lato cliente</button>
       <button id="tabBack" aria-pressed="false">Back office</button>
     </div>
   </div>
@@ -281,444 +300,479 @@
 
 <div class="shell">
   <main id="view"></main>
-  <p class="footnote">Prototipo cliccabile · dati di esempio, non reali · BraveVETBusiness 2026</p>
+  <p class="footnote">MVP su dati reali · fonti: Google Calendar, Gmail, Fireflies, Google Drive · aggiornato all'8 settembre 2026</p>
 </div>
 
 <script>
-const STAGES = [
-  {n:1, nm:"Primo contatto"},
-  {n:2, nm:"Discovery"},
-  {n:3, nm:"AI Activation"},
-  {n:4, nm:"Attivazione operativa"},
-  {n:5, nm:"Consulenze ricorrenti"},
-  {n:6, nm:"Presidio"}
-];
+const FF = id => "https://app.fireflies.ai/view/" + id;
+const FFT = (id, s) => FF(id) + "?t=" + s;
 
-const CLIENTS = [
-  {
-    id:"ericko", nome:"Ericko Di Blasi", clinica:"Clinica Veterinaria San Rocco",
-    dal:"12 marzo 2026", stage:4, progress:65,
-    next:{quando:"Giovedì 11 settembre · 15:00", titolo:"Check attivazione · 60 minuti", dove:"Google Meet"},
-    incontri:[
-      {data:"04/09", titolo:"Check attivazione", durata:"58 min", stato:"draft",
-       meta:"Google Meet · trascritto da Fireflies · bozza generata da Claude 12 minuti dopo la fine",
-       badge:{cls:"wip", txt:"Bozza da approvare"}},
-      {data:"21/08", titolo:"Consulenza operativa #2", durata:"72 min", stato:"done",
-       meta:"Report pubblicato il 22/08 · 3 azioni assegnate · 2 completate",
-       badge:{cls:"done", txt:"Pubblicato"}},
-      {data:"12/08", titolo:"AI Activation — 2 ore one-to-one", durata:"124 min", stato:"done",
-       meta:"Report pubblicato · accessi Claude e Fireflies consegnati",
-       badge:{cls:"done", txt:"Pubblicato"}},
-      {data:"30/07", titolo:"Discovery", durata:"46 min", stato:"done",
-       meta:"Report pubblicato · obiettivi del percorso definiti",
-       badge:{cls:"done", txt:"Pubblicato"}}
-    ],
-    richieste:[
-      {tipo:"appuntamento", testo:"Possiamo anticipare il check di giovedì al mattino? Ho un intervento nel pomeriggio.",
-       quando:"ieri, 18:20", stato:{cls:"wip", txt:"In valutazione"}},
-      {tipo:"informazione", testo:"Come collego Fireflies alle riunioni Meet che fisso io dalla clinica?",
-       quando:"2 giorni fa", stato:{cls:"wip", txt:"Da rispondere"}}
-    ],
-    azioni:[
-      {t:"Attivare l'account Claude per il secondo medico", stato:"ok", due:"completata il 28/08"},
-      {t:"Portare i dati di fatturato ultimi 12 mesi", stato:"late", due:"attesa dal 02/09"},
-      {t:"Testare il protocollo di triage telefonico con la reception", stato:"open", due:"entro il 12/09"}
-    ],
-    note:"Molto operativo, poco tempo per la teoria. Al prossimo incontro partire dai numeri e non dagli strumenti. Da capire se coinvolgere la socia nella fase 5.",
-    report:{
-      titolo:"Check attivazione", data:"4 settembre 2026", durata:"58 minuti",
-      partecipanti:"Massimo Serreri · Ericko Di Blasi",
-      sintesi:"Gli strumenti configurati durante l'AI Activation sono in uso quotidiano su referti e comunicazioni ai proprietari. Il collo di bottiglia si è spostato dalla scrittura al recupero dei dati gestionali, che oggi Ericko estrae a mano. La priorità delle prossime due settimane è misurare il tempo effettivamente risparmiato per avere un numero da portare in fase 5.",
-      decisioni:[
-        "Il protocollo di triage telefonico entra in prova con la reception dal 12 settembre, con uno script fisso.",
-        "I referti post-visita restano su modello Claude già validato: nessuna modifica fino alla revisione trimestrale.",
-        "L'estrazione dei dati dal gestionale viene rimandata alla fase 5: prima serve il dato di fatturato storico."
-      ],
-      azioni:[
-        "Ericko · portare i dati di fatturato degli ultimi 12 mesi · entro il 9 settembre",
-        "Ericko · far provare il protocollo di triage alla reception per 5 giorni · entro il 12 settembre",
-        "BVB · preparare il modello di misurazione del tempo risparmiato · entro il 10 settembre"
-      ],
-      aperti:[
-        "Coinvolgimento della socia nel percorso: da decidere prima della fase 5.",
-        "Secondo ambulatorio: se ne riparla dopo la revisione dei numeri."
-      ]
-    }
-  },
-  {
-    id:"antonio", nome:"Antonio Viglietti", clinica:"Ambulatorio Veterinario Le Querce",
-    dal:"6 maggio 2026", stage:3, progress:45,
-    next:{quando:"Lunedì 15 settembre · 10:30", titolo:"Consulenza operativa #2 · 60 minuti", dove:"Google Meet"},
-    incontri:[
-      {data:"02/09", titolo:"Consulenza operativa #1", durata:"64 min", stato:"draft",
-       meta:"Trascrizione ricevuta · Claude sta generando la bozza",
-       badge:{cls:"wip", txt:"Bozza in arrivo"}},
-      {data:"19/08", titolo:"AI Activation — 2 ore one-to-one", durata:"118 min", stato:"done",
-       meta:"Report pubblicato · 4 azioni assegnate",
-       badge:{cls:"done", txt:"Pubblicato"}},
-      {data:"05/08", titolo:"Discovery", durata:"52 min", stato:"done",
-       meta:"Report pubblicato · obiettivi definiti",
-       badge:{cls:"done", txt:"Pubblicato"}}
-    ],
-    richieste:[
-      {tipo:"informazione", testo:"Il report del 2 settembre non lo vedo ancora in dashboard, è normale?",
-       quando:"oggi, 09:05", stato:{cls:"late", txt:"Da rispondere oggi"}}
-    ],
-    azioni:[
-      {t:"Configurare Fireflies sull'account della clinica", stato:"ok", due:"completata il 25/08"},
-      {t:"Raccogliere le 10 domande più frequenti dei proprietari", stato:"open", due:"entro il 14/09"}
-    ],
-    note:"Va accompagnato passo passo sugli strumenti: preferisce vedere fare. Buona reazione ai materiali scritti.",
-    report:{
-      titolo:"AI Activation", data:"19 agosto 2026", durata:"118 minuti",
-      partecipanti:"Massimo Serreri · Antonio Viglietti",
-      sintesi:"Due ore di configurazione operativa: account, modelli di risposta ai proprietari e prima automazione dei promemoria vaccinali. Antonio esce dall'incontro con tre strumenti attivi e un caso d'uso concreto già provato in diretta.",
-      decisioni:[
-        "Si parte dai promemoria vaccinali: è il processo con il ritorno più immediato.",
-        "Nessuna automazione sulle comunicazioni cliniche delicate: restano scritte a mano."
-      ],
-      azioni:[
-        "Antonio · configurare Fireflies sull'account della clinica · entro il 26 agosto",
-        "Antonio · raccogliere le 10 domande più frequenti dei proprietari · entro il 14 settembre",
-        "BVB · consegnare i modelli di risposta pronti · entro il 21 agosto"
-      ],
-      aperti:["Gestionale della clinica: verificare se espone i dati necessari all'automazione."]
-    }
-  },
-  {
-    id:"marta", nome:"Marta", clinica:"Clinica in valutazione",
-    dal:"1 settembre 2026", stage:1, progress:10,
-    next:{quando:"Martedì 16 settembre · 17:00", titolo:"Discovery · 45 minuti", dove:"Da confermare"},
-    incontri:[
-      {data:"16/09", titolo:"Discovery", durata:"45 min previsti", stato:"plan",
-       meta:"Pianificato · in attesa di conferma dal cliente",
-       badge:{cls:"idle", txt:"Pianificato"}}
-    ],
-    richieste:[
-      {tipo:"informazione", testo:"Prima della call posso ricevere qualche esempio di percorso già fatto?",
-       quando:"oggi, 11:40", stato:{cls:"wip", txt:"Da rispondere"}}
-    ],
-    azioni:[
-      {t:"Compilare la scheda conoscitiva", stato:"open", due:"entro il 14/09"}
-    ],
-    note:"Primo cliente onboardato interamente con il processo automatico: è il test di riproducibilità del modello.",
-    report:null
-  }
-];
+const CALL_1 = "01KVQ223R6587R8MGCDBRC7BQV";   // 22/06 profilazione T0
+const CALL_2 = "01KZ6KPKEVY7K3CC5CSPNS7NMY";   // 06/08 intro mentorship
+const CALL_3 = "01M1VS9MDFZNP98DDA6W4FVJMN";   // 07/09 tappa 1
 
-let mode = "console";      // console | client | portal | backoffice
-let current = CLIENTS[0];
-let sheet = null;          // report | appuntamento | domanda | null
+const C = {
+  id:"antonio",
+  nome:"Antonio Viglietti",
+  ruolo:"Direttore sanitario · Clinica Veterinaria Viglietti",
+  email:"vigliettibus@hotmail.com",
+  percorso:"Mentorship AI · 6 incontri, settembre — novembre 2026",
+  dal:"22 giugno 2026",
+  fatte:1, totali:6,
+  calendly:"https://calendly.com/massimoserreri/consulenza-ai-mentor-ai",
+
+  figure:[
+    {n:"80–90", l:"messaggi al giorno gestiti in clinica", src:"Fireflies 07/09"},
+    {n:"3", l:"richieste già gestite dal sistema emergenze", src:"Gmail 08/09"},
+    {n:"132′", l:"durata della Tappa 1", src:"Fireflies 07/09"},
+    {n:"5", l:"tappe ancora da fissare su Calendly", src:"Gmail 07/08"}
+  ],
+
+  // ——— prima del percorso: come è nato il cliente
+  origine:[
+    {data:"28 mag", t:"Super Master AI — istruzioni abilitanti", m:"Invito accettato", src:"Calendar"},
+    {data:"14–16 giu", t:"Super Master AI a Milano", m:"Antonio in aula; il 20/06 manda la testimonianza: «partendo da zero e con qualche sano scetticismo… poi è arrivato l'effetto wow»", src:"Gmail 20/06"},
+    {data:"22 giu", t:"Call di profilazione — il punto T0", m:"29 minuti. Emergono i tre dolori: telefono che divora la giornata, gestione «approssimativa», dati chiusi nel gestionale", src:"Fireflies 22/06", link:FF(CALL_1)},
+    {data:"22 giu", t:"Report T0 + proposta di percorso", m:"Email con allegato proposta-Viglietti.pdf: timeline settimana per settimana, primo processo agentificato entro 4–6 settimane", src:"Gmail 22/06"},
+    {data:"6 ago", t:"Intro al Mentorship AI (con Marta Dessena)", m:"30 minuti. Struttura in due fasi: gestione economica e agentificazione con Massimo, marketing con Marta", src:"Fireflies 06/08", link:FF(CALL_2)},
+    {data:"7 ago", t:"Piano dei tre mesi + link appuntamenti + prima fattura", m:"Email con piano-mentorship-viglietti_2.pdf e Fattura 96/2026. Regola data: almeno 10 giorni tra un incontro e l'altro", src:"Gmail 07/08"}
+  ],
+
+  // ——— gli incontri del percorso
+  tappe:[
+    {n:1, data:"7 set 2026", ora:"15:00–17:00", t:"Tappa 1 — Ecosistema, strumenti, primo prototipo",
+     stato:"fatta", durata:"132 min", meet:"meet.google.com/whw-dqbp-uik", ff:CALL_3,
+     sintesi:"Claude come cervello centrale, n8n come sistema nervoso. Ruoli distinti di Chat, Cowork e Code. Skill Scout come prima attivazione. In diretta: primo prototipo della landing emergenze con workflow n8n.",
+     materiali:["Report-Tappa-1-Mentorship-AI-Viglietti.pdf", "Viglietti Antonio.pptx"], inviati:"8 set, 10:19"},
+    {n:2, data:"da fissare", t:"Tappa 2 — da prenotare su Calendly", stato:"da fissare",
+     sintesi:"Il link è nelle mani di Antonio dal 7 agosto: è il primo a riceverlo, quindi ha la scelta più ampia."},
+    {n:3, data:"da fissare", t:"Tappa 3", stato:"da fissare"},
+    {n:4, data:"da fissare", t:"Tappa 4", stato:"da fissare"},
+    {n:5, data:"da fissare", t:"Tappa 5", stato:"da fissare"},
+    {n:6, data:"da fissare", t:"Tappa 6", stato:"da fissare"}
+  ],
+
+  // ——— appuntamento fuori percorso, già a calendario
+  prossimo:{
+    t:"Landing Emergency — test",
+    quando:"Martedì 8 settembre · 15:00–15:30",
+    meet:"https://meet.google.com/fjs-ogrv-xhz",
+    nota:"Verifica del prototipo costruito in Tappa 1. Invito accettato da Antonio alle 12:58.",
+    src:"Calendar"
+  },
+
+  // ——— i cantieri aperti, ricavati dalle call
+  sistemi:[
+    {nm:"Sistema emergenze — Carloforte", stato:{cls:"wip", txt:"In test oggi"},
+     desc:"Landing page dedicata a emergenze e turisti: il modulo raccoglie specie, sintomi e possibilità di raggiungere la clinica, classifica l'urgenza e coinvolge il direttore sanitario nei casi gravi.",
+     punti:["Prototipo HTML + webhook n8n costruito in diretta il 7 settembre",
+            "Tre risposte già generate e inviate oggi: Gatto, Gatta europea, Cane meticcio",
+            "Ogni risposta dichiara di essere scritta da un assistente artificiale e non sostituisce la visita",
+            "Da chiudere: credenziali SMTP e pubblicazione su Netlify o GitHub"],
+     src:"Fireflies 07/09 · Gmail 08/09"},
+    {nm:"Sistema dati ed economia della clinica", stato:{cls:"late", txt:"In attesa del primo domino"},
+     desc:"Analisi di fatture d'acquisto e centri di costo per passare da una gestione reattiva a una predittiva. L'avvio con dati reali di un anno intero è previsto a gennaio.",
+     punti:["Bloccato dalla migrazione della fatturazione elettronica da Aruba — «il primo domino», da chiudere ad agosto",
+            "Oggi l'export delle fatture è manuale e lungo",
+            "A valle: accesso all'ambiente Snoots quando la clinica è pronta"],
+     src:"Fireflies 06/08 · 07/09 · Gmail 07/08"},
+    {nm:"Sistema comunicazione e marketing", stato:{cls:"idle", txt:"Da avviare — fase con Marta"},
+     desc:"Segmentazione dei clienti per comportamento e frequenza, comunicazioni differenziate via Brevo, piano editoriale e contenuti video assistiti.",
+     punti:["Richiede l'account Brevo, ancora da aprire",
+            "Marta Dessena porta i modelli per reel e piano editoriale",
+            "Stagionalità del territorio: alta stagione estiva che vale circa metà del volume"],
+     src:"Fireflies 06/08"}
+  ],
+
+  // ——— azioni estratte automaticamente dalle call
+  azioni:[
+    {t:"Creare l'account n8n per collegare Claude ai dati aziendali", chi:"antonio", stato:"open",
+     src:"Tappa 1 · 12:02", link:FFT(CALL_3,722), nota:"Chiesto già il 6 agosto (24:25) e ripetuto in Tappa 1"},
+    {t:"Aprire l'account Brevo per le campagne della clinica", chi:"antonio", stato:"open",
+     src:"Tappa 1 · 17:53", link:FFT(CALL_3,1073)},
+    {t:"Creare l'account GitHub per skill, codice e landing page", chi:"antonio", stato:"open",
+     src:"Tappa 1 · 21:49", link:FFT(CALL_3,1309)},
+    {t:"Studiare MCP e API: come si trovano, si configurano, si usano", chi:"antonio", stato:"open",
+     src:"Tappa 1 · 18:01", link:FFT(CALL_3,1081)},
+    {t:"Eseguire la scansione Skill Scout e preparare le skill utili", chi:"antonio", stato:"open",
+     src:"Tappa 1 · 28:33", link:FFT(CALL_3,1713)},
+    {t:"Inviare l'autorizzazione per l'account Claude aziendale", chi:"antonio", stato:"open",
+     src:"Tappa 1 · 1:05:52", link:FFT(CALL_3,3952), nota:"Serve a separare accessi personali e clinici"},
+    {t:"Attivare l'accesso Snoots quando l'ambiente clinica è pronto", chi:"antonio", stato:"open",
+     src:"Tappa 1 · 1:18:57", link:FFT(CALL_3,4737)},
+    {t:"Migrare la fatturazione elettronica da Aruba", chi:"antonio", stato:"late",
+     src:"Intro · 08:00", link:FFT(CALL_2,480), nota:"Doveva chiudersi ad agosto: è il primo domino del sistema dati"},
+    {t:"Prenotare le cinque tappe rimanenti su Calendly", chi:"antonio", stato:"late",
+     src:"Gmail 07/08", nota:"Link ricevuto il 7 agosto; regola: almeno 10 giorni tra un incontro e l'altro"},
+    {t:"Rivedere appunti e materiali della sessione", chi:"antonio", stato:"open",
+     src:"Tappa 1 · 2:10:15", link:FFT(CALL_3,7815)},
+
+    {t:"Configurare l'ecosistema Claude aziendale della clinica", chi:"bvb", stato:"open",
+     src:"Tappa 1 · 58:56", link:FFT(CALL_3,3536)},
+    {t:"Caricare competenze e Genius One nell'ecosistema", chi:"bvb", stato:"open",
+     src:"Tappa 1 · 59:44", link:FFT(CALL_3,3584)},
+    {t:"Costruire il workflow emergenze e la risposta automatica", chi:"bvb", stato:"wip",
+     src:"Tappa 1 · 1:22:23", link:FFT(CALL_3,4943), nota:"Tre risposte generate oggi: il flusso gira"},
+    {t:"Verificare le credenziali SMTP usate da n8n", chi:"bvb", stato:"wip",
+     src:"Tappa 1 · 1:38:33", link:FFT(CALL_3,5913), nota:"In Tappa 1 la mail di test non arrivava"},
+    {t:"Completare i test della landing page e mostrare il risultato", chi:"bvb", stato:"wip",
+     src:"Tappa 1 · 2:07:55", link:FFT(CALL_3,7675), nota:"Incontro di verifica fissato oggi alle 15:00"},
+    {t:"Condividere il codice del progetto con Antonio", chi:"bvb", stato:"open",
+     src:"Tappa 1 · 2:07:55", link:FFT(CALL_3,7675)},
+    {t:"Preparare le routine agentiche", chi:"bvb", stato:"open",
+     src:"Tappa 1 · 1:10:29", link:FFT(CALL_3,4229)},
+    {t:"Inviare report e presentazione della Tappa 1", chi:"bvb", stato:"ok",
+     src:"Tappa 1 · 58:56", nota:"Fatto l'8 settembre alle 10:19"},
+    {t:"Inviare il link Calendly per le sei tappe", chi:"bvb", stato:"ok",
+     src:"Intro · 24:03", link:FFT(CALL_2,1443), nota:"Fatto il 7 agosto, insieme al piano e alla fattura"},
+    {t:"Inviare il report di profilazione T0", chi:"bvb", stato:"ok",
+     src:"Profilazione · 26:37", link:FFT(CALL_1,1597), nota:"Fatto il 22 giugno, con la proposta di percorso"}
+  ],
+
+  materiali:[
+    {t:"proposta-Viglietti.pdf", q:"Proposta di percorso + report T0", d:"22 giu", src:"Gmail"},
+    {t:"piano-mentorship-viglietti_2.pdf", q:"Il piano dei tre mesi", d:"7 ago", src:"Gmail"},
+    {t:"Fattura 96/2026", q:"Prima mensilità", d:"7 ago", src:"Gmail", interno:true},
+    {t:"Report-Tappa-1-Mentorship-AI-Viglietti.pdf", q:"Report della prima lezione", d:"8 set", src:"Gmail"},
+    {t:"Viglietti Antonio.pptx", q:"Presentazione usata in Tappa 1", d:"8 set", src:"Gmail"},
+    {t:"Note automatiche delle tre call", q:"Generate da Fireflies, archiviate su Drive", d:"22 giu · 6 ago · 7 set", src:"Drive"}
+  ],
+
+  richieste:[
+    {tipo:"informazione", testo:"Se hai bisogno di chiarimenti o hai qualsiasi domanda, non esitare a scrivermi.",
+     quando:"invito aperto nella mail dell'8 settembre", stato:{cls:"idle", txt:"Nessuna richiesta aperta"}, sistema:true}
+  ],
+
+  integrazioni:[
+    {nm:"Google Calendar", st:"Attiva", cls:"done", meta:"5 incontri con Antonio tracciati, l'ultimo oggi alle 15:00"},
+    {nm:"Calendly", st:"Attiva", cls:"done", meta:"link consulenza-ai-mentor-ai · 5 slot ancora liberi"},
+    {nm:"Google Meet", st:"Attiva", cls:"done", meta:"link generato da ogni evento di calendario"},
+    {nm:"Fireflies", st:"Attiva", cls:"done", meta:"3 call trascritte, 191 minuti, note su Drive"},
+    {nm:"Gmail", st:"Attiva", cls:"done", meta:"9 scambi con Antonio dal 16 giugno"},
+    {nm:"Claude", st:"Attiva", cls:"done", meta:"report e materiali del percorso"},
+    {nm:"n8n", st:"In test", cls:"wip", meta:"workflow emergenze su istanza BVB; account di Antonio da creare"},
+    {nm:"Brevo", st:"Da attivare", cls:"idle", meta:"in attesa dell'account di Antonio"},
+    {nm:"GitHub", st:"Da attivare", cls:"idle", meta:"serve per pubblicare la landing e conservare il codice"},
+    {nm:"Snoots", st:"Da attivare", cls:"idle", meta:"dopo la migrazione da Aruba"}
+  ],
+
+  note:"Impara facendo, non a teoria: in Tappa 1 il prototipo costruito in diretta ha funzionato meglio di qualsiasi spiegazione. Il freno non è la volontà ma il tempo — 80–90 messaggi al giorno. Ogni tappa deve chiudersi con una cosa che gira, non con un concetto."
+};
+
+let mode = "bvb";
+let sheet = null;
 
 const $ = s => document.querySelector(s);
 const view = $("#view");
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const az = who => C.azioni.filter(a => a.chi === who);
 
-/* ---------- pieces ---------- */
-function track(c, compact){
-  return `<div class="track">${STAGES.map(s=>{
-    const cls = s.n < c.stage ? "done" : s.n === c.stage ? "now" : "";
-    const st  = s.n < c.stage ? "completata" : s.n === c.stage ? "in corso" : "da fare";
+/* ---------- pezzi ---------- */
+function trackTappe(){
+  return `<div class="track">${C.tappe.map(t=>{
+    const cls = t.stato==="fatta" ? "done" : t.n===C.fatte+1 ? "now" : "";
     return `<div class="step ${cls}">
-      <div class="bead">${s.n < c.stage ? "✓" : s.n}</div>
-      <span class="nm">${s.nm}</span>
-      ${compact ? "" : `<span class="st">${st}</span>`}
+      <div class="bead">${t.stato==="fatta"?"✓":t.n}</div>
+      <span class="nm">Tappa ${t.n}</span>
+      <span class="st">${t.stato==="fatta"?esc(t.data):"da fissare"}</span>
     </div>`;
   }).join("")}</div>`;
 }
 
-function taskList(c){
-  return c.azioni.map(a=>`
+function taskList(who, asClient){
+  const list = az(who);
+  if(!list.length) return "";
+  return list.map(a=>`
     <div class="task ${a.stato==="ok"?"ok":a.stato==="late"?"late":""}">
       <div class="box">${a.stato==="ok"?"✓":""}</div>
-      <div><span class="txt">${esc(a.t)}</span><span class="due">${esc(a.due)}</span></div>
+      <div style="flex:1">
+        <span class="txt">${esc(a.t)}</span>
+        ${a.nota?`<span class="evid">${esc(a.nota)}</span>`:""}
+        <span class="evid">
+          ${a.link?`<a class="link" href="${a.link}" target="_blank" rel="noopener">${esc(a.src)} — vai al minuto</a>`:esc(a.src)}
+          ${a.stato==="late"?` · <b style="color:var(--coral)">in ritardo</b>`:a.stato==="wip"?" · in corso":""}
+        </span>
+      </div>
     </div>`).join("");
 }
 
-function reqList(c, asClient){
-  return c.richieste.map((r,i)=>`
-    <div class="req">
-      <span class="chip ${r.stato.cls}"><span class="dot"></span>${r.tipo==="appuntamento"?"Appuntamento":"Informazione"} · ${r.stato.txt}</span>
-      <p class="q">“${esc(r.testo)}”</p>
-      <div class="who">${asClient?"Inviata":"Da "+esc(c.nome.split(" ")[0])} ${esc(r.quando)}</div>
-      ${asClient?"":`<div class="tl-actions" style="margin-top:10px">
-        ${r.tipo==="appuntamento"?`<button class="btn sm primary" data-toast="Proposti 3 slot dal calendario. ${esc(c.nome.split(" ")[0])} riceve la mail di scelta.">Proponi 3 slot</button>`:""}
-        <button class="btn sm" data-toast="Risposta inviata e archiviata nel progetto.">Rispondi</button>
-      </div>`}
+function sistemi(){
+  return C.sistemi.map(s=>`
+    <div class="sys">
+      <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap">
+        <h4>${esc(s.nm)}</h4>
+        <span class="chip ${s.stato.cls}"><span class="dot"></span>${s.stato.txt}</span>
+        <span class="src" style="margin-left:auto">${esc(s.src)}</span>
+      </div>
+      <p style="margin:6px 0 0;color:var(--ink-2);font-size:12.5px">${esc(s.desc)}</p>
+      <ul>${s.punti.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>
     </div>`).join("");
 }
 
-/* ---------- views ---------- */
-function viewConsole(){
-  const todo = [
-    {t:"Report da approvare", n:2, cls:"wip"},
-    {t:"Richieste di appuntamento", n:1, cls:"wip"},
-    {t:"Richieste di informazioni", n:3, cls:"wip"},
-    {t:"Azioni cliente in ritardo", n:1, cls:"late"}
-  ];
-  return `
-  <div class="banner" style="margin:22px 0 18px">
-    <strong>Scrivi un nome nella barra in alto</strong>
-    <span style="color:var(--mute)">— “eri”, “anto”, “mar” — e premi invio: si apre la dashboard di quel cliente. È l'unico ingresso che serve.</span>
-  </div>
-
-  <div class="grid cols-2">
-    <section class="panel">
-      <header><h3>Da fare oggi</h3><span class="count mono num">${todo.reduce((a,b)=>a+b.n,0)} voci</span></header>
-      <div class="stack divide">
-        ${todo.map(x=>`<div class="kv"><span>${x.t}</span><span class="chip ${x.cls}"><span class="dot"></span><span class="num">${x.n}</span></span></div>`).join("")}
-      </div>
-      <div style="margin-top:16px"><button class="btn" data-toast="Coda di approvazione aperta.">Apri la coda di approvazione</button></div>
-    </section>
-
-    <section class="panel">
-      <header><h3>Portafoglio</h3><span class="count num">${CLIENTS.length} attivi</span></header>
-      <div class="stack divide">
-        ${CLIENTS.map(c=>`
-          <button class="row-item" data-open="${c.id}" style="border:0;background:transparent;padding:0;width:100%;text-align:left">
-            <div style="flex:1">
-              <div class="kv"><span style="font-weight:700">${esc(c.nome)}</span><span class="mono num" style="color:var(--mute)">${c.progress}%</span></div>
-              <div class="label" style="margin:3px 0 6px">Fase ${c.stage} · ${esc(STAGES[c.stage-1].nm)}</div>
-              <div class="meter"><i style="width:${c.progress}%"></i></div>
-            </div>
-          </button>`).join("")}
-      </div>
-    </section>
-  </div>
-
-  <div class="grid cols-25" style="margin-top:18px">
-    <section class="panel">
-      <header><h3>Prossimi incontri</h3></header>
-      <div class="stack divide">
-        ${CLIENTS.map(c=>`<div class="kv">
-          <span><strong>${esc(c.nome)}</strong><br><span style="color:var(--mute);font-size:12px">${esc(c.next.titolo)}</span></span>
-          <span class="mono" style="text-align:right;font-size:11.5px">${esc(c.next.quando)}</span>
-        </div>`).join("")}
-      </div>
-    </section>
-    <section class="panel">
-      <header><h3>Attività recente</h3><span class="count">automatica</span></header>
-      <div class="stack divide" style="font-size:12.5px">
-        <div><span class="chip done"><span class="dot"></span>Fireflies</span> ha trascritto “Consulenza #1 — Antonio” <span class="mono" style="color:var(--mute)">2 set · 11:48</span></div>
-        <div><span class="chip wip"><span class="dot"></span>Claude</span> ha generato la bozza di report per Ericko <span class="mono" style="color:var(--mute)">4 set · 16:12</span></div>
-        <div><span class="chip done"><span class="dot"></span>Calendario</span> nuovo incontro sincronizzato per Marta <span class="mono" style="color:var(--mute)">5 set · 09:02</span></div>
-      </div>
-    </section>
-  </div>`;
+function figure(){
+  return `<div class="figs">${C.figure.map(f=>`
+    <div class="fig"><b class="num">${esc(f.n)}</b><span>${esc(f.l)}</span></div>`).join("")}</div>`;
 }
 
-function viewClient(){
-  const c = current;
+/* ---------- vista BVB ---------- */
+function viewBvb(){
   return `
   <div style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin:24px 0 18px">
     <div>
-      <div class="label">Cliente · dal ${esc(c.dal)}</div>
-      <h2 class="serif" style="font-size:clamp(24px,3.6vw,34px);margin-top:4px">${esc(c.nome)}</h2>
-      <div style="color:var(--mute)">${esc(c.clinica)}</div>
+      <div class="label">Cliente · dal ${esc(C.dal)} · ${esc(C.email)}</div>
+      <h2 class="serif" style="font-size:clamp(24px,3.6vw,34px);margin-top:4px">${esc(C.nome)}</h2>
+      <div style="color:var(--mute)">${esc(C.ruolo)} — ${esc(C.percorso)}</div>
     </div>
     <div style="margin-left:auto;display:flex;gap:8px">
-      <button class="btn" data-goportal="1">Vedi come il cliente</button>
+      <button class="btn" data-goportal="1">Vedi come Antonio</button>
       <button class="btn primary" data-toast="Nuovo incontro creato sul calendario, con invito e link Meet.">Fissa un incontro</button>
     </div>
   </div>
 
-  <section class="panel">
-    <header><h3>Mappa di avanzamento</h3><span class="count num">${c.progress}% del percorso</span></header>
-    ${track(c)}
+  ${figure()}
+
+  <section class="panel" style="margin-top:18px">
+    <header><h3>Percorso Mentorship AI</h3><span class="count num">${C.fatte} di ${C.totali} tappe fatte</span></header>
+    ${trackTappe()}
+    <div class="warn" style="margin-top:16px">
+      <b>Le cinque tappe successive non sono ancora a calendario.</b> Il link Calendly è partito il 7 agosto.
+      Con dieci giorni minimi tra un incontro e l'altro, novembre si copre solo se la Tappa 2 entra entro fine settembre.
+    </div>
   </section>
 
   <div class="grid cols-2" style="margin-top:18px">
-    <section class="panel">
-      <header><h3>Incontri e report</h3><span class="count num">${c.incontri.length} incontri</span></header>
-      <div class="timeline">
-        ${c.incontri.map(m=>`
-          <div class="tl-item ${m.stato}">
-            <div class="tl-head">
-              <span class="mono num" style="color:var(--mute)">${m.data}</span>
-              <span class="t">${esc(m.titolo)}</span>
-              <span class="chip ${m.badge.cls}"><span class="dot"></span>${m.badge.txt}</span>
-            </div>
-            <div class="tl-meta">${esc(m.durata)} · ${esc(m.meta)}</div>
-            <div class="tl-actions">
-              ${m.stato==="draft" && c.report ? `<button class="btn sm" data-report="1">Apri la bozza</button>
-                <button class="btn sm primary" data-toast="Report pubblicato. ${esc(c.nome.split(" ")[0])} ha ricevuto la notifica.">Approva e pubblica</button>` : ""}
-              ${m.stato==="done" ? `<button class="btn sm ghost" data-report="1">Leggi il report</button>` : ""}
-              ${m.stato==="plan" ? `<button class="btn sm ghost" data-toast="Promemoria inviato al cliente.">Invia promemoria</button>` : ""}
-            </div>
-          </div>`).join("")}
-      </div>
-      <div style="margin-top:16px"><button class="btn" data-toast="Incontro registrato a mano: utile quando l'incontro è in presenza.">+ Registra un incontro</button></div>
-    </section>
-
     <div class="stack">
       <section class="panel">
-        <header><h3>Richieste del cliente</h3><span class="count num">${c.richieste.length}</span></header>
-        <div class="stack">${reqList(c,false)}</div>
+        <header><h3>Prossimo appuntamento</h3><span class="src">${esc(C.prossimo.src)}</span></header>
+        <div class="next-card">
+          <div class="when">${esc(C.prossimo.quando)}</div>
+          <div style="font-weight:700;margin:2px 0 4px">${esc(C.prossimo.t)}</div>
+          <div style="color:var(--mute);font-size:12.5px;margin-bottom:12px">${esc(C.prossimo.nota)}</div>
+          <a class="btn primary" href="${C.prossimo.meet}" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none">Entra su Meet</a>
+        </div>
       </section>
 
       <section class="panel">
-        <header><h3>Azioni assegnate</h3><span class="count num">${c.azioni.filter(a=>a.stato==="ok").length}/${c.azioni.length} completate</span></header>
-        <div class="stack">${taskList(c)}</div>
+        <header><h3>Incontri del percorso</h3><span class="count">1 svolto · 5 da fissare</span></header>
+        <div class="timeline">
+          ${C.tappe.filter(t=>t.stato==="fatta").map(t=>`
+            <div class="tl-item">
+              <div class="tl-head">
+                <span class="mono num" style="color:var(--mute)">${esc(t.data)}</span>
+                <span class="t">${esc(t.t)}</span>
+                <span class="chip done"><span class="dot"></span>Report inviato</span>
+              </div>
+              <div class="tl-meta">${esc(t.ora)} · ${esc(t.durata)} · ${esc(t.meet)}</div>
+              <p style="margin:0 0 8px;font-size:12.5px">${esc(t.sintesi)}</p>
+              <div class="tl-meta">Materiali inviati il ${esc(t.inviati)}: ${t.materiali.map(m=>esc(m)).join(" · ")}</div>
+              <div class="tl-actions">
+                <a class="btn sm" href="${FF(t.ff)}" target="_blank" rel="noopener" style="text-decoration:none">Registrazione e trascrizione</a>
+                <button class="btn sm ghost" data-toast="In V1 il report si apre qui dentro, senza cercarlo nella posta.">Apri il report</button>
+              </div>
+            </div>`).join("")}
+          <div class="tl-item plan">
+            <div class="tl-head"><span class="t">Tappe 2 → 6</span><span class="chip idle"><span class="dot"></span>Da prenotare</span></div>
+            <div class="tl-meta">Link Calendly consegnato il 7 agosto · nessuno slot ancora scelto</div>
+            <div class="tl-actions">
+              <a class="btn sm" href="${C.calendly}" target="_blank" rel="noopener" style="text-decoration:none">Apri il calendario</a>
+              <button class="btn sm ghost" data-toast="Promemoria inviato ad Antonio con il link Calendly.">Sollecita la prenotazione</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <header><h3>Come è nato il cliente</h3><span class="count">prima del percorso</span></header>
+        <div class="stack divide">
+          ${C.origine.map(o=>`
+            <div>
+              <div class="tl-head">
+                <span class="mono num" style="color:var(--mute)">${esc(o.data)}</span>
+                <span style="font-weight:700;font-size:13px">${esc(o.t)}</span>
+                <span class="src" style="margin-left:auto">${esc(o.src)}</span>
+              </div>
+              <div style="font-size:12.5px;color:var(--ink-2);margin-top:3px">${esc(o.m)}
+                ${o.link?` <a class="link" href="${o.link}" target="_blank" rel="noopener">registrazione</a>`:""}
+              </div>
+            </div>`).join("")}
+        </div>
+      </section>
+    </div>
+
+    <div class="stack">
+      <section class="panel">
+        <header><h3>Azioni di Antonio</h3><span class="count num">${az("antonio").filter(a=>a.stato==="ok").length}/${az("antonio").length}</span></header>
+        <div class="stack">${taskList("antonio")}</div>
+      </section>
+
+      <section class="panel">
+        <header><h3>Azioni BVB</h3><span class="count num">${az("bvb").filter(a=>a.stato==="ok").length}/${az("bvb").length}</span></header>
+        <div class="stack">${taskList("bvb")}</div>
       </section>
 
       <section class="panel">
         <header><h3>Note interne</h3><span class="count">non visibili al cliente</span></header>
-        <div class="note">${esc(c.note)}</div>
+        <div class="note">${esc(C.note)}</div>
+      </section>
+    </div>
+  </div>
+
+  <section class="panel" style="margin-top:18px">
+    <header><h3>I cantieri aperti</h3><span class="count">ricavati dalle call, non dichiarati a mano</span></header>
+    <div class="grid cols-3">${sistemi()}</div>
+  </section>`;
+}
+
+/* ---------- vista cliente ---------- */
+function viewPortal(){
+  return `
+  <div class="portal-hero" style="margin:24px 0 18px">
+    <div class="label">Il mio percorso con BRAVE Vet Business</div>
+    <h2 class="serif" style="margin:6px 0 4px">Tappa 1 fatta. Restano cinque incontri da fissare.</h2>
+    <p style="color:var(--mute);max-width:64ch;margin:0 0 18px">
+      Ciao Antonio. Il 7 settembre abbiamo costruito insieme il primo prototipo: oggi quel sistema ha già risposto
+      a tre richieste vere. Il prossimo passo dipende da te — scegliere le date delle prossime cinque tappe.
+    </p>
+    ${trackTappe()}
+  </div>
+
+  <div class="grid cols-25">
+    <section class="next-card">
+      <div class="label">Prossimo appuntamento</div>
+      <div class="when" style="margin:6px 0 2px">${esc(C.prossimo.quando)}</div>
+      <div style="color:var(--mute);margin-bottom:14px">${esc(C.prossimo.t)} · Google Meet</div>
+      <div class="tl-actions">
+        <a class="btn primary" href="${C.prossimo.meet}" target="_blank" rel="noopener" style="text-decoration:none">Entra su Meet</a>
+        <button class="btn" data-form="appuntamento">Chiedi di spostare</button>
+      </div>
+    </section>
+
+    <section class="panel" style="border-left:3px solid var(--gold)">
+      <header><h3>Il passo che serve adesso</h3><span class="chip wip"><span class="dot"></span>In ritardo</span></header>
+      <p style="margin:0 0 12px;font-size:13px">
+        Prenota le <b>cinque tappe rimanenti</b>. Tieni almeno dieci giorni tra un incontro e l'altro:
+        serve a te per far girare quello che nasce, e a noi per costruirlo.
+      </p>
+      <a class="btn primary" href="${C.calendly}" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none">Scegli le date</a>
+    </section>
+  </div>
+
+  <div class="grid cols-2" style="margin-top:18px">
+    <div class="stack">
+      <section class="panel">
+        <header><h3>Cosa abbiamo fatto in Tappa 1</h3><span class="src">7 settembre · 132 min</span></header>
+        <p style="margin:0 0 12px;font-size:13px">${esc(C.tappe[0].sintesi)}</p>
+        <div class="stack divide" style="font-size:12.5px">
+          <div class="kv"><span>Report della lezione</span><span class="v">ricevuto l'8 set</span></div>
+          <div class="kv"><span>Presentazione usata in aula</span><span class="v">ricevuta l'8 set</span></div>
+          <div class="kv"><span>Registrazione integrale</span>
+            <a class="link" href="${FF(CALL_3)}" target="_blank" rel="noopener">rivedila</a></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <header><h3>I sistemi che stiamo costruendo</h3></header>
+        <div class="stack">${sistemi()}</div>
+      </section>
+    </div>
+
+    <div class="stack">
+      <section class="panel">
+        <header><h3>Le mie azioni</h3><span class="count num">${az("antonio").length} aperte</span></header>
+        <p style="color:var(--mute);font-size:12px;margin:0 0 12px">
+          Estratte dalle nostre call. Ogni voce porta al minuto esatto in cui ne abbiamo parlato.
+        </p>
+        <div class="stack">${taskList("antonio", true)}</div>
+      </section>
+
+      <section class="panel">
+        <header><h3>Quello che sta facendo BRAVE</h3><span class="count num">${az("bvb").filter(a=>a.stato!=="ok").length} in corso</span></header>
+        <div class="stack">${taskList("bvb", true)}</div>
+      </section>
+
+      <section class="panel">
+        <header><h3>I miei materiali</h3></header>
+        <div class="stack divide" style="font-size:12.5px">
+          ${C.materiali.filter(m=>!m.interno).map(m=>`
+            <div class="kv">
+              <span><strong>${esc(m.q)}</strong><br><span style="color:var(--mute)">${esc(m.t)}</span></span>
+              <span class="mono" style="color:var(--mute)">${esc(m.d)}</span>
+            </div>`).join("")}
+        </div>
+      </section>
+
+      <section class="panel">
+        <header><h3>Comunicazioni di progetto</h3></header>
+        <div class="tl-actions" style="margin-bottom:12px">
+          <button class="btn primary" data-form="appuntamento">Chiedi un appuntamento</button>
+          <button class="btn" data-form="domanda">Fai una domanda</button>
+        </div>
+        <p style="color:var(--mute);font-size:12px;margin:0">
+          Oggi queste richieste passano dalla posta. Qui restano attaccate al percorso, e la risposta si ritrova.
+        </p>
       </section>
     </div>
   </div>`;
 }
 
-function viewPortal(){
-  const c = current;
-  const st = STAGES[c.stage-1];
-  return `
-  <div class="portal-hero" style="margin:24px 0 18px">
-    <div class="label">Il mio percorso con BRAVE Vet Business</div>
-    <h2 class="serif" style="margin:6px 0 4px">Sei nella fase ${c.stage} di 6 — ${esc(st.nm)}</h2>
-    <p style="color:var(--mute);max-width:62ch;margin:0 0 18px">
-      ${c.stage===1
-        ? "Abbiamo appena aperto il tuo percorso: il primo passo è la call di discovery."
-        : "Gli strumenti sono attivi: adesso stiamo misurando quanto tempo ti fanno risparmiare davvero."}
-    </p>
-    ${track(c)}
-  </div>
-
-  <div class="grid cols-25">
-    <section class="next-card">
-      <div class="label">Prossimo incontro</div>
-      <div class="when" style="margin:6px 0 2px">${esc(c.next.quando)}</div>
-      <div style="color:var(--mute);margin-bottom:14px">${esc(c.next.titolo)} · ${esc(c.next.dove)}</div>
-      <div class="tl-actions">
-        <button class="btn primary" data-toast="Il pulsante si attiva 10 minuti prima dell'incontro.">Entra su Meet</button>
-        <button class="btn" data-form="appuntamento">Chiedi di spostare</button>
-      </div>
-    </section>
-
-    <section class="panel">
-      <header><h3>Le mie azioni</h3><span class="count num">${c.azioni.filter(a=>a.stato==="ok").length}/${c.azioni.length}</span></header>
-      <div class="stack">${taskList(c)}</div>
-    </section>
-  </div>
-
-  <div class="grid cols-2" style="margin-top:18px">
-    <section class="panel">
-      <header><h3>I miei report</h3><span class="count">uno per ogni incontro</span></header>
-      <div class="stack divide">
-        ${c.incontri.filter(m=>m.stato==="done").map(m=>`
-          <div class="kv">
-            <span><span class="mono num" style="color:var(--mute)">${m.data}</span> &nbsp;<strong>${esc(m.titolo)}</strong></span>
-            <button class="btn sm ghost" data-report="1">Leggi</button>
-          </div>`).join("") || `<div style="color:var(--mute)">Il primo report arriverà dopo la call di discovery.</div>`}
-      </div>
-    </section>
-
-    <section class="panel">
-      <header><h3>Comunicazioni di progetto</h3></header>
-      <div class="tl-actions" style="margin-bottom:14px">
-        <button class="btn primary" data-form="appuntamento">Chiedi un appuntamento</button>
-        <button class="btn" data-form="domanda">Fai una domanda</button>
-      </div>
-      <div class="stack">${reqList(c,true)}</div>
-      <p style="color:var(--mute);font-size:12px;margin:12px 0 0">Rispondiamo entro 1 giorno lavorativo.</p>
-    </section>
-  </div>`;
-}
-
+/* ---------- back office ---------- */
 function viewBack(){
-  const integr = [
-    {nm:"Calendario", st:"Connesso", cls:"done", meta:"ultimo evento sincronizzato 12 minuti fa"},
-    {nm:"Google Meet", st:"Connesso", cls:"done", meta:"link generati dall'evento di calendario"},
-    {nm:"Fireflies", st:"Connesso", cls:"done", meta:"3 trascrizioni ricevute questa settimana"},
-    {nm:"Claude", st:"Connesso", cls:"done", meta:"modello di report v3 · 2 bozze generate oggi"}
-  ];
   const auto = [
-    "Incontro concluso → recupera la trascrizione da Fireflies",
-    "Trascrizione ricevuta → genera la bozza di report con Claude",
-    "Report pubblicato → notifica il cliente e crea le azioni",
-    "Azione in scadenza fra 2 giorni → promemoria al responsabile",
-    "Tutti i deliverable completati → proponi l'avanzamento di fase"
+    ["Evento a calendario con Antonio", "crea o aggiorna la tappa nel percorso"],
+    ["Fireflies chiude una trascrizione", "aggancia la registrazione all'incontro giusto"],
+    ["Trascrizione agganciata", "Claude scrive la bozza di report e propone le azioni con il minuto di origine"],
+    ["Report approvato", "pubblica ad Antonio e invia la notifica"],
+    ["Azione ferma da più di 14 giorni", "segnala a BVB, come oggi per la migrazione da Aruba"],
+    ["Nuova richiesta dalla landing emergenze", "registra l'evento nel sistema emergenze del cliente"]
   ];
   return `
   <div style="margin:24px 0 18px">
     <div class="label">Back office</div>
-    <h2 class="serif" style="font-size:clamp(22px,3.2vw,30px);margin-top:4px">Il motore che rende il percorso ripetibile</h2>
-    <p style="color:var(--mute);max-width:64ch">Si configura una volta. Ogni nuovo cliente eredita fasi, modelli di report e automazioni: creare il suo spazio richiede meno di due minuti.</p>
+    <h2 class="serif" style="font-size:clamp(22px,3.2vw,30px);margin-top:4px">Da dove arriva ogni dato di questa pagina</h2>
+    <p style="color:var(--mute);max-width:66ch">Nessun campo è stato compilato a mano. Il percorso di Antonio è ricostruito dai sistemi già in uso: quello che manca qui, manca anche là.</p>
   </div>
 
   <div class="grid cols-2">
     <section class="panel">
-      <header><h3>Template percorso · “Consulenza BVB”</h3><span class="count">versione 3</span></header>
+      <header><h3>Integrazioni</h3><span class="count num">${C.integrazioni.filter(i=>i.cls==="done").length} attive su ${C.integrazioni.length}</span></header>
       <div class="stack divide">
-        ${STAGES.map(s=>`<div class="kv">
-          <span><span class="mono num" style="color:var(--mute)">0${s.n}</span> &nbsp;<strong>${s.nm}</strong></span>
-          <span style="color:var(--mute);font-size:12px">${["scheda + call fissata","report di discovery","report + accessi","check a 15 giorni","report per incontro","revisione trimestrale"][s.n-1]}</span>
+        ${C.integrazioni.map(i=>`<div class="kv">
+          <span><strong>${esc(i.nm)}</strong><br><span style="color:var(--mute);font-size:12px">${esc(i.meta)}</span></span>
+          <span class="chip ${i.cls}"><span class="dot"></span>${i.st}</span>
         </div>`).join("")}
-      </div>
-      <div style="margin-top:16px" class="tl-actions">
-        <button class="btn" data-toast="Nuovo cliente creato dal template: spazio pronto.">Crea cliente da template</button>
-        <button class="btn ghost" data-toast="Le modifiche valgono per i percorsi futuri.">Modifica template</button>
       </div>
     </section>
 
     <div class="stack">
       <section class="panel">
-        <header><h3>Integrazioni</h3><span class="count">4 attive</span></header>
-        <div class="stack divide">
-          ${integr.map(i=>`<div class="kv">
-            <span><strong>${i.nm}</strong><br><span style="color:var(--mute);font-size:12px">${i.meta}</span></span>
-            <span class="chip ${i.cls}"><span class="dot"></span>${i.st}</span>
+        <header><h3>Regole di automazione</h3><span class="count num">${auto.length}</span></header>
+        <div class="stack divide" style="font-size:12.5px">
+          ${auto.map(a=>`<div><b>${esc(a[0])}</b><span class="evid">→ ${esc(a[1])}</span></div>`).join("")}
+        </div>
+      </section>
+
+      <section class="panel">
+        <header><h3>Archivio del cliente</h3><span class="count num">${C.materiali.length} documenti</span></header>
+        <div class="stack divide" style="font-size:12.5px">
+          ${C.materiali.map(m=>`<div class="kv">
+            <span><strong>${esc(m.t)}</strong><br><span style="color:var(--mute)">${esc(m.q)}${m.interno?" · interno":""}</span></span>
+            <span class="mono" style="color:var(--mute)">${esc(m.d)}</span>
           </div>`).join("")}
         </div>
       </section>
 
       <section class="panel">
-        <header><h3>Automazioni attive</h3><span class="count num">5</span></header>
-        <div class="stack" style="font-size:12.5px">
-          ${auto.map(a=>`<div class="row-item"><span class="chip done" style="flex:none"><span class="dot"></span>on</span><span>${a}</span></div>`).join("")}
-        </div>
-      </section>
-
-      <section class="panel">
-        <header><h3>Privacy e conservazione</h3></header>
-        <div class="stack divide" style="font-size:13px">
-          <div class="kv"><span>Registrazione dell'incontro</span><span class="v">30 giorni</span></div>
-          <div class="kv"><span>Trascrizione</span><span class="v">12 mesi</span></div>
-          <div class="kv"><span>Report di progetto</span><span class="v">senza scadenza</span></div>
-          <div class="kv"><span>Dati e file</span><span class="v">Unione Europea</span></div>
+        <header><h3>Da confermare</h3><span class="chip wip"><span class="dot"></span>1</span></header>
+        <div class="warn">
+          I nomi ufficiali dei tre sistemi vanno letti da <b>piano-mentorship-viglietti_2.pdf</b>: qui i cantieri
+          sono ricostruiti dalle call, non dal piano. È l'unico punto della pagina che non viene da una fonte già collegata.
         </div>
       </section>
     </div>
   </div>`;
 }
 
-/* ---------- sheets ---------- */
-function sheetReport(){
-  const r = current.report;
-  if(!r) return "";
-  return `<div class="overlay" data-close="1"><div class="sheet" role="dialog" aria-modal="true" aria-label="Report incontro">
-    <header>
-      <div>
-        <div class="label">Report di incontro</div>
-        <h3 class="serif" style="font-size:22px;margin:4px 0 2px">${esc(r.titolo)}</h3>
-        <div style="color:var(--mute);font-size:12.5px">${esc(r.data)} · ${esc(r.durata)} · ${esc(r.partecipanti)}</div>
-      </div>
-      <button class="x" data-close="1" aria-label="Chiudi">×</button>
-    </header>
-    <div class="body">
-      <h4>In sintesi</h4><p style="margin:0">${esc(r.sintesi)}</p>
-      <h4>Decisioni prese</h4><ul>${r.decisioni.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>
-      <h4>Azioni</h4><ul>${r.azioni.map(a=>`<li>${esc(a)}</li>`).join("")}</ul>
-      <h4>Temi aperti</h4><ul>${r.aperti.map(a=>`<li>${esc(a)}</li>`).join("")}</ul>
-      <p class="label" style="margin-top:20px">Fonti: trascrizione Fireflies · registrazione conservata 30 giorni</p>
-    </div>
-    <footer>
-      <button class="btn" data-toast="PDF generato.">Scarica PDF</button>
-      <button class="btn ghost" data-form="domanda">Chiedi un chiarimento</button>
-    </footer>
-  </div></div>`;
-}
-
+/* ---------- moduli ---------- */
 function sheetForm(kind){
   const app = kind==="appuntamento";
   return `<div class="overlay" data-close="1"><div class="sheet" style="max-width:520px" role="dialog" aria-modal="true">
@@ -732,17 +786,17 @@ function sheetForm(kind){
     <div class="body">
       ${app ? `
       <label class="field"><span class="label">Motivo</span>
-        <select><option>Spostare un incontro già fissato</option><option>Incontro extra su un problema</option><option>Revisione del percorso</option></select></label>
+        <select><option>Prenotare una tappa del percorso</option><option>Spostare il test della landing emergenze</option><option>Incontro extra su un blocco</option></select></label>
       <label class="field"><span class="label">Quando preferisci</span>
         <select><option>Mattina</option><option>Pomeriggio</option><option>Indifferente</option></select></label>
       <label class="field"><span class="label">Nota per Massimo</span>
-        <textarea placeholder="Ho un intervento giovedì pomeriggio, meglio la mattina."></textarea></label>`
+        <textarea placeholder="In ambulatorio il pomeriggio è complicato, meglio la mattina presto."></textarea></label>`
       : `
       <label class="field"><span class="label">A cosa si riferisce</span>
-        <select><option>Nessun riferimento</option><option>Report del 4 settembre</option><option>Azione: dati di fatturato</option></select></label>
+        <select><option>Nessun riferimento</option><option>Report della Tappa 1</option><option>Azione: account n8n</option><option>Sistema emergenze</option></select></label>
       <label class="field"><span class="label">La tua domanda</span>
-        <textarea placeholder="Come collego Fireflies alle riunioni che fisso io?"></textarea></label>`}
-      <p style="color:var(--mute);font-size:12px;margin:0">${app?"Ricevi fino a 3 proposte di orario: scegli quella che preferisci e l'incontro finisce sul calendario di entrambi.":"Rispondiamo entro 1 giorno lavorativo. La risposta resta dentro il progetto."}</p>
+        <textarea placeholder="L'account n8n gratuito basta anche quando colleghiamo i dati della clinica?"></textarea></label>`}
+      <p style="color:var(--mute);font-size:12px;margin:0">${app?"Ricevi fino a 3 proposte di orario, lette dal calendario reale. Chi sceglie sei tu.":"Rispondiamo entro 1 giorno lavorativo. La domanda resta attaccata al percorso."}</p>
     </div>
     <footer>
       <button class="btn primary" data-toast="${app?"Richiesta inviata. Stato: in valutazione.":"Domanda inviata. Risposta entro 1 giorno lavorativo."}" data-close="1">Invia richiesta</button>
@@ -755,19 +809,14 @@ function sheetForm(kind){
 function render(){
   const isPortal = mode==="portal";
   $("#searchWrap").style.visibility = isPortal ? "hidden" : "visible";
-  $("#ctxLabel").textContent = isPortal
-    ? "Vista cliente — " + current.nome
+  $("#ctxLabel").textContent = isPortal ? "Vista di Antonio Viglietti"
     : mode==="backoffice" ? "Back office" : "Console BraveVETBusiness";
-  $("#tabConsole").setAttribute("aria-pressed", String(mode==="console"||mode==="client"));
+  $("#tabBvb").setAttribute("aria-pressed", String(mode==="bvb"));
   $("#tabPortal").setAttribute("aria-pressed", String(isPortal));
   $("#tabBack").setAttribute("aria-pressed", String(mode==="backoffice"));
 
-  const main = mode==="console" ? viewConsole()
-            : mode==="client" ? viewClient()
-            : mode==="portal" ? viewPortal()
-            : viewBack();
-  const over = sheet==="report" ? sheetReport() : sheet ? sheetForm(sheet) : "";
-  view.innerHTML = main + over;
+  const main = mode==="portal" ? viewPortal() : mode==="backoffice" ? viewBack() : viewBvb();
+  view.innerHTML = main + (sheet ? sheetForm(sheet) : "");
 }
 
 function toast(msg){
@@ -780,42 +829,32 @@ function toast(msg){
   setTimeout(()=>el.remove(), 2600);
 }
 
-/* ---------- events ---------- */
 document.addEventListener("click", e=>{
-  const t = e.target.closest("[data-open],[data-report],[data-form],[data-goportal],[data-close],[data-toast]");
-  if(!t){ return; }
-  if(t.dataset.open){ current = CLIENTS.find(c=>c.id===t.dataset.open); mode="client"; sheet=null; render(); return; }
+  const t = e.target.closest("[data-open],[data-form],[data-goportal],[data-close],[data-toast]");
+  if(!t) return;
+  if(t.dataset.open){ mode="bvb"; sheet=null; render(); return; }
   if(t.dataset.goportal){ mode="portal"; sheet=null; render(); return; }
-  if(t.dataset.report){ sheet="report"; render(); return; }
-  if(t.dataset.form){ sheet=t.dataset.form; if(t.dataset.toast) toast(t.dataset.toast); render(); return; }
+  if(t.dataset.form){ sheet=t.dataset.form; render(); return; }
   if(t.dataset.toast){ toast(t.dataset.toast); }
   if(t.dataset.close === "1" && (e.target===t || t.classList.contains("x") || t.classList.contains("btn"))){ sheet=null; render(); }
 });
 
-$("#tabConsole").onclick = ()=>{ mode="console"; sheet=null; render(); };
-$("#tabPortal").onclick  = ()=>{ mode="portal"; sheet=null; render(); };
-$("#tabBack").onclick    = ()=>{ mode="backoffice"; sheet=null; render(); };
+$("#tabBvb").onclick    = ()=>{ mode="bvb"; sheet=null; render(); };
+$("#tabPortal").onclick = ()=>{ mode="portal"; sheet=null; render(); };
+$("#tabBack").onclick   = ()=>{ mode="backoffice"; sheet=null; render(); };
 
 const q = $("#q"), results = $("#results");
-function matches(v){
-  v = v.trim().toLowerCase();
-  if(!v) return [];
-  return CLIENTS.filter(c => (c.nome+" "+c.clinica).toLowerCase().includes(v));
-}
 function drawResults(){
-  const list = matches(q.value);
-  if(!list.length){ results.hidden = true; results.innerHTML=""; return; }
-  results.hidden = false;
-  results.innerHTML = list.map((c,i)=>`<button data-open="${c.id}" class="${i===0?"on":""}">
-      <span class="nm">${esc(c.nome)}</span>
-      <span class="meta num">Fase ${c.stage} · ${c.progress}%</span></button>`).join("");
+  const v = q.value.trim().toLowerCase();
+  const hit = v && (C.nome + " " + C.ruolo).toLowerCase().includes(v);
+  results.hidden = !hit;
+  results.innerHTML = hit ? `<button data-open="1">
+      <span class="nm">${esc(C.nome)}</span>
+      <span class="meta num">Tappa ${C.fatte} di ${C.totali}</span></button>` : "";
 }
 q.addEventListener("input", drawResults);
 q.addEventListener("keydown", e=>{
-  if(e.key==="Enter"){
-    const first = matches(q.value)[0];
-    if(first){ current=first; mode="client"; sheet=null; q.value=""; results.hidden=true; render(); }
-  }
+  if(e.key==="Enter"){ mode="bvb"; sheet=null; q.value=""; results.hidden=true; render(); }
   if(e.key==="Escape"){ q.value=""; results.hidden=true; }
 });
 document.addEventListener("click", e=>{ if(!e.target.closest("#searchWrap")) results.hidden = true; });

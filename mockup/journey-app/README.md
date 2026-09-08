@@ -1,6 +1,6 @@
 # Prototipo — BraveVET Journey
 
-Prototipo cliccabile delle schermate descritte in [`docs/journey-app/SPECIFICHE.md`](../../docs/journey-app/SPECIFICHE.md).
+Prototipo dell'MVP, popolato con i dati reali di Antonio Viglietti (vedi [`docs/journey-app/MVP-VIGLIETTI.md`](../../docs/journey-app/MVP-VIGLIETTI.md)). Impianto e specifiche generali in [`docs/journey-app/SPECIFICHE.md`](../../docs/journey-app/SPECIFICHE.md).
 
 - `index.html` — versione autonoma: si apre con un doppio clic, nessuna installazione.
 - `body.html` — stesso contenuto senza involucro `<html>/<head>`, usato per la pubblicazione online.
@@ -9,12 +9,12 @@ Prototipo cliccabile delle schermate descritte in [`docs/journey-app/SPECIFICHE.
 
 | Azione | Dove |
 |---|---|
-| Cercare un cliente e aprirne la dashboard | barra in alto: scrivere "eri", "anto" o "mar" e premere invio |
-| Console BVB: cose da fare, portafoglio, prossimi incontri | vista **Console BVB** |
-| Dashboard di un cliente (lato BVB): incontri, bozze di report, richieste, azioni, note interne | clic su un cliente nel portafoglio |
-| Dashboard del cliente, con accesso limitato al proprio profilo | pulsante **Vedi come il cliente** o **Vista cliente** |
-| Leggere un report di incontro | **Leggi il report** / **Apri la bozza** |
+| Percorso, incontri, azioni e cantieri di Antonio | vista **Lato BVB** |
+| La stessa cosa come la vede lui, senza note interne né fattura | vista **Lato cliente** (o **Vedi come Antonio**) |
+| Risentire il minuto esatto in cui un'azione è stata decisa | clic su "vai al minuto" sotto ogni azione |
+| Registrazione e trascrizione della Tappa 1 | **Registrazione e trascrizione** |
+| Prenotare le tappe mancanti | **Scegli le date** / **Apri il calendario** (link Calendly reale) |
 | Chiedere un appuntamento o fare una domanda | vista cliente → **Comunicazioni di progetto** |
-| Template di percorso, integrazioni, automazioni, privacy | vista **Back office** |
+| Stato vero delle integrazioni e provenienza dei dati | vista **Back office** |
 
-I dati mostrati sono di esempio e non reali.
+I dati provengono da Google Calendar, Gmail, Fireflies e Google Drive, fotografati l'8 settembre 2026. I pulsanti di invio sono simulati.
