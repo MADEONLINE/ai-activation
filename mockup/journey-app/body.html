@@ -291,7 +291,7 @@
       <div class="results" id="results" hidden></div>
     </div>
     <div class="switch" role="group" aria-label="Cambia vista">
-      <button id="tabBvb" aria-pressed="true">Lato BVB</button>
+      <button id="tabConsole" aria-pressed="true">Lato BVB</button>
       <button id="tabPortal" aria-pressed="false">Lato cliente</button>
       <button id="tabBack" aria-pressed="false">Back office</button>
     </div>
@@ -300,191 +300,422 @@
 
 <div class="shell">
   <main id="view"></main>
-  <p class="footnote">MVP su dati reali · fonti: Google Calendar, Gmail, Fireflies, Google Drive · aggiornato all'8 settembre 2026</p>
+  <p class="footnote">MVP su dati reali · Viglietti, Di Blasi, Zanini · fonti: Google Calendar, Gmail, Fireflies, Google Drive · aggiornato all'8 settembre 2026</p>
 </div>
 
 <script>
 const FF = id => "https://app.fireflies.ai/view/" + id;
-const FFT = (id, s) => FF(id) + "?t=" + s;
+const T  = (id, s) => FF(id) + "?t=" + s;
 
-const CALL_1 = "01KVQ223R6587R8MGCDBRC7BQV";   // 22/06 profilazione T0
-const CALL_2 = "01KZ6KPKEVY7K3CC5CSPNS7NMY";   // 06/08 intro mentorship
-const CALL_3 = "01M1VS9MDFZNP98DDA6W4FVJMN";   // 07/09 tappa 1
-const CALL_0 = "01KSPH3AGGMX7DWPCHAGC9TE37";   // 28/05 super master, call di gruppo
+/* ---- registrazioni Fireflies ---- */
+const A0="01KSPH3AGGMX7DWPCHAGC9TE37", A1="01KVQ223R6587R8MGCDBRC7BQV",
+      A2="01KZ6KPKEVY7K3CC5CSPNS7NMY", A3="01M1VS9MDFZNP98DDA6W4FVJMN";
+const E1="01KVWVNSBQQFJDJJ3G8142P849", E2="01KVW9AQFDH51KWMEMZ1SCRTJP",
+      E3="01KXZBW470E1CF96Z3CV26J4D1", E4="01KY2J4M2VS72A5CFJZ0DRTAHF",
+      E5="01KZDJZBEXVJM148G15SE8PK5F", E6="01M1B8ZZ2QGMYXPH7QDP8V6X73";
+const S1="01KVJ31FZ2GNZC6RZA73Z77XCA", S2="01KXK3JJYRBVCQ2VDW3QD3JMK9",
+      S3="01KXTTRTXVEHNMJBMP4B7A1E9Q", S4="01KXZZJAKMFH82X912QFXSKZX5",
+      S5="01KYQ0664HY7QKNHPJ3VHDB1ZE", S6="01KZBZT395H59WCQZY0TH5NG8K",
+      S7="01M0ANDDSZYKTPWNAX1QQ02R5G";
 
-const C = {
-  id:"antonio",
-  nome:"Antonio Viglietti",
+const CALENDLY = "https://calendly.com/massimoserreri/consulenza-ai-mentor-ai";
+
+const CLIENTS = [
+/* ═══════════════════ ANTONIO VIGLIETTI ═══════════════════ */
+{
+  id:"antonio", nome:"Antonio Viglietti", breve:"Antonio",
   ruolo:"Direttore sanitario · Clinica Veterinaria Viglietti",
-  email:"vigliettibus@hotmail.com",
-  percorso:"Mentorship AI · 6 incontri, settembre — novembre 2026",
-  dal:"22 giugno 2026",
-  fatte:1, totali:6,
-  calendly:"https://calendly.com/massimoserreri/consulenza-ai-mentor-ai",
-
+  email:"vigliettibus@hotmail.com", dal:"22 giugno 2026",
+  percorso:{nome:"Mentorship AI", forma:"6 tappe, settembre — novembre 2026",
+            regola:"Slot da due ore su Meet, almeno dieci giorni tra un incontro e l'altro"},
+  avanzamento:"1 di 6 tappe", rischio:true,
+  steps:[
+    {l:"Tappa 1", s:"7 set 2026", st:"done"},
+    {l:"Tappa 2", s:"da fissare", st:"now"},
+    {l:"Tappa 3", s:"da fissare"}, {l:"Tappa 4", s:"da fissare"},
+    {l:"Tappa 5", s:"da fissare"}, {l:"Tappa 6", s:"da fissare"}
+  ],
   figure:[
-    {n:"1 di 6", l:"tappe del percorso svolte", src:"Calendar 07/09"},
-    {n:"5", l:"tappe ancora da fissare su Calendly", src:"Gmail 07/08"},
-    {n:"132′", l:"durata della Tappa 1", src:"Fireflies 07/09"},
-    {n:"3", l:"richieste già gestite dal sistema emergenze", src:"Gmail 08/09"}
+    {n:"1 di 6", l:"tappe del percorso svolte"},
+    {n:"5", l:"tappe ancora da fissare su Calendly"},
+    {n:"132′", l:"durata della Tappa 1"},
+    {n:"3", l:"richieste già gestite dal sistema emergenze"}
   ],
-
-  // ——— prima del percorso: come è nato il cliente
-  origine:[
-    {data:"28 mag", t:"Super Master AI — istruzioni abilitanti", m:"Call di gruppo, 22 minuti, sette partecipanti. Antonio c'è e prende la parola sulle proprie motivazioni: è la prima call registrata in cui compare", src:"Fireflies 28/05", link:FF(CALL_0)},
-    {data:"14–16 giu", t:"Super Master AI a Milano", m:"Antonio in aula; il 20/06 manda la testimonianza: «partendo da zero e con qualche sano scetticismo… poi è arrivato l'effetto wow»", src:"Gmail 20/06"},
-    {data:"22 giu", t:"Call di profilazione — il punto T0", m:"29 minuti. Emergono i tre dolori: telefono che divora la giornata, gestione «approssimativa», dati chiusi nel gestionale", src:"Fireflies 22/06", link:FF(CALL_1)},
-    {data:"22 giu", t:"Report T0 + proposta di percorso", m:"Email con allegato proposta-Viglietti.pdf: timeline settimana per settimana, primo processo agentificato entro 4–6 settimane", src:"Gmail 22/06"},
-    {data:"13–15 lug", t:"Due inviti «Spiegare percorso Mentorship» accettati", m:"Accettati il 13 e il 15 luglio, ma nessun evento corrispondente sopravvive a calendario né esiste una registrazione: con ogni probabilità riprogrammati nell'intro del 6 agosto. Da confermare a voce", src:"Gmail 13/07 · 15/07", verifica:true},
-    {data:"6 ago", t:"Intro al Mentorship AI (con Marta Dessena)", m:"30 minuti. Struttura in due fasi: gestione economica e agentificazione con Massimo, marketing con Marta", src:"Fireflies 06/08", link:FF(CALL_2)},
-    {data:"7 ago", t:"Piano dei tre mesi + link appuntamenti + prima fattura", m:"Email con piano-mentorship-viglietti_2.pdf e Fattura 96/2026. Regola data: almeno 10 giorni tra un incontro e l'altro", src:"Gmail 07/08"}
-  ],
-
-  // ——— gli incontri del percorso
-  tappe:[
-    {n:1, data:"7 set 2026", ora:"15:00–17:00", t:"Tappa 1 — Ecosistema, strumenti, primo prototipo",
-     stato:"fatta", durata:"132 min", meet:"meet.google.com/whw-dqbp-uik", ff:CALL_3,
-     sintesi:"Claude come cervello centrale, n8n come sistema nervoso. Ruoli distinti di Chat, Cowork e Code. Skill Scout come prima attivazione. In diretta: primo prototipo della landing emergenze con workflow n8n.",
-     materiali:["Report-Tappa-1-Mentorship-AI-Viglietti.pdf", "Viglietti Antonio.pptx"], inviati:"8 set, 10:19"},
-    {n:2, data:"da fissare", t:"Tappa 2 — da prenotare su Calendly", stato:"da fissare",
-     sintesi:"Il link è nelle mani di Antonio dal 7 agosto: è il primo a riceverlo, quindi ha la scelta più ampia."},
-    {n:3, data:"da fissare", t:"Tappa 3", stato:"da fissare"},
-    {n:4, data:"da fissare", t:"Tappa 4", stato:"da fissare"},
-    {n:5, data:"da fissare", t:"Tappa 5", stato:"da fissare"},
-    {n:6, data:"da fissare", t:"Tappa 6", stato:"da fissare"}
-  ],
-
-  // ——— appuntamento fuori percorso, già a calendario
-  prossimo:{
-    t:"Landing Emergency — test",
-    quando:"Martedì 8 settembre · 15:00–15:30",
+  allerta:{t:"Le cinque tappe successive non sono a calendario",
+    m:"Il link Calendly è partito il 7 agosto. Con dieci giorni minimi tra un incontro e l'altro, novembre si copre solo se la Tappa 2 entra entro fine settembre."},
+  prossimo:{t:"Landing Emergency — test", quando:"Martedì 8 settembre · 15:00–15:30",
     meet:"https://meet.google.com/fjs-ogrv-xhz",
-    nota:"Verifica del prototipo costruito in Tappa 1. Invito accettato da Antonio alle 12:58.",
-    src:"Calendar"
-  },
-
-  // ——— i cantieri aperti, ricavati dalle call
+    nota:"Verifica del prototipo costruito in Tappa 1. Invito accettato alle 12:58.", src:"Calendar"},
+  origine:[
+    {data:"28 mag", t:"Super Master AI — istruzioni abilitanti", src:"Fireflies 28/05", link:FF(A0),
+     m:"Call di gruppo, 22 minuti, sette partecipanti. Antonio prende la parola sulle proprie motivazioni: è la prima call registrata in cui compare"},
+    {data:"14–16 giu", t:"Super Master AI a Milano", src:"Gmail 20/06",
+     m:"Il 20/06 manda la testimonianza: «partendo da zero e con qualche sano scetticismo… poi è arrivato l'effetto wow»"},
+    {data:"22 giu", t:"Call di profilazione — il punto T0", src:"Fireflies 22/06", link:FF(A1),
+     m:"28 minuti. Emergono i tre dolori: telefono che divora la giornata, gestione «approssimativa», dati chiusi nel gestionale"},
+    {data:"22 giu", t:"Report T0 + proposta di percorso", src:"Gmail 22/06",
+     m:"Email con proposta-Viglietti.pdf: timeline settimana per settimana, primo processo agentificato entro 4–6 settimane"},
+    {data:"13–15 lug", t:"Due inviti «Spiegare percorso Mentorship» accettati", src:"Gmail 13/07 · 15/07", verifica:true,
+     m:"Nessun evento corrispondente sopravvive a calendario né esiste registrazione: con ogni probabilità riprogrammati nell'intro del 6 agosto"},
+    {data:"6 ago", t:"Intro al Mentorship AI (con Marta Dessena)", src:"Fireflies 06/08", link:FF(A2),
+     m:"30 minuti. Due fasi: gestione economica e agentificazione con Massimo, marketing con Marta"},
+    {data:"7 ago", t:"Piano dei tre mesi + link appuntamenti + prima fattura", src:"Gmail 07/08",
+     m:"Email con piano-mentorship-viglietti_2.pdf e Fattura 96/2026"}
+  ],
+  incontri:[
+    {data:"7 set 2026", t:"Tappa 1 — Ecosistema, strumenti, primo prototipo", ora:"15:00–17:00",
+     durata:"132 min", meet:"meet.google.com/whw-dqbp-uik", ff:A3, badge:{cls:"done", txt:"Report inviato"},
+     sintesi:"Claude come cervello centrale, n8n come sistema nervoso. Ruoli distinti di Chat, Cowork e Code. Skill Scout come prima attivazione. In diretta: primo prototipo della landing emergenze con workflow n8n.",
+     materiali:"Report-Tappa-1-Mentorship-AI-Viglietti.pdf · Viglietti Antonio.pptx, inviati l'8 set alle 10:19"}
+  ],
+  daFissare:{t:"Tappe 2 → 6", m:"Link Calendly consegnato il 7 agosto · nessuno slot ancora scelto", link:CALENDLY},
+  azioni:[
+    {t:"Creare l'account n8n per collegare Claude ai dati aziendali", chi:"cliente", stato:"open", src:"Tappa 1 · 12:02", link:T(A3,722), nota:"Chiesto già il 6 agosto e ripetuto in Tappa 1"},
+    {t:"Aprire l'account Brevo per le campagne della clinica", chi:"cliente", stato:"open", src:"Tappa 1 · 17:53", link:T(A3,1073)},
+    {t:"Creare l'account GitHub per skill, codice e landing page", chi:"cliente", stato:"open", src:"Tappa 1 · 21:49", link:T(A3,1309)},
+    {t:"Studiare MCP e API: come si trovano, si configurano, si usano", chi:"cliente", stato:"open", src:"Tappa 1 · 18:01", link:T(A3,1081)},
+    {t:"Eseguire la scansione Skill Scout e preparare le skill utili", chi:"cliente", stato:"open", src:"Tappa 1 · 28:33", link:T(A3,1713)},
+    {t:"Inviare l'autorizzazione per l'account Claude aziendale", chi:"cliente", stato:"open", src:"Tappa 1 · 1:05:52", link:T(A3,3952), nota:"Serve a separare accessi personali e clinici"},
+    {t:"Attivare l'accesso Snoots quando l'ambiente clinica è pronto", chi:"cliente", stato:"open", src:"Tappa 1 · 1:18:57", link:T(A3,4737)},
+    {t:"Migrare la fatturazione elettronica da Aruba", chi:"cliente", stato:"late", src:"Intro · 08:00", link:T(A2,480), nota:"Doveva chiudersi ad agosto: è il primo domino del sistema dati"},
+    {t:"Prenotare le cinque tappe rimanenti su Calendly", chi:"cliente", stato:"late", src:"Gmail 07/08", nota:"Link ricevuto il 7 agosto"},
+    {t:"Rivedere appunti e materiali della sessione", chi:"cliente", stato:"open", src:"Tappa 1 · 2:10:15", link:T(A3,7815)},
+    {t:"Configurare l'ecosistema Claude aziendale della clinica", chi:"bvb", stato:"open", src:"Tappa 1 · 58:56", link:T(A3,3536)},
+    {t:"Caricare competenze e Genius One nell'ecosistema", chi:"bvb", stato:"open", src:"Tappa 1 · 59:44", link:T(A3,3584)},
+    {t:"Costruire il workflow emergenze e la risposta automatica", chi:"bvb", stato:"wip", src:"Tappa 1 · 1:22:23", link:T(A3,4943), nota:"Tre risposte generate l'8 settembre: il flusso gira"},
+    {t:"Verificare le credenziali SMTP usate da n8n", chi:"bvb", stato:"wip", src:"Tappa 1 · 1:38:33", link:T(A3,5913), nota:"In Tappa 1 la mail di test non arrivava"},
+    {t:"Completare i test della landing page e mostrare il risultato", chi:"bvb", stato:"wip", src:"Tappa 1 · 2:07:55", link:T(A3,7675), nota:"Incontro di verifica fissato oggi alle 15:00"},
+    {t:"Condividere il codice del progetto con Antonio", chi:"bvb", stato:"open", src:"Tappa 1 · 2:07:55", link:T(A3,7675)},
+    {t:"Preparare le routine agentiche", chi:"bvb", stato:"open", src:"Tappa 1 · 1:10:29", link:T(A3,4229)},
+    {t:"Inviare report e presentazione della Tappa 1", chi:"bvb", stato:"ok", src:"Tappa 1 · 58:56", nota:"Fatto l'8 settembre alle 10:19"},
+    {t:"Inviare il link Calendly per le sei tappe", chi:"bvb", stato:"ok", src:"Intro · 24:03", link:T(A2,1443), nota:"Fatto il 7 agosto, con il piano e la fattura"},
+    {t:"Inviare il report di profilazione T0", chi:"bvb", stato:"ok", src:"Profilazione · 26:37", link:T(A1,1597), nota:"Fatto il 22 giugno, con la proposta di percorso"}
+  ],
   sistemi:[
-    {nm:"Sistema emergenze — Carloforte", stato:{cls:"wip", txt:"In test oggi"},
+    {nm:"Sistema emergenze — Carloforte", stato:{cls:"wip", txt:"In test oggi"}, src:"Fireflies 07/09 · Gmail 08/09",
      desc:"Landing page dedicata a emergenze e turisti: il modulo raccoglie specie, sintomi e possibilità di raggiungere la clinica, classifica l'urgenza e coinvolge il direttore sanitario nei casi gravi.",
      punti:["Prototipo HTML + webhook n8n costruito in diretta il 7 settembre",
-            "Tre risposte già generate e inviate oggi: Gatto, Gatta europea, Cane meticcio",
-            "Ogni risposta dichiara di essere scritta da un assistente artificiale e non sostituisce la visita",
-            "Da chiudere: credenziali SMTP e pubblicazione su Netlify o GitHub"],
-     src:"Fireflies 07/09 · Gmail 08/09"},
-    {nm:"Sistema dati ed economia della clinica", stato:{cls:"late", txt:"In attesa del primo domino"},
-     desc:"Analisi di fatture d'acquisto e centri di costo per passare da una gestione reattiva a una predittiva. L'avvio con dati reali di un anno intero è previsto a gennaio.",
-     punti:["Bloccato dalla migrazione della fatturazione elettronica da Aruba — «il primo domino», da chiudere ad agosto",
+            "Tre risposte già generate e inviate l'8 settembre: Gatto, Gatta europea, Cane meticcio",
+            "Ogni risposta dichiara di essere scritta da un assistente artificiale",
+            "Da chiudere: credenziali SMTP e pubblicazione su Netlify o GitHub"]},
+    {nm:"Sistema dati ed economia", stato:{cls:"late", txt:"In attesa del primo domino"}, src:"Fireflies 06/08 · 07/09",
+     desc:"Analisi di fatture d'acquisto e centri di costo per passare da una gestione reattiva a una predittiva. Avvio con dati reali previsto a gennaio.",
+     punti:["Bloccato dalla migrazione della fatturazione da Aruba, da chiudere ad agosto",
             "Oggi l'export delle fatture è manuale e lungo",
-            "A valle: accesso all'ambiente Snoots quando la clinica è pronta"],
-     src:"Fireflies 06/08 · 07/09 · Gmail 07/08"},
-    {nm:"Sistema comunicazione e marketing", stato:{cls:"idle", txt:"Da avviare — fase con Marta"},
+            "A valle: accesso all'ambiente Snoots"]},
+    {nm:"Comunicazione e marketing", stato:{cls:"idle", txt:"Da avviare — fase con Marta"}, src:"Fireflies 06/08",
      desc:"Segmentazione dei clienti per comportamento e frequenza, comunicazioni differenziate via Brevo, piano editoriale e contenuti video assistiti.",
      punti:["Richiede l'account Brevo, ancora da aprire",
             "Marta Dessena porta i modelli per reel e piano editoriale",
-            "Stagionalità del territorio: alta stagione estiva che vale circa metà del volume"],
-     src:"Fireflies 06/08"}
+            "Alta stagione estiva che vale circa metà del volume"]}
   ],
-
-  // ——— azioni estratte automaticamente dalle call
-  azioni:[
-    {t:"Creare l'account n8n per collegare Claude ai dati aziendali", chi:"antonio", stato:"open",
-     src:"Tappa 1 · 12:02", link:FFT(CALL_3,722), nota:"Chiesto già il 6 agosto (24:25) e ripetuto in Tappa 1"},
-    {t:"Aprire l'account Brevo per le campagne della clinica", chi:"antonio", stato:"open",
-     src:"Tappa 1 · 17:53", link:FFT(CALL_3,1073)},
-    {t:"Creare l'account GitHub per skill, codice e landing page", chi:"antonio", stato:"open",
-     src:"Tappa 1 · 21:49", link:FFT(CALL_3,1309)},
-    {t:"Studiare MCP e API: come si trovano, si configurano, si usano", chi:"antonio", stato:"open",
-     src:"Tappa 1 · 18:01", link:FFT(CALL_3,1081)},
-    {t:"Eseguire la scansione Skill Scout e preparare le skill utili", chi:"antonio", stato:"open",
-     src:"Tappa 1 · 28:33", link:FFT(CALL_3,1713)},
-    {t:"Inviare l'autorizzazione per l'account Claude aziendale", chi:"antonio", stato:"open",
-     src:"Tappa 1 · 1:05:52", link:FFT(CALL_3,3952), nota:"Serve a separare accessi personali e clinici"},
-    {t:"Attivare l'accesso Snoots quando l'ambiente clinica è pronto", chi:"antonio", stato:"open",
-     src:"Tappa 1 · 1:18:57", link:FFT(CALL_3,4737)},
-    {t:"Migrare la fatturazione elettronica da Aruba", chi:"antonio", stato:"late",
-     src:"Intro · 08:00", link:FFT(CALL_2,480), nota:"Doveva chiudersi ad agosto: è il primo domino del sistema dati"},
-    {t:"Prenotare le cinque tappe rimanenti su Calendly", chi:"antonio", stato:"late",
-     src:"Gmail 07/08", nota:"Link ricevuto il 7 agosto; regola: almeno 10 giorni tra un incontro e l'altro"},
-    {t:"Rivedere appunti e materiali della sessione", chi:"antonio", stato:"open",
-     src:"Tappa 1 · 2:10:15", link:FFT(CALL_3,7815)},
-
-    {t:"Configurare l'ecosistema Claude aziendale della clinica", chi:"bvb", stato:"open",
-     src:"Tappa 1 · 58:56", link:FFT(CALL_3,3536)},
-    {t:"Caricare competenze e Genius One nell'ecosistema", chi:"bvb", stato:"open",
-     src:"Tappa 1 · 59:44", link:FFT(CALL_3,3584)},
-    {t:"Costruire il workflow emergenze e la risposta automatica", chi:"bvb", stato:"wip",
-     src:"Tappa 1 · 1:22:23", link:FFT(CALL_3,4943), nota:"Tre risposte generate oggi: il flusso gira"},
-    {t:"Verificare le credenziali SMTP usate da n8n", chi:"bvb", stato:"wip",
-     src:"Tappa 1 · 1:38:33", link:FFT(CALL_3,5913), nota:"In Tappa 1 la mail di test non arrivava"},
-    {t:"Completare i test della landing page e mostrare il risultato", chi:"bvb", stato:"wip",
-     src:"Tappa 1 · 2:07:55", link:FFT(CALL_3,7675), nota:"Incontro di verifica fissato oggi alle 15:00"},
-    {t:"Condividere il codice del progetto con Antonio", chi:"bvb", stato:"open",
-     src:"Tappa 1 · 2:07:55", link:FFT(CALL_3,7675)},
-    {t:"Preparare le routine agentiche", chi:"bvb", stato:"open",
-     src:"Tappa 1 · 1:10:29", link:FFT(CALL_3,4229)},
-    {t:"Inviare report e presentazione della Tappa 1", chi:"bvb", stato:"ok",
-     src:"Tappa 1 · 58:56", nota:"Fatto l'8 settembre alle 10:19"},
-    {t:"Inviare il link Calendly per le sei tappe", chi:"bvb", stato:"ok",
-     src:"Intro · 24:03", link:FFT(CALL_2,1443), nota:"Fatto il 7 agosto, insieme al piano e alla fattura"},
-    {t:"Inviare il report di profilazione T0", chi:"bvb", stato:"ok",
-     src:"Profilazione · 26:37", link:FFT(CALL_1,1597), nota:"Fatto il 22 giugno, con la proposta di percorso"}
-  ],
-
   materiali:[
-    {t:"proposta-Viglietti.pdf", q:"Proposta di percorso + report T0", d:"22 giu", src:"Gmail"},
-    {t:"piano-mentorship-viglietti_2.pdf", q:"Il piano dei tre mesi", d:"7 ago", src:"Gmail"},
-    {t:"Fattura 96/2026", q:"Prima mensilità", d:"7 ago", src:"Gmail", interno:true},
-    {t:"Report-Tappa-1-Mentorship-AI-Viglietti.pdf", q:"Report della prima lezione", d:"8 set", src:"Gmail"},
-    {t:"Viglietti Antonio.pptx", q:"Presentazione usata in Tappa 1", d:"8 set", src:"Gmail"},
-    {t:"Note automatiche delle tre call", q:"Generate da Fireflies, archiviate su Drive", d:"22 giu · 6 ago · 7 set", src:"Drive"}
+    {t:"proposta-Viglietti.pdf", q:"Proposta di percorso + report T0", d:"22 giu"},
+    {t:"piano-mentorship-viglietti_2.pdf", q:"Il piano dei tre mesi", d:"7 ago"},
+    {t:"Fattura 96/2026", q:"Prima mensilità", d:"7 ago", interno:true},
+    {t:"Report-Tappa-1-Mentorship-AI-Viglietti.pdf", q:"Report della prima lezione", d:"8 set"},
+    {t:"Viglietti Antonio.pptx", q:"Presentazione usata in Tappa 1", d:"8 set"},
+    {t:"Note automatiche delle quattro call", q:"Generate da Fireflies, archiviate su Drive", d:"mag → set"}
   ],
-
-  richieste:[
-    {tipo:"informazione", testo:"Se hai bisogno di chiarimenti o hai qualsiasi domanda, non esitare a scrivermi.",
-     quando:"invito aperto nella mail dell'8 settembre", stato:{cls:"idle", txt:"Nessuna richiesta aperta"}, sistema:true}
-  ],
-
   integrazioni:[
-    {nm:"Google Calendar", st:"Attiva", cls:"done", meta:"5 incontri con Antonio tracciati, l'ultimo oggi alle 15:00"},
-    {nm:"Calendly", st:"Attiva", cls:"done", meta:"link consulenza-ai-mentor-ai · 5 slot ancora liberi"},
-    {nm:"Google Meet", st:"Attiva", cls:"done", meta:"link generato da ogni evento di calendario"},
-    {nm:"Fireflies", st:"Attiva", cls:"done", meta:"4 call trascritte con Antonio, 211 minuti, note su Drive"},
-    {nm:"Gmail", st:"Attiva", cls:"done", meta:"9 scambi con Antonio dal 16 giugno"},
+    {nm:"Google Calendar", st:"Attiva", cls:"done", meta:"5 incontri tracciati, l'ultimo oggi alle 15:00"},
+    {nm:"Calendly", st:"Attiva", cls:"done", meta:"5 slot ancora liberi sul link consegnato"},
+    {nm:"Fireflies", st:"Attiva", cls:"done", meta:"4 call trascritte, 211 minuti"},
     {nm:"Claude", st:"Attiva", cls:"done", meta:"report e materiali del percorso"},
-    {nm:"n8n", st:"In test", cls:"wip", meta:"workflow emergenze su istanza BVB; account di Antonio da creare"},
+    {nm:"n8n", st:"In test", cls:"wip", meta:"workflow emergenze su istanza BVB; account cliente da creare"},
     {nm:"Brevo", st:"Da attivare", cls:"idle", meta:"in attesa dell'account di Antonio"},
-    {nm:"GitHub", st:"Da attivare", cls:"idle", meta:"serve per pubblicare la landing e conservare il codice"},
+    {nm:"GitHub", st:"Da attivare", cls:"idle", meta:"serve per pubblicare la landing"},
     {nm:"Snoots", st:"Da attivare", cls:"idle", meta:"dopo la migrazione da Aruba"}
   ],
+  note:"Impara facendo, non a teoria: in Tappa 1 il prototipo costruito in diretta ha funzionato meglio di qualsiasi spiegazione. Il freno non è la volontà ma il tempo — 80–90 messaggi al giorno. Ogni tappa deve chiudersi con una cosa che gira.",
+  portal:{
+    titolo:"Tappa 1 fatta. Restano cinque incontri da fissare.",
+    testo:"Ciao Antonio. Il 7 settembre abbiamo fatto la prima delle sei tappe e costruito insieme il primo prototipo: oggi quel sistema ha già risposto a tre richieste vere. Il prossimo passo dipende da te — scegliere le date delle prossime cinque tappe.",
+    passo:{t:"Il passo che serve adesso", chip:{cls:"wip", txt:"In ritardo"},
+      m:"Prenota le <b>cinque tappe rimanenti</b>. Tieni almeno dieci giorni tra un incontro e l'altro: serve a te per far girare quello che nasce, e a noi per costruirlo.",
+      cta:"Scegli le date", link:CALENDLY}
+  },
+  call:[{d:"28 mag", t:"Super Master AI — istruzioni abilitanti", m:"22 min", ff:A0},
+        {d:"22 giu", t:"La tua profilazione — il punto T0", m:"28 min", ff:A1},
+        {d:"6 ago", t:"Intro al Mentorship AI, con Marta", m:"30 min", ff:A2},
+        {d:"7 set", t:"Tappa 1 del percorso", m:"132 min", ff:A3, tappa:true}]
+},
 
-  note:"Impara facendo, non a teoria: in Tappa 1 il prototipo costruito in diretta ha funzionato meglio di qualsiasi spiegazione. Il freno non è la volontà ma il tempo — 80–90 messaggi al giorno. Ogni tappa deve chiudersi con una cosa che gira, non con un concetto."
-};
+/* ═══════════════════ ENRICO DI BLASI ═══════════════════ */
+{
+  id:"enrico", nome:"Enrico Di Blasi", breve:"Enrico",
+  ruolo:"Titolare · Clinica Veterinaria Di Blasi — con Maria",
+  email:"enrico.diblasi@gmail.com", dal:"31 marzo 2026",
+  percorso:{nome:"Mentorship AI", forma:"6 tappe, settembre — novembre 2026",
+            regola:"Due fasi, cinque milestone, tariffario in due blocchi, calendario fino a gennaio"},
+  avanzamento:"1 di 6 tappe", rischio:true,
+  steps:[
+    {l:"Tappa 1", s:"7 set 2026", st:"done"},
+    {l:"Tappa 2", s:"5 ott, da confermare", st:"now"},
+    {l:"Tappa 3", s:"da fissare"}, {l:"Tappa 4", s:"da fissare"},
+    {l:"Tappa 5", s:"da fissare"}, {l:"Tappa 6", s:"da fissare"}
+  ],
+  figure:[
+    {n:"1 di 6", l:"tappe del percorso svolte"},
+    {n:"139′", l:"durata della Tappa 1"},
+    {n:"6.600 €", l:"discrepanze contabili da riclassificare"},
+    {n:"260", l:"strumenti esposti da Snoots via MCP"}
+  ],
+  allerta:{t:"La Tappa 2 del 5 ottobre non è sul calendario BVB",
+    m:"Enrico ha accettato l'invito per lunedì 5 ottobre 11:00–13:00 il 7 agosto, ma l'evento non compare sul calendario di lavoro: o è stato creato altrove, o è stato cancellato. Da verificare prima di considerarla prenotata. Le tappe 3–6 restano comunque da fissare."},
+  prossimo:{t:"Tappa 2 — Mentorship AI", quando:"Lunedì 5 ottobre · 11:00–13:00",
+    meet:"https://meet.google.com/jep-aenp-utu",
+    nota:"Invito accettato il 7 agosto. Non presente sul calendario BVB: da riconfermare.", src:"Gmail 07/08", verifica:true},
+  origine:[
+    {data:"mar", t:"AI Essentials, poi le prime proposte", src:"Gmail 23/03 · 31/03",
+     m:"Enrico arriva da AI Essentials. Il 31 marzo partono due proposte: percorso annuale di controllo di gestione per la clinica, e percorso formativo Clinic Management & AI + Super Master per lui e Maria"},
+    {data:"23 apr", t:"Proposta economica accettata", src:"Gmail 23/04 · 24/04",
+     m:"Master AI Manager Vet + Clinic Management per Enrico e Maria: 3.000 €, di cui 1.470 già bonificati. Fattura corsi il 28 aprile"},
+    {data:"14–16 mag", t:"Super Master AI a Milano", src:"Gmail 16/06 · 17/06",
+     m:"Partecipa con Maria; a giugno manda la testimonianza per il sito"},
+    {data:"7 giu", t:"Primi report: la fotografia del business", src:"Gmail 07/06",
+     m:"Report della fotografia attuale sui dati disponibili — è la base del controllo di gestione"},
+    {data:"24 giu", t:"Call sulle sfide operative della clinica", src:"Fireflies 24/06", link:FF(E1),
+     m:"23 minuti. Personale, comunicazione digitale, tariffario da personalizzare, obiettivo di piena automazione entro dicembre 2026"},
+    {data:"25 giu", t:"«La tua proposta è qui, Enrico — e luglio non aspetta»", src:"Gmail 25/06",
+     m:"La proposta di mentorship. Lo stesso giorno: call CDG e nota di credito con sconto del 50% sulla fattura precedente"},
+    {data:"20 lug", t:"Report H1 2026 della clinica", src:"Gmail 20/07",
+     m:"«Il primo frutto concreto del sistema di controllo di gestione che abbiamo costruito insieme». Nel pomeriggio la call: emergono 6.600 € di discrepanze sugli acquisti di farmaci"},
+    {data:"24 lug", t:"Metodo F.A.R.E. su Snoots e via libera economico", src:"Fireflies 24/07", link:FF(E4),
+     m:"25 minuti. Agentificazione del controllo economico, stima di 15 ore/mese risparmiate, avvio pilota a settembre, anticipo di 1.500 €"},
+    {data:"7 ago", t:"Di Blasi AI — la call che disegna il percorso", src:"Fireflies 07/08", link:FF(E5),
+     m:"73 minuti con Marta. Agenti su KPI clinici ed economici, tariffario dinamico in due fasi, obiettivo dichiarato: +35–40% di performance della clinica"},
+    {data:"7 ago", t:"«Il piano di volo» + le date da bloccare", src:"Gmail 07/08",
+     m:"Report di dodici pagine, con a pagina 11 le tre sole cose che servono in trenta giorni. Link Calendly per le sei tappe, una ogni dieci giorni"},
+    {data:"10 ago", t:"Fattura n° 1 Mentorship AI — pagata", src:"Gmail 10/08",
+     m:"1.500 € + IVA per il mese di settembre anticipato; seconda fattura da 1.500 a inizio ottobre. Enrico paga in giornata"}
+  ],
+  incontri:[
+    {data:"7 set 2026", t:"Tappa 1 — Ecosistema, Snoots e prima landing", ora:"11:00–13:00",
+     durata:"139 min", meet:"meet.google.com/fzi-ieok-pfj", ff:E6, badge:{cls:"done", txt:"Report inviato"},
+     sintesi:"Chiarite le funzioni di Claude, Code e Cowork e il ruolo di GitHub; Skill Scout come priorità. Snoots MCP è collegato ed espone 260 strumenti, ma mancano dati recenti, cartelle cliniche e storico. La landing della Clinica Veterinaria Di Blasi e il workflow n8n sono stati creati e testati in circa venti minuti.",
+     materiali:"Report della prima lezione + presentazione, inviati il 7 set alle 14:17 a Enrico e Maria"}
+  ],
+  daFissare:{t:"Tappe 3 → 6", m:"Link Calendly consegnato il 7 agosto · nessuno slot risulta prenotato", link:CALENDLY},
+  azioni:[
+    {t:"Completare la migrazione dei dati sul nuovo gestionale", chi:"cliente", stato:"late", src:"Tappa 1 · 1:48:57", link:T(E6,6537), nota:"La migrazione a Snoots era attesa entro il 10 settembre"},
+    {t:"Collegare Snoots all'MCP e avviare la fatturazione", chi:"cliente", stato:"open", src:"Tappa 1 · 2:03:08", link:T(E6,7388)},
+    {t:"Riconnettere l'account n8n e completarne la connessione", chi:"cliente", stato:"open", src:"Tappa 1 · 1:18:29", link:T(E6,4709)},
+    {t:"Aprire l'account Brevo e collegarlo all'ecosistema", chi:"cliente", stato:"open", src:"Tappa 1 · 1:24:53", link:T(E6,5093)},
+    {t:"Creare l'account GitHub e collegarlo a Claude", chi:"cliente", stato:"open", src:"Tappa 1 · 35:37", link:T(E6,2137)},
+    {t:"Configurare Skill Scout", chi:"cliente", stato:"open", src:"Tappa 1 · 47:29", link:T(E6,2849), nota:"Anche per Maria"},
+    {t:"Studiare l'architettura della landing page", chi:"cliente", stato:"open", src:"Tappa 1 · 1:17:15", link:T(E6,4635)},
+    {t:"Inviare i file economici aggiornati", chi:"cliente", stato:"open", src:"Tappa 1 · 2:14:47", link:T(E6,8087), nota:"Servono agli agenti KPI: senza dati non partono"},
+    {t:"Confermare le date del terzo modulo", chi:"cliente", stato:"open", src:"Tappa 1 · 2:17:43", link:T(E6,8263)},
+    {t:"Leggere il report della lezione operativa", chi:"cliente", stato:"open", src:"Tappa 1 · 2:13:31", link:T(E6,8011)},
+    {t:"Riclassificare il conto economico con il commercialista", chi:"cliente", stato:"late", src:"CDG 20/07 · 42:15", link:T(E3,2535), nota:"Le 6.600 € di discrepanze sugli acquisti farmaci sono ancora lì"},
+    {t:"Prenotare le tappe rimanenti su Calendly", chi:"cliente", stato:"late", src:"Gmail 07/08", nota:"Chiesto di fissarle tutte e sei in un colpo solo"},
+    {t:"Sviluppare l'agente KPI e consegnare il primo agente operativo", chi:"bvb", stato:"wip", src:"Tappa 1 · 2:13:31", link:T(E6,8011), nota:"È il primo risultato atteso del percorso"},
+    {t:"Costruire il workflow n8n della clinica", chi:"bvb", stato:"wip", src:"Tappa 1 · 1:44:31", link:T(E6,6271)},
+    {t:"Verificare la landing page chirurgica", chi:"bvb", stato:"open", src:"Tappa 1 · 1:45:56", link:T(E6,6356)},
+    {t:"Inviare le slide operative", chi:"bvb", stato:"open", src:"Tappa 1 · 1:22:43", link:T(E6,4963)},
+    {t:"Inviare il report della prima lezione", chi:"bvb", stato:"ok", src:"Tappa 1 · 2:13:19", link:T(E6,7999), nota:"Fatto il 7 settembre alle 14:17, a Enrico e Maria"},
+    {t:"Consegnare il cruscotto di controllo di gestione corretto", chi:"bvb", stato:"ok", src:"Gmail 11/08", nota:"NUOVO Cruscotto_CdG_DiBlasi_2026_rev, nella cartella condivisa"},
+    {t:"Consegnare il report H1 2026 della clinica", chi:"bvb", stato:"ok", src:"Gmail 20/07"}
+  ],
+  sistemi:[
+    {nm:"Controllo di gestione", stato:{cls:"done", txt:"Attivo da marzo"}, src:"Gmail 07/06 · 20/07 · 11/08",
+     desc:"Il percorso più vecchio e l'unico che produce già documenti: fotografia iniziale a giugno, report del primo semestre a luglio, cruscotto 2026 corretto ad agosto.",
+     punti:["Report H1 2026 consegnato il 20 luglio",
+            "Cruscotto CdG 2026 rev nella cartella condivisa su Drive",
+            "Aperto: 6.600 € di discrepanze sugli acquisti farmaci da riclassificare"]},
+    {nm:"Agenti KPI su Snoots", stato:{cls:"wip", txt:"Bloccato sui dati"}, src:"Fireflies 07/08 · 07/09",
+     desc:"Agenti che leggono il gestionale e restituiscono KPI giornalieri e settimanali, con il metodo F.A.R.E. sui centri di business. Stima dichiarata: 15 ore di lavoro manuale al mese.",
+     punti:["Snoots MCP collegato: 260 strumenti esposti",
+            "Mancano dati recenti, cartelle cliniche e storico completo",
+            "La migrazione dati è la condizione perché il primo agente parta"]},
+    {nm:"Landing e workflow della clinica", stato:{cls:"wip", txt:"Prototipo fatto"}, src:"Fireflies 07/09",
+     desc:"Landing page della Clinica Veterinaria Di Blasi con workflow n8n collegato, costruita in diretta in circa venti minuti durante la Tappa 1.",
+     punti:["Da verificare la variante dedicata alla chirurgia",
+            "Serve l'account GitHub per pubblicarla",
+            "Enrico deve studiarne l'architettura per poterla modificare"]},
+    {nm:"Fidelizzazione e segreteria virtuale", stato:{cls:"idle", txt:"Fase con Marta"}, src:"Fireflies 07/08",
+     desc:"Percorso di fidelizzazione clienti con marketing automatico e segreteria virtuale integrata al gestionale per alleggerire la gestione telefonica.",
+     punti:["Template comunicativi da personalizzare e testare",
+            "Il team entra solo dopo la validazione del percorso AI",
+            "Formazione lato marketing e customer care a seguire"]}
+  ],
+  materiali:[
+    {t:"Proposta Controllo di Gestione", q:"Percorso annuale per la clinica", d:"31 mar"},
+    {t:"Proposta formativa + economica", q:"Master AI Manager Vet e Clinic Management, con Maria", d:"31 mar · 23 apr"},
+    {t:"Primi report", q:"Fotografia attuale del business", d:"7 giu"},
+    {t:"Report H1 2026", q:"Primo semestre della clinica", d:"20 lug"},
+    {t:"Mentorship AI — Il piano di volo — Di Blasi_1.pdf", q:"Dodici pagine: due fasi, cinque milestone, calendario fino a gennaio", d:"7 ago"},
+    {t:"NUOVO Cruscotto_CdG_DiBlasi_2026_rev", q:"Budget corretto, su Drive condiviso", d:"11 ago"},
+    {t:"Fattura n° 1 Mentorship AI", q:"1.500 € + IVA, settembre anticipato", d:"10 ago", interno:true},
+    {t:"Report prima lezione + presentazione", q:"Inviati a Enrico e Maria", d:"7 set"}
+  ],
+  integrazioni:[
+    {nm:"Google Calendar", st:"Attiva", cls:"done", meta:"7 incontri tracciati da aprile"},
+    {nm:"Calendly", st:"Attiva", cls:"done", meta:"Tappa 1 prenotata; le altre no"},
+    {nm:"Fireflies", st:"Attiva", cls:"done", meta:"6 call trascritte, 328 minuti"},
+    {nm:"Claude", st:"Attiva", cls:"done", meta:"report, cruscotto e materiali"},
+    {nm:"Snoots MCP", st:"Collegato", cls:"wip", meta:"260 strumenti esposti, dati incompleti"},
+    {nm:"n8n", st:"Da riconnettere", cls:"wip", meta:"account presente ma connessione interrotta"},
+    {nm:"Brevo", st:"Da attivare", cls:"idle", meta:"in attesa dell'account"},
+    {nm:"GitHub", st:"Da attivare", cls:"idle", meta:"serve per pubblicare la landing"}
+  ],
+  note:"Il più avanti di tutti sul controllo di gestione, il più indietro sull'infrastruttura: gli account non sono ancora suoi. Ha già pagato settembre. Maria va tenuta dentro a ogni passaggio — riceve i materiali insieme a lui. Il rischio non è la motivazione, è che la migrazione dati slitti e il primo agente non parta.",
+  portal:{
+    titolo:"Tappa 1 fatta. Il primo agente aspetta i tuoi dati.",
+    testo:"Ciao Enrico. Il 7 settembre abbiamo collegato Snoots, chiarito i ruoli degli strumenti e costruito la landing della clinica in venti minuti. Adesso il collo di bottiglia è uno solo: finché la migrazione dei dati non è completa, l'agente che deve leggerti i KPI ogni mattina non può partire.",
+    passo:{t:"Il passo che sblocca tutto", chip:{cls:"late", txt:"In ritardo"},
+      m:"Completa la <b>migrazione dei dati</b> e inviaci i file economici aggiornati. Era attesa entro il 10 settembre: è la condizione perché il primo agente operativo parta.",
+      cta:"Vai al momento della call", link:T(E6,6537)}
+  },
+  call:[{d:"24 giu", t:"Sfide operative della clinica", m:"23 min", ff:E1},
+        {d:"25 giu", t:"Controllo di gestione", m:"24 min", ff:E2},
+        {d:"20 lug", t:"Discrepanze contabili e demo", m:"44 min", ff:E3},
+        {d:"24 lug", t:"Metodo F.A.R.E. e avvio pilota", m:"25 min", ff:E4},
+        {d:"7 ago", t:"Di Blasi AI, con Marta", m:"73 min", ff:E5},
+        {d:"7 set", t:"Tappa 1 del percorso", m:"139 min", ff:E6, tappa:true}]
+},
 
-let mode = "bvb";
+/* ═══════════════════ STEFANIA ZANINI ═══════════════════ */
+{
+  id:"stefania", nome:"Stefania Zanini", breve:"Stefania",
+  ruolo:"Titolare · Ambulatorio Veterinario Zanini, Bertiolo",
+  email:"stefaniazaninivet@gmail.com", dal:"22 giugno 2026",
+  percorso:{nome:"Mentorship AI", forma:"affiancamento ogni 15 giorni, da luglio",
+            regola:"Non a tappe: cadenza quindicinale, fatturazione mensile"},
+  avanzamento:"7 incontri · 2° mese", rischio:true,
+  steps:[
+    {l:"22 giu", s:"T0", st:"done"}, {l:"17 lug", s:"1º appuntamento", st:"done"},
+    {l:"20 lug", s:"follow-up", st:"done"}, {l:"22 lug", s:"agenti KPI", st:"done"},
+    {l:"29 lug", s:"agentificazione", st:"done"}, {l:"7 ago", s:"valutazioni", st:"done"},
+    {l:"21 ago", s:"progressi", st:"done"}, {l:"2 set", s:"senza registrazione", st:"now"},
+    {l:"metà set", s:"da fissare"}
+  ],
+  figure:[
+    {n:"€ 25.776", l:"fatturato settimana 24–30 agosto, dal report automatico"},
+    {n:"6", l:"tipi di report che gli agenti inviano da soli"},
+    {n:"385", l:"voci di tariffario da classificare per centro di ricavo"},
+    {n:"7", l:"incontri svolti da giugno"}
+  ],
+  allerta:{t:"Nessun prossimo incontro a calendario, e i bilanci non arrivano",
+    m:"L'ultimo evento è del 2 settembre e non ha registrazione. Con la cadenza quindicinale il prossimo era atteso intorno al 16 settembre. In parallelo i conti economici 2024 e 2025 sono stati chiesti al commercialista il 20 luglio e sollecitati il 4 e l'8 settembre: senza quelli il budget non si costruisce."},
+  prossimo:null,
+  origine:[
+    {data:"28 mag", t:"Super Master AI — istruzioni abilitanti", src:"Calendar", verifica:true,
+     m:"Invito accettato, ma Stefania non compare tra i partecipanti della registrazione"},
+    {data:"22 giu", t:"Call di profilazione — il punto T0", src:"Fireflies 22/06", link:FF(S1),
+     m:"20 minuti. Collaboratori giovani scettici sul gestionale, gestione economica in ritardo, nessun supporto pratico sul cloud in ambulatorio. Da qui nasce la proposta di affiancamento ogni 15 giorni"}
+  ],
+  incontri:[
+    {data:"21 ago 2026", t:"Zanini Progressi AI", ora:"16:30–17:00", durata:"44 min",
+     meet:"meet.google.com/cmq-xgxr-oup", ff:S7, badge:{cls:"wip", txt:"Problemi aperti"},
+     sintesi:"Gli agenti girano ma non sono ancora stabili: errori nelle mail, riavvio manuale richiesto, triangolazione inefficace sull'approvazione delle fatture d'acquisto. Osservato un calo del fatturato. Si estende l'analisi alle schede cliniche e si aggiornano i profili dei collaboratori.",
+     materiali:"Report automatici in produzione: KPI economici, mix servizi, performance collaboratori"},
+    {data:"7 ago 2026", t:"Agenti AI — valutazioni", ora:"11:00–11:30", durata:"15 min",
+     meet:"meet.google.com/wtk-kwsn-ncc", ff:S6, badge:{cls:"done", txt:"Svolto"},
+     sintesi:"Agente di valutazione clientela in prova, analisi giornaliera e settimanale del fatturato, accesso condiviso al cloud, richiesta di abilitazione del cassetto fiscale a Snoots."},
+    {data:"29 lug 2026", t:"Agentificazione", ora:"15:15–15:45", durata:"30 min",
+     meet:"meet.google.com/wei-yfva-jnu", ff:S5, badge:{cls:"done", txt:"Svolto"},
+     sintesi:"Snoots collegato a 250 strumenti. Avviata la categorizzazione di 385 voci tariffarie per centri di ricavo. Primo agente di monitoraggio economico quotidiano da validare, secondo agente sul monitoraggio clienti. Magazzino indicato come area critica."},
+    {data:"17 lug 2026", t:"Primo appuntamento Mentor AI", ora:"11:00–13:00", durata:"100 min",
+     meet:"meet.google.com/wck-vupm-hoa", ff:S2, badge:{cls:"done", txt:"Svolto"},
+     sintesi:"Differenze tra Fable e Code, comandi principali, creazione di agenti con ruoli definiti per i report periodici, integrazione con Brevo, competenza «analista di business» da costruire."}
+  ],
+  daFissare:{t:"Prossimo affiancamento", m:"L'ultimo incontro a calendario è del 2 settembre. Cadenza quindicinale: il prossimo era atteso intorno al 16 settembre", link:CALENDLY},
+  azioni:[
+    {t:"Ottenere dal commercialista i conti economici 2024 e 2025 e i costi mensilizzati", chi:"cliente", stato:"late", src:"Gmail 20/07 → 08/09", nota:"Chiesti il 20 luglio, sollecitati il 4 e l'8 settembre. Senza, il budget non parte"},
+    {t:"Risolvere gli errori sulle email degli agenti e i dati Snoots", chi:"cliente", stato:"open", src:"Progressi · 03:00", link:T(S7,180)},
+    {t:"Coordinarsi con il team Snoots sulle fatture degli agenti", chi:"cliente", stato:"open", src:"Progressi · 04:44", link:T(S7,284), nota:"La triangolazione via mail per approvare le fatture d'acquisto non funziona"},
+    {t:"Dare feedback sui report giornalieri e settimanali", chi:"cliente", stato:"open", src:"Progressi · 07:54", link:T(S7,474)},
+    {t:"Verificare i dati dei collaboratori e le performance in app", chi:"cliente", stato:"open", src:"Progressi · 11:22", link:T(S7,682), nota:"Servono per calcolare i bonus"},
+    {t:"Completare la classificazione delle 385 voci di tariffario", chi:"cliente", stato:"open", src:"Agentificazione · 20:37", link:T(S5,1237)},
+    {t:"Correggere l'importazione delle razze da Smart Vet", chi:"cliente", stato:"open", src:"Agentificazione · 24:29", link:T(S5,1469), nota:"Incide su magazzino, costi e tracciabilità farmaci"},
+    {t:"Completare la competenza «analista di business» su Claude", chi:"cliente", stato:"open", src:"1º app. · 1:28:15", link:T(S2,5295)},
+    {t:"Aprire e configurare l'account Brevo", chi:"cliente", stato:"ok", src:"1º app. · 1:30:37", link:T(S2,5437), nota:"Fatto: i report escono da Brevo dal mese di agosto"},
+    {t:"Creare il secondo agente sul monitoraggio clienti", chi:"cliente", stato:"ok", src:"Agentificazione · 22:58", link:T(S5,1378), nota:"Fatto: l'analisi giornaliera clienti arriva ogni sera"},
+    {t:"Risolvere i problemi di invio delle email dei report", chi:"bvb", stato:"wip", src:"Progressi · 41:57", link:T(S7,2517)},
+    {t:"Continuare lo sviluppo degli agenti di analisi dati", chi:"bvb", stato:"wip", src:"Progressi · 07:54", link:T(S7,474), nota:"Estensione alle schede cliniche"},
+    {t:"Definire gli orari di invio dei report automatici", chi:"bvb", stato:"open", src:"Progressi · 38:39", link:T(S7,2319)},
+    {t:"Sviluppare il foglio di budget preventivo 2026", chi:"bvb", stato:"open", src:"20 lug · 08:50", link:T(S3,530), nota:"In attesa dei bilanci dal commercialista"},
+    {t:"Inserire Stefania tra i destinatari dei report", chi:"bvb", stato:"ok", src:"Progressi · 37:22", link:T(S7,2242), nota:"Fatto: i report arrivano a Stefania e Massimo"},
+    {t:"Presentare il sistema di segreteria digitale", chi:"bvb", stato:"open", src:"22 lug · 22:58", link:T(S4,1378), nota:"Previsto per settembre"}
+  ],
+  sistemi:[
+    {nm:"Agenti di reporting", stato:{cls:"done", txt:"In produzione"}, src:"Gmail, ogni giorno",
+     desc:"Sei tipi di report escono da soli e arrivano a Stefania e a BVB: KPI economico-finanziari del giorno, mix servizi e comportamento clienti, performance settimanale, performance dei collaboratori, andamento per giorno della settimana, briefing clientela su quattro giorni.",
+     punti:["Consegna via Brevo e dall'indirizzo della clinica",
+            "Numeri veri: settimana 24–30 agosto, 25.776 € di fatturato; 3 settembre, 5.258 € e 37 clienti",
+            "Aperto: gli agenti a volte vanno riavviati a mano e qualche mail non parte"]},
+    {nm:"Controllo di gestione e budget", stato:{cls:"late", txt:"Fermo dal 20 luglio"}, src:"Fireflies 20/07 · Gmail 08/09",
+     desc:"Budget preventivo 2026 costruito su due anni di storico, con drive condiviso per dati contabili e bilanci.",
+     punti:["Conti economici 2024 e 2025 chiesti al commercialista il 20 luglio",
+            "Sollecitati il 4 settembre e di nuovo l'8: mancano i mesi separati e i costi mensilizzati",
+            "È l'unico blocco che dipende da una terza parte"]},
+    {nm:"Tariffario e centri di ricavo", stato:{cls:"wip", txt:"In lavorazione"}, src:"Fireflies 29/07",
+     desc:"Le 385 voci del tariffario standard vengono classificate per centro di ricavo: è la base perché i report economici dicano qualcosa di leggibile.",
+     punti:["Restano le voci «non classificate» da catalogare",
+            "Magazzino e tracciabilità farmaci indicati come area critica",
+            "Importazione razze da Smart Vet da correggere"]}
+  ],
+  materiali:[
+    {t:"Report T0 e proposta di mentorship", q:"Valutazione e programma di affiancamento ogni 15 giorni", d:"giu"},
+    {t:"Report automatici giornalieri e settimanali", q:"KPI, clienti, collaboratori, giorno della settimana", d:"in corso"},
+    {t:"Drive condiviso dati contabili e bilanci", q:"Cartella per il controllo di gestione", d:"lug"},
+    {t:"Fattura 2° mese di Mentorship", q:"Inviata il 1° settembre", d:"1 set", interno:true}
+  ],
+  integrazioni:[
+    {nm:"Snoots MCP", st:"Attiva", cls:"done", meta:"250 strumenti collegati, alimentano gli agenti"},
+    {nm:"Brevo", st:"Attiva", cls:"done", meta:"canale di consegna dei report automatici"},
+    {nm:"Claude", st:"Attiva", cls:"done", meta:"agenti programmati e competenza analista di business"},
+    {nm:"Fireflies", st:"Attiva", cls:"done", meta:"7 call trascritte, 281 minuti"},
+    {nm:"Google Calendar", st:"Attiva", cls:"done", meta:"8 incontri tracciati; nessuno futuro"},
+    {nm:"Gmail", st:"Attiva", cls:"done", meta:"i report arrivano qui, insieme allo scambio con il commercialista"},
+    {nm:"Smart Vet", st:"Da correggere", cls:"wip", meta:"importazione razze incompleta"}
+  ],
+  note:"È il cliente più avanti: qui gli agenti sono già in produzione e producono numeri veri ogni giorno. Il lavoro non è più costruire, è rendere stabile — mail che non partono, riavvii manuali, dati anagrafici sporchi. Due cose la frenano e nessuna delle due è tecnica: il commercialista che non manda i bilanci e il prossimo incontro non fissato.",
+  portal:{
+    titolo:"I tuoi agenti lavorano. Adesso vanno resi stabili.",
+    testo:"Ciao Stefania. Ogni sera ricevi i KPI della giornata e ogni lunedì la performance della settimana e dei collaboratori: quei numeri arrivano da soli, senza che nessuno li prepari. Il lavoro ora è togliere gli inciampi — le mail che a volte non partono, i riavvii a mano — e completare il tariffario.",
+    passo:{t:"Il passo che serve adesso", chip:{cls:"late", txt:"Ferma dal 20 luglio"},
+      m:"Servono i <b>conti economici 2024 e 2025</b> e i costi mensilizzati dal commercialista. Li abbiamo chiesti il 20 luglio e sollecitati il 4 e l'8 settembre: senza quelli il budget 2026 non si costruisce.",
+      cta:"Vai al momento della call", link:T(S3,1478)}
+  },
+  call:[{d:"22 giu", t:"Profilazione — il punto T0", m:"20 min", ff:S1},
+        {d:"17 lug", t:"Primo appuntamento Mentor AI", m:"100 min", ff:S2, tappa:true},
+        {d:"20 lug", t:"Brevo, budget e report", m:"27 min", ff:S3},
+        {d:"22 lug", t:"Agenti KPI e segreteria digitale", m:"43 min", ff:S4},
+        {d:"29 lug", t:"Agentificazione e centri di ricavo", m:"30 min", ff:S5},
+        {d:"7 ago", t:"Agenti AI — valutazioni", m:"15 min", ff:S6},
+        {d:"21 ago", t:"Progressi AI", m:"44 min", ff:S7}]
+}
+];
+
+/* ═══════════════════ stato ═══════════════════ */
+let mode = "console";              // console | client | portal | backoffice
+let current = CLIENTS[1];          // Enrico è il caso con più storia
 let sheet = null;
 
 const $ = s => document.querySelector(s);
 const view = $("#view");
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const az = who => C.azioni.filter(a => a.chi === who);
+const az = (c, chi) => c.azioni.filter(a => a.chi === chi);
+const late = c => c.azioni.filter(a => a.stato === "late").length;
+const openBvb = c => c.azioni.filter(a => a.chi === "bvb" && a.stato !== "ok").length;
 
-/* ---------- pezzi ---------- */
-function trackTappe(){
-  return `<div class="track">${C.tappe.map(t=>{
-    const cls = t.stato==="fatta" ? "done" : t.n===C.fatte+1 ? "now" : "";
+/* ═══════════════════ pezzi ═══════════════════ */
+function track(c){
+  return `<div class="track">${c.steps.map((s,i)=>{
+    const cls = s.st === "done" ? "done" : s.st === "now" ? "now" : "";
     return `<div class="step ${cls}">
-      <div class="bead">${t.stato==="fatta"?"✓":t.n}</div>
-      <span class="nm">Tappa ${t.n}</span>
-      <span class="st">${t.stato==="fatta"?esc(t.data):"da fissare"}</span>
+      <div class="bead">${s.st === "done" ? "✓" : i+1}</div>
+      <span class="nm">${esc(s.l)}</span>
+      <span class="st">${esc(s.s)}</span>
     </div>`;
   }).join("")}</div>`;
 }
 
-function taskList(who, asClient){
-  const list = az(who);
-  if(!list.length) return "";
-  return list.map(a=>`
+function tasks(c, chi){
+  return az(c, chi).map(a=>`
     <div class="task ${a.stato==="ok"?"ok":a.stato==="late"?"late":""}">
       <div class="box">${a.stato==="ok"?"✓":""}</div>
       <div style="flex:1">
@@ -498,8 +729,8 @@ function taskList(who, asClient){
     </div>`).join("");
 }
 
-function sistemi(){
-  return C.sistemi.map(s=>`
+function sistemi(c){
+  return c.sistemi.map(s=>`
     <div class="sys">
       <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap">
         <h4>${esc(s.nm)}</h4>
@@ -511,86 +742,160 @@ function sistemi(){
     </div>`).join("");
 }
 
-function figure(){
-  return `<div class="figs">${C.figure.map(f=>`
+function figure(c){
+  return `<div class="figs">${c.figure.map(f=>`
     <div class="fig"><b class="num">${esc(f.n)}</b><span>${esc(f.l)}</span></div>`).join("")}</div>`;
 }
 
-/* ---------- vista BVB ---------- */
-function viewBvb(){
+function callList(c){
+  return `<div class="stack divide" style="font-size:12.5px">
+    ${c.call.map(k=>`<div class="kv">
+      <span><span class="mono" style="color:var(--mute)">${esc(k.d)}</span> &nbsp;${k.tappa?`<b>${esc(k.t)}</b>`:esc(k.t)}
+        <span style="color:var(--mute)">· ${esc(k.m)}</span></span>
+      <a class="link" href="${FF(k.ff)}" target="_blank" rel="noopener">rivedi</a>
+    </div>`).join("")}
+  </div>`;
+}
+
+/* ═══════════════════ console ═══════════════════ */
+function viewConsole(){
+  const inRitardo = CLIENTS.reduce((n,c)=>n+late(c),0);
+  const bvbAperte = CLIENTS.reduce((n,c)=>n+openBvb(c),0);
+  const senzaData = CLIENTS.filter(c=>!c.prossimo || c.prossimo.verifica).length;
+  const daFare = [
+    {t:"Azioni cliente in ritardo", n:inRitardo, cls:"late", d:"su tutti e tre i percorsi"},
+    {t:"Azioni BVB aperte o in corso", n:bvbAperte, cls:"wip", d:"assegnate a Massimo dalle call"},
+    {t:"Clienti senza prossimo incontro certo", n:senzaData, cls:"late", d:"Enrico da riconfermare, Stefania nessuno"},
+    {t:"Tappe di percorso ancora da prenotare", n:9, cls:"wip", d:"5 per Antonio, 4 per Enrico"}
+  ];
+  return `
+  <div class="banner" style="margin:22px 0 18px">
+    <strong>Scrivi un nome nella barra in alto</strong>
+    <span style="color:var(--mute)">— “anto”, “enri”, “stef” — e premi invio: si apre la sua dashboard. Tutto quello che vedi è letto da Calendar, Gmail, Fireflies e Drive.</span>
+  </div>
+
+  <div class="grid cols-2">
+    <section class="panel">
+      <header><h3>Da fare oggi</h3><span class="count">8 settembre 2026</span></header>
+      <div class="stack divide">
+        ${daFare.map(x=>`<div class="kv">
+          <span>${x.t}<span class="evid">${x.d}</span></span>
+          <span class="chip ${x.cls}"><span class="dot"></span><span class="num">${x.n}</span></span>
+        </div>`).join("")}
+      </div>
+    </section>
+
+    <section class="panel">
+      <header><h3>Portafoglio</h3><span class="count num">${CLIENTS.length} percorsi attivi</span></header>
+      <div class="stack divide">
+        ${CLIENTS.map(c=>`
+          <button data-open="${c.id}" style="border:0;background:transparent;padding:0;width:100%;text-align:left">
+            <div class="kv"><span style="font-weight:700">${esc(c.nome)}</span>
+              <span class="chip ${late(c)?"late":"wip"}"><span class="dot"></span>${esc(c.avanzamento)}</span></div>
+            <div class="evid">${esc(c.percorso.nome)} · ${esc(c.percorso.forma)}</div>
+            <div class="evid" style="color:var(--coral)">${late(c)?(late(c)===1?"1 azione in ritardo":late(c)+" azioni in ritardo"):""}</div>
+          </button>`).join("")}
+      </div>
+    </section>
+  </div>
+
+  <div class="grid cols-25" style="margin-top:18px">
+    <section class="panel">
+      <header><h3>Prossimi appuntamenti</h3><span class="src">Calendar</span></header>
+      <div class="stack divide">
+        ${CLIENTS.map(c=>`<div class="kv">
+          <span><strong>${esc(c.breve)}</strong><br><span style="color:var(--mute);font-size:12px">${
+            c.prossimo ? esc(c.prossimo.t) + (c.prossimo.verifica ? " · da riconfermare" : "") : "nessun incontro a calendario"}</span></span>
+          <span class="mono" style="text-align:right;font-size:11.5px;${c.prossimo?"":"color:var(--coral)"}">${
+            c.prossimo ? esc(c.prossimo.quando) : "da fissare"}</span>
+        </div>`).join("")}
+      </div>
+    </section>
+    <section class="panel">
+      <header><h3>Cosa è successo davvero</h3><span class="count">ultimi giorni</span></header>
+      <div class="stack divide" style="font-size:12.5px">
+        <div><span class="chip done"><span class="dot"></span>Zanini</span> gli agenti hanno inviato KPI e mix clienti del 6 settembre <span class="mono" style="color:var(--mute)">6 set</span></div>
+        <div><span class="chip done"><span class="dot"></span>Di Blasi</span> report della prima lezione inviato a Enrico e Maria <span class="mono" style="color:var(--mute)">7 set · 14:17</span></div>
+        <div><span class="chip wip"><span class="dot"></span>Viglietti</span> il sistema emergenze ha risposto a tre richieste <span class="mono" style="color:var(--mute)">8 set</span></div>
+        <div><span class="chip late"><span class="dot"></span>Zanini</span> sollecito al commercialista per i bilanci, secondo in cinque giorni <span class="mono" style="color:var(--mute)">8 set · 12:13</span></div>
+      </div>
+    </section>
+  </div>`;
+}
+
+/* ═══════════════════ lato BVB ═══════════════════ */
+function viewClient(){
+  const c = current;
   return `
   <div style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin:24px 0 18px">
     <div>
-      <div class="label">Cliente · dal ${esc(C.dal)} · ${esc(C.email)}</div>
-      <h2 class="serif" style="font-size:clamp(24px,3.6vw,34px);margin-top:4px">${esc(C.nome)}</h2>
-      <div style="color:var(--mute)">${esc(C.ruolo)} — ${esc(C.percorso)}</div>
+      <div class="label">Cliente · dal ${esc(c.dal)} · ${esc(c.email)}</div>
+      <h2 class="serif" style="font-size:clamp(24px,3.6vw,34px);margin-top:4px">${esc(c.nome)}</h2>
+      <div style="color:var(--mute)">${esc(c.ruolo)}</div>
     </div>
     <div style="margin-left:auto;display:flex;gap:8px">
-      <button class="btn" data-goportal="1">Vedi come Antonio</button>
+      <button class="btn" data-goportal="1">Vedi come ${esc(c.breve)}</button>
       <button class="btn primary" data-toast="Nuovo incontro creato sul calendario, con invito e link Meet.">Fissa un incontro</button>
     </div>
   </div>
 
-  ${figure()}
+  ${figure(c)}
 
   <section class="panel" style="margin-top:18px">
-    <header><h3>Percorso Mentorship AI</h3><span class="count num">${C.fatte} di ${C.totali} tappe fatte</span></header>
-    ${trackTappe()}
-    <p style="margin:12px 0 0;font-size:12px;color:var(--mute)">
-      Le tappe contano solo i sei incontri del pacchetto, prenotati con il link Calendly del 7 agosto.
-      Le tre call precedenti — dal 28 maggio — stanno sotto “Prima del percorso” e non entrano nel conteggio.
-    </p>
+    <header><h3>${esc(c.percorso.nome)}</h3><span class="count num">${esc(c.avanzamento)}</span></header>
+    ${track(c)}
+    <p style="margin:12px 0 0;font-size:12px;color:var(--mute)">${esc(c.percorso.regola)}</p>
     <div class="warn" style="margin-top:14px">
-      <b>Le cinque tappe successive non sono ancora a calendario.</b> Il link Calendly è partito il 7 agosto.
-      Con dieci giorni minimi tra un incontro e l'altro, novembre si copre solo se la Tappa 2 entra entro fine settembre.
+      <b>${esc(c.allerta.t)}.</b> ${esc(c.allerta.m)}
     </div>
   </section>
 
   <div class="grid cols-2" style="margin-top:18px">
     <div class="stack">
       <section class="panel">
-        <header><h3>Prossimo appuntamento</h3><span class="src">${esc(C.prossimo.src)}</span></header>
-        <div class="next-card">
-          <div class="when">${esc(C.prossimo.quando)}</div>
-          <div style="font-weight:700;margin:2px 0 4px">${esc(C.prossimo.t)}</div>
-          <div style="color:var(--mute);font-size:12.5px;margin-bottom:12px">${esc(C.prossimo.nota)}</div>
-          <a class="btn primary" href="${C.prossimo.meet}" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none">Entra su Meet</a>
-        </div>
+        <header><h3>Prossimo appuntamento</h3><span class="src">${c.prossimo?esc(c.prossimo.src):"Calendar"}</span></header>
+        ${c.prossimo ? `<div class="next-card">
+          <div class="when">${esc(c.prossimo.quando)}</div>
+          <div style="font-weight:700;margin:2px 0 4px">${esc(c.prossimo.t)}</div>
+          <div style="color:var(--mute);font-size:12.5px;margin-bottom:12px">${esc(c.prossimo.nota)}</div>
+          <a class="btn primary" href="${c.prossimo.meet}" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none">Entra su Meet</a>
+        </div>` : `<div class="warn">Nessun incontro a calendario. ${esc(c.daFissare.m)}</div>
+          <div style="margin-top:12px"><a class="btn primary" href="${c.daFissare.link}" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none">Apri il calendario</a></div>`}
       </section>
 
       <section class="panel">
-        <header><h3>Incontri del percorso</h3><span class="count">1 svolto · 5 da fissare</span></header>
+        <header><h3>Incontri e report</h3><span class="count num">${c.call.length} call registrate</span></header>
         <div class="timeline">
-          ${C.tappe.filter(t=>t.stato==="fatta").map(t=>`
-            <div class="tl-item">
+          ${c.incontri.map(m=>`
+            <div class="tl-item ${m.badge.cls==="wip"?"draft":""}">
               <div class="tl-head">
-                <span class="mono num" style="color:var(--mute)">${esc(t.data)}</span>
-                <span class="t">${esc(t.t)}</span>
-                <span class="chip done"><span class="dot"></span>Report inviato</span>
+                <span class="mono num" style="color:var(--mute)">${esc(m.data)}</span>
+                <span class="t">${esc(m.t)}</span>
+                <span class="chip ${m.badge.cls}"><span class="dot"></span>${m.badge.txt}</span>
               </div>
-              <div class="tl-meta">${esc(t.ora)} · ${esc(t.durata)} · ${esc(t.meet)}</div>
-              <p style="margin:0 0 8px;font-size:12.5px">${esc(t.sintesi)}</p>
-              <div class="tl-meta">Materiali inviati il ${esc(t.inviati)}: ${t.materiali.map(m=>esc(m)).join(" · ")}</div>
+              <div class="tl-meta">${esc(m.ora)} · ${esc(m.durata)} · ${esc(m.meet)}</div>
+              <p style="margin:0 0 8px;font-size:12.5px">${esc(m.sintesi)}</p>
+              <div class="tl-meta">${esc(m.materiali)}</div>
               <div class="tl-actions">
-                <a class="btn sm" href="${FF(t.ff)}" target="_blank" rel="noopener" style="text-decoration:none">Registrazione e trascrizione</a>
+                <a class="btn sm" href="${FF(m.ff)}" target="_blank" rel="noopener" style="text-decoration:none">Registrazione e trascrizione</a>
                 <button class="btn sm ghost" data-toast="In V1 il report si apre qui dentro, senza cercarlo nella posta.">Apri il report</button>
               </div>
             </div>`).join("")}
           <div class="tl-item plan">
-            <div class="tl-head"><span class="t">Tappe 2 → 6</span><span class="chip idle"><span class="dot"></span>Da prenotare</span></div>
-            <div class="tl-meta">Link Calendly consegnato il 7 agosto · nessuno slot ancora scelto</div>
+            <div class="tl-head"><span class="t">${esc(c.daFissare.t)}</span><span class="chip idle"><span class="dot"></span>Da prenotare</span></div>
+            <div class="tl-meta">${esc(c.daFissare.m)}</div>
             <div class="tl-actions">
-              <a class="btn sm" href="${C.calendly}" target="_blank" rel="noopener" style="text-decoration:none">Apri il calendario</a>
-              <button class="btn sm ghost" data-toast="Promemoria inviato ad Antonio con il link Calendly.">Sollecita la prenotazione</button>
+              <a class="btn sm" href="${c.daFissare.link}" target="_blank" rel="noopener" style="text-decoration:none">Apri il calendario</a>
+              <button class="btn sm ghost" data-toast="Promemoria inviato con il link di prenotazione.">Sollecita</button>
             </div>
           </div>
         </div>
       </section>
 
       <section class="panel">
-        <header><h3>Prima del percorso</h3><span class="count">3 call registrate, dal 28 maggio</span></header>
+        <header><h3>Prima del percorso</h3><span class="count">come è nato il cliente</span></header>
         <div class="stack divide">
-          ${C.origine.map(o=>`
+          ${c.origine.map(o=>`
             <div>
               <div class="tl-head">
                 <span class="mono num" style="color:var(--mute)">${esc(o.data)}</span>
@@ -608,118 +913,113 @@ function viewBvb(){
 
     <div class="stack">
       <section class="panel">
-        <header><h3>Azioni di Antonio</h3><span class="count num">${az("antonio").filter(a=>a.stato==="ok").length}/${az("antonio").length}</span></header>
-        <div class="stack">${taskList("antonio")}</div>
+        <header><h3>Azioni di ${esc(c.breve)}</h3><span class="count num">${az(c,"cliente").filter(a=>a.stato==="ok").length}/${az(c,"cliente").length}</span></header>
+        <div class="stack">${tasks(c,"cliente")}</div>
       </section>
 
       <section class="panel">
-        <header><h3>Azioni BVB</h3><span class="count num">${az("bvb").filter(a=>a.stato==="ok").length}/${az("bvb").length}</span></header>
-        <div class="stack">${taskList("bvb")}</div>
+        <header><h3>Azioni BVB</h3><span class="count num">${az(c,"bvb").filter(a=>a.stato==="ok").length}/${az(c,"bvb").length}</span></header>
+        <div class="stack">${tasks(c,"bvb")}</div>
+      </section>
+
+      <section class="panel">
+        <header><h3>Materiali consegnati</h3><span class="count num">${c.materiali.length}</span></header>
+        <div class="stack divide" style="font-size:12.5px">
+          ${c.materiali.map(m=>`<div class="kv">
+            <span><strong>${esc(m.q)}</strong><br><span style="color:var(--mute)">${esc(m.t)}${m.interno?" · interno":""}</span></span>
+            <span class="mono" style="color:var(--mute)">${esc(m.d)}</span>
+          </div>`).join("")}
+        </div>
       </section>
 
       <section class="panel">
         <header><h3>Note interne</h3><span class="count">non visibili al cliente</span></header>
-        <div class="note">${esc(C.note)}</div>
+        <div class="note">${esc(c.note)}</div>
       </section>
     </div>
   </div>
 
   <section class="panel" style="margin-top:18px">
     <header><h3>I cantieri aperti</h3><span class="count">ricavati dalle call, non dichiarati a mano</span></header>
-    <div class="grid cols-3">${sistemi()}</div>
+    <div class="grid cols-${c.sistemi.length>3?"2":"3"}">${sistemi(c)}</div>
   </section>`;
 }
 
-/* ---------- vista cliente ---------- */
+/* ═══════════════════ lato cliente ═══════════════════ */
 function viewPortal(){
+  const c = current;
   return `
   <div class="portal-hero" style="margin:24px 0 18px">
     <div class="label">Il mio percorso con BRAVE Vet Business</div>
-    <h2 class="serif" style="margin:6px 0 4px">Tappa 1 fatta. Restano cinque incontri da fissare.</h2>
-    <p style="color:var(--mute);max-width:64ch;margin:0 0 18px">
-      Ciao Antonio. Il 7 settembre abbiamo fatto la prima delle sei tappe del percorso e costruito insieme il primo
-      prototipo: oggi quel sistema ha già risposto a tre richieste vere.
-      Il prossimo passo dipende da te — scegliere le date delle prossime cinque tappe.
-    </p>
-    ${trackTappe()}
+    <h2 class="serif" style="margin:6px 0 4px">${esc(c.portal.titolo)}</h2>
+    <p style="color:var(--mute);max-width:66ch;margin:0 0 18px">${esc(c.portal.testo)}</p>
+    ${track(c)}
   </div>
 
   <div class="grid cols-25">
-    <section class="next-card">
+    ${c.prossimo ? `<section class="next-card">
       <div class="label">Prossimo appuntamento</div>
-      <div class="when" style="margin:6px 0 2px">${esc(C.prossimo.quando)}</div>
-      <div style="color:var(--mute);margin-bottom:14px">${esc(C.prossimo.t)} · Google Meet</div>
+      <div class="when" style="margin:6px 0 2px">${esc(c.prossimo.quando)}</div>
+      <div style="color:var(--mute);margin-bottom:14px">${esc(c.prossimo.t)} · Google Meet</div>
       <div class="tl-actions">
-        <a class="btn primary" href="${C.prossimo.meet}" target="_blank" rel="noopener" style="text-decoration:none">Entra su Meet</a>
+        <a class="btn primary" href="${c.prossimo.meet}" target="_blank" rel="noopener" style="text-decoration:none">Entra su Meet</a>
         <button class="btn" data-form="appuntamento">Chiedi di spostare</button>
       </div>
-    </section>
+    </section>` : `<section class="next-card">
+      <div class="label">Prossimo appuntamento</div>
+      <div class="when" style="margin:6px 0 2px">Non ancora fissato</div>
+      <div style="color:var(--mute);margin-bottom:14px">L'ultimo incontro è del 2 settembre. Con la cadenza di quindici giorni il prossimo è già ora.</div>
+      <div class="tl-actions">
+        <button class="btn primary" data-form="appuntamento">Chiedi un appuntamento</button>
+      </div>
+    </section>`}
 
     <section class="panel" style="border-left:3px solid var(--gold)">
-      <header><h3>Il passo che serve adesso</h3><span class="chip wip"><span class="dot"></span>In ritardo</span></header>
-      <p style="margin:0 0 12px;font-size:13px">
-        Prenota le <b>cinque tappe rimanenti</b>. Tieni almeno dieci giorni tra un incontro e l'altro:
-        serve a te per far girare quello che nasce, e a noi per costruirlo.
-      </p>
-      <a class="btn primary" href="${C.calendly}" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none">Scegli le date</a>
+      <header><h3>${esc(c.portal.passo.t)}</h3><span class="chip ${c.portal.passo.chip.cls}"><span class="dot"></span>${c.portal.passo.chip.txt}</span></header>
+      <p style="margin:0 0 12px;font-size:13px">${c.portal.passo.m}</p>
+      <a class="btn primary" href="${c.portal.passo.link}" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none">${esc(c.portal.passo.cta)}</a>
     </section>
   </div>
 
   <div class="grid cols-2" style="margin-top:18px">
     <div class="stack">
       <section class="panel">
-        <header><h3>Cosa abbiamo fatto in Tappa 1</h3><span class="src">7 settembre · 132 min</span></header>
-        <p style="margin:0 0 12px;font-size:13px">${esc(C.tappe[0].sintesi)}</p>
-        <div class="stack divide" style="font-size:12.5px">
-          <div class="kv"><span>Report della lezione</span><span class="v">ricevuto l'8 set</span></div>
-          <div class="kv"><span>Presentazione usata in aula</span><span class="v">ricevuta l'8 set</span></div>
-          <div class="kv"><span>Registrazione integrale</span>
-            <a class="link" href="${FF(CALL_3)}" target="_blank" rel="noopener">rivedila</a></div>
-        </div>
+        <header><h3>Il nostro ultimo incontro</h3><span class="src">${esc(c.incontri[0].data)} · ${esc(c.incontri[0].durata)}</span></header>
+        <p style="margin:0 0 12px;font-size:13px">${esc(c.incontri[0].sintesi)}</p>
+        <div class="kv" style="font-size:12.5px"><span>Registrazione integrale</span>
+          <a class="link" href="${FF(c.incontri[0].ff)}" target="_blank" rel="noopener">rivedila</a></div>
       </section>
 
       <section class="panel">
-        <header><h3>Le nostre call</h3><span class="count">4 registrate · 1 è una tappa</span></header>
-        <div class="stack divide" style="font-size:12.5px">
-          <div class="kv"><span><span class="mono" style="color:var(--mute)">28 mag</span> &nbsp;Super Master AI — istruzioni abilitanti <span style="color:var(--mute)">· 22 min</span></span>
-            <a class="link" href="${FF(CALL_0)}" target="_blank" rel="noopener">rivedi</a></div>
-          <div class="kv"><span><span class="mono" style="color:var(--mute)">22 giu</span> &nbsp;La tua profilazione — il punto T0 <span style="color:var(--mute)">· 28 min</span></span>
-            <a class="link" href="${FF(CALL_1)}" target="_blank" rel="noopener">rivedi</a></div>
-          <div class="kv"><span><span class="mono" style="color:var(--mute)">6 ago</span> &nbsp;Intro al Mentorship AI, con Marta <span style="color:var(--mute)">· 30 min</span></span>
-            <a class="link" href="${FF(CALL_2)}" target="_blank" rel="noopener">rivedi</a></div>
-          <div class="kv"><span><span class="mono" style="color:var(--mute)">7 set</span> &nbsp;<b>Tappa 1 del percorso</b> <span style="color:var(--mute)">· 132 min</span></span>
-            <a class="link" href="${FF(CALL_3)}" target="_blank" rel="noopener">rivedi</a></div>
-        </div>
+        <header><h3>Le nostre call</h3><span class="count num">${c.call.length}</span></header>
+        ${callList(c)}
       </section>
 
       <section class="panel">
         <header><h3>I sistemi che stiamo costruendo</h3></header>
-        <div class="stack">${sistemi()}</div>
+        <div class="stack">${sistemi(c)}</div>
       </section>
     </div>
 
     <div class="stack">
       <section class="panel">
-        <header><h3>Le mie azioni</h3><span class="count num">${az("antonio").length} aperte</span></header>
-        <p style="color:var(--mute);font-size:12px;margin:0 0 12px">
-          Estratte dalle nostre call. Ogni voce porta al minuto esatto in cui ne abbiamo parlato.
-        </p>
-        <div class="stack">${taskList("antonio", true)}</div>
+        <header><h3>Le mie azioni</h3><span class="count num">${az(c,"cliente").filter(a=>a.stato!=="ok").length} aperte</span></header>
+        <p style="color:var(--mute);font-size:12px;margin:0 0 12px">Estratte dalle nostre call. Ogni voce porta al minuto esatto in cui ne abbiamo parlato.</p>
+        <div class="stack">${tasks(c,"cliente")}</div>
       </section>
 
       <section class="panel">
-        <header><h3>Quello che sta facendo BRAVE</h3><span class="count num">${az("bvb").filter(a=>a.stato!=="ok").length} in corso</span></header>
-        <div class="stack">${taskList("bvb", true)}</div>
+        <header><h3>Quello che sta facendo BRAVE</h3><span class="count num">${openBvb(c)} in corso</span></header>
+        <div class="stack">${tasks(c,"bvb")}</div>
       </section>
 
       <section class="panel">
         <header><h3>I miei materiali</h3></header>
         <div class="stack divide" style="font-size:12.5px">
-          ${C.materiali.filter(m=>!m.interno).map(m=>`
-            <div class="kv">
-              <span><strong>${esc(m.q)}</strong><br><span style="color:var(--mute)">${esc(m.t)}</span></span>
-              <span class="mono" style="color:var(--mute)">${esc(m.d)}</span>
-            </div>`).join("")}
+          ${c.materiali.filter(m=>!m.interno).map(m=>`<div class="kv">
+            <span><strong>${esc(m.q)}</strong><br><span style="color:var(--mute)">${esc(m.t)}</span></span>
+            <span class="mono" style="color:var(--mute)">${esc(m.d)}</span>
+          </div>`).join("")}
         </div>
       </section>
 
@@ -729,41 +1029,50 @@ function viewPortal(){
           <button class="btn primary" data-form="appuntamento">Chiedi un appuntamento</button>
           <button class="btn" data-form="domanda">Fai una domanda</button>
         </div>
-        <p style="color:var(--mute);font-size:12px;margin:0">
-          Oggi queste richieste passano dalla posta. Qui restano attaccate al percorso, e la risposta si ritrova.
-        </p>
+        <p style="color:var(--mute);font-size:12px;margin:0">Oggi queste richieste passano dalla posta. Qui restano attaccate al percorso, e la risposta si ritrova.</p>
       </section>
     </div>
   </div>`;
 }
 
-/* ---------- back office ---------- */
+/* ═══════════════════ back office ═══════════════════ */
 function viewBack(){
   const auto = [
-    ["Evento a calendario con Antonio", "crea o aggiorna la tappa nel percorso"],
-    ["Fireflies chiude una trascrizione", "aggancia la registrazione all'incontro giusto"],
+    ["Evento a calendario con un cliente", "crea o aggiorna l'incontro nel suo percorso"],
+    ["Fireflies chiude una trascrizione", "aggancia registrazione, durata e partecipanti"],
     ["Trascrizione agganciata", "Claude scrive la bozza di report e propone le azioni con il minuto di origine"],
-    ["Report approvato", "pubblica ad Antonio e invia la notifica"],
-    ["Azione ferma da più di 14 giorni", "segnala a BVB, come oggi per la migrazione da Aruba"],
-    ["Nuova richiesta dalla landing emergenze", "registra l'evento nel sistema emergenze del cliente"]
+    ["Report approvato", "pubblica al cliente e invia la notifica"],
+    ["Azione ferma da più di 14 giorni", "segnala a BVB: oggi accade su Aruba, migrazione Snoots e bilanci Zanini"],
+    ["Cadenza superata senza incontro fissato", "avvisa, come per Stefania dal 2 settembre"],
+    ["Un agente del cliente invia un report", "registra la consegna nel suo sistema"]
+  ];
+  const dubbi = [
+    ["Viglietti", "I nomi ufficiali dei tre sistemi vanno letti da piano-mentorship-viglietti_2.pdf, allegato non leggibile dagli strumenti collegati."],
+    ["Viglietti", "Due inviti «Spiegare percorso Mentorship» accettati il 13 e 15 luglio, senza evento né registrazione superstite."],
+    ["Di Blasi", "La Tappa 2 del 5 ottobre risulta accettata via email ma non esiste sul calendario BVB."],
+    ["Di Blasi", "Il secondo modulo del Super Master: la call del 7 agosto dice 18 settembre, l'email dello stesso giorno dice 25 settembre a Milano."],
+    ["Zanini", "L'incontro del 2 settembre è a calendario ma non ha registrazione: da verificare se si è svolto."]
   ];
   return `
   <div style="margin:24px 0 18px">
     <div class="label">Back office</div>
-    <h2 class="serif" style="font-size:clamp(22px,3.2vw,30px);margin-top:4px">Da dove arriva ogni dato di questa pagina</h2>
-    <p style="color:var(--mute);max-width:66ch">Nessun campo è stato compilato a mano. Il percorso di Antonio è ricostruito dai sistemi già in uso: quello che manca qui, manca anche là.</p>
+    <h2 class="serif" style="font-size:clamp(22px,3.2vw,30px);margin-top:4px">Da dove arriva ogni dato di questa app</h2>
+    <p style="color:var(--mute);max-width:66ch">Nessun campo è stato compilato a mano. I tre percorsi sono ricostruiti dai sistemi già in uso: 17 call trascritte, gli eventi di calendario, la posta e i documenti su Drive. Quello che manca qui, manca anche là.</p>
   </div>
 
   <div class="grid cols-2">
-    <section class="panel">
-      <header><h3>Integrazioni</h3><span class="count num">${C.integrazioni.filter(i=>i.cls==="done").length} attive su ${C.integrazioni.length}</span></header>
-      <div class="stack divide">
-        ${C.integrazioni.map(i=>`<div class="kv">
-          <span><strong>${esc(i.nm)}</strong><br><span style="color:var(--mute);font-size:12px">${esc(i.meta)}</span></span>
-          <span class="chip ${i.cls}"><span class="dot"></span>${i.st}</span>
-        </div>`).join("")}
-      </div>
-    </section>
+    <div class="stack">
+      ${CLIENTS.map(c=>`
+      <section class="panel">
+        <header><h3>Integrazioni · ${esc(c.breve)}</h3><span class="count num">${c.integrazioni.filter(i=>i.cls==="done").length} attive su ${c.integrazioni.length}</span></header>
+        <div class="stack divide">
+          ${c.integrazioni.map(i=>`<div class="kv">
+            <span><strong>${esc(i.nm)}</strong><br><span style="color:var(--mute);font-size:12px">${esc(i.meta)}</span></span>
+            <span class="chip ${i.cls}"><span class="dot"></span>${i.st}</span>
+          </div>`).join("")}
+        </div>
+      </section>`).join("")}
+    </div>
 
     <div class="stack">
       <section class="panel">
@@ -774,29 +1083,28 @@ function viewBack(){
       </section>
 
       <section class="panel">
-        <header><h3>Archivio del cliente</h3><span class="count num">${C.materiali.length} documenti</span></header>
-        <div class="stack divide" style="font-size:12.5px">
-          ${C.materiali.map(m=>`<div class="kv">
-            <span><strong>${esc(m.t)}</strong><br><span style="color:var(--mute)">${esc(m.q)}${m.interno?" · interno":""}</span></span>
-            <span class="mono" style="color:var(--mute)">${esc(m.d)}</span>
-          </div>`).join("")}
+        <header><h3>Da confermare</h3><span class="chip wip"><span class="dot"></span><span class="num">${dubbi.length}</span></span></header>
+        <p style="color:var(--mute);font-size:12px;margin:0 0 12px">Punti in cui le fonti non bastano o si contraddicono. Sono segnalati invece che risolti a intuito.</p>
+        <div class="stack">
+          ${dubbi.map(d=>`<div class="warn"><b>${esc(d[0])}</b> — ${esc(d[1])}</div>`).join("")}
         </div>
       </section>
 
       <section class="panel">
-        <header><h3>Da confermare</h3><span class="chip wip"><span class="dot"></span>1</span></header>
-        <div class="warn">
-          I nomi ufficiali dei tre sistemi vanno letti da <b>piano-mentorship-viglietti_2.pdf</b>: qui i cantieri
-          sono ricostruiti dalle call, non dal piano. È l'unico punto della pagina che non viene da una fonte già collegata.
+        <header><h3>Modello riproducibile</h3></header>
+        <div class="stack divide" style="font-size:12.5px">
+          <div><b>Tre percorsi, tre forme diverse</b><span class="evid">Viglietti e Di Blasi a sei tappe prenotabili; Zanini ad affiancamento quindicinale. La mappa misura il pacchetto venduto, non la frequentazione.</span></div>
+          <div><b>Un cliente in più è una riga in più</b><span class="evid">Bastano l'indirizzo email — che collega calendario, posta e registrazioni — e il template di percorso.</span></div>
+          <div><b>Stessa catena per tutti</b><span class="evid">Calendario → Meet → Fireflies → Claude → approvazione → pubblicazione.</span></div>
         </div>
       </section>
     </div>
   </div>`;
 }
 
-/* ---------- moduli ---------- */
+/* ═══════════════════ moduli ═══════════════════ */
 function sheetForm(kind){
-  const app = kind==="appuntamento";
+  const c = current, app = kind === "appuntamento";
   return `<div class="overlay" data-close="1"><div class="sheet" style="max-width:520px" role="dialog" aria-modal="true">
     <header>
       <div>
@@ -808,16 +1116,16 @@ function sheetForm(kind){
     <div class="body">
       ${app ? `
       <label class="field"><span class="label">Motivo</span>
-        <select><option>Prenotare una tappa del percorso</option><option>Spostare il test della landing emergenze</option><option>Incontro extra su un blocco</option></select></label>
+        <select><option>Prenotare il prossimo incontro del percorso</option><option>Spostare un incontro già fissato</option><option>Incontro extra su un blocco</option></select></label>
       <label class="field"><span class="label">Quando preferisci</span>
         <select><option>Mattina</option><option>Pomeriggio</option><option>Indifferente</option></select></label>
       <label class="field"><span class="label">Nota per Massimo</span>
         <textarea placeholder="In ambulatorio il pomeriggio è complicato, meglio la mattina presto."></textarea></label>`
       : `
       <label class="field"><span class="label">A cosa si riferisce</span>
-        <select><option>Nessun riferimento</option><option>Report della Tappa 1</option><option>Azione: account n8n</option><option>Sistema emergenze</option></select></label>
+        <select><option>Nessun riferimento</option><option>${esc(c.incontri[0].t)}</option>${c.azioni.slice(0,2).map(a=>`<option>Azione: ${esc(a.t)}</option>`).join("")}</select></label>
       <label class="field"><span class="label">La tua domanda</span>
-        <textarea placeholder="L'account n8n gratuito basta anche quando colleghiamo i dati della clinica?"></textarea></label>`}
+        <textarea placeholder="Scrivi qui la tua domanda."></textarea></label>`}
       <p style="color:var(--mute);font-size:12px;margin:0">${app?"Ricevi fino a 3 proposte di orario, lette dal calendario reale. Chi sceglie sei tu.":"Rispondiamo entro 1 giorno lavorativo. La domanda resta attaccata al percorso."}</p>
     </div>
     <footer>
@@ -827,18 +1135,23 @@ function sheetForm(kind){
   </div></div>`;
 }
 
-/* ---------- render ---------- */
+/* ═══════════════════ render ═══════════════════ */
 function render(){
-  const isPortal = mode==="portal";
+  const isPortal = mode === "portal";
   $("#searchWrap").style.visibility = isPortal ? "hidden" : "visible";
-  $("#ctxLabel").textContent = isPortal ? "Vista di Antonio Viglietti"
-    : mode==="backoffice" ? "Back office" : "Console BraveVETBusiness";
-  $("#tabBvb").setAttribute("aria-pressed", String(mode==="bvb"));
+  $("#ctxLabel").textContent = isPortal ? "Vista di " + current.nome
+    : mode === "backoffice" ? "Back office" : "Console BraveVETBusiness";
+  $("#tabConsole").setAttribute("aria-pressed", String(mode === "console" || mode === "client"));
   $("#tabPortal").setAttribute("aria-pressed", String(isPortal));
-  $("#tabBack").setAttribute("aria-pressed", String(mode==="backoffice"));
+  $("#tabBack").setAttribute("aria-pressed", String(mode === "backoffice"));
+  $("#tabPortal").textContent = mode === "console" ? "Lato cliente" : "Vista " + current.breve;
 
-  const main = mode==="portal" ? viewPortal() : mode==="backoffice" ? viewBack() : viewBvb();
+  const main = mode === "console" ? viewConsole()
+             : mode === "client" ? viewClient()
+             : mode === "portal" ? viewPortal()
+             : viewBack();
   view.innerHTML = main + (sheet ? sheetForm(sheet) : "");
+  window.scrollTo({top:0, behavior:"instant"});
 }
 
 function toast(msg){
@@ -854,33 +1167,44 @@ function toast(msg){
 document.addEventListener("click", e=>{
   const t = e.target.closest("[data-open],[data-form],[data-goportal],[data-close],[data-toast]");
   if(!t) return;
-  if(t.dataset.open){ mode="bvb"; sheet=null; render(); return; }
+  if(t.dataset.open){
+    const found = CLIENTS.find(c=>c.id===t.dataset.open);
+    if(found) current = found;
+    mode="client"; sheet=null; render(); return;
+  }
   if(t.dataset.goportal){ mode="portal"; sheet=null; render(); return; }
   if(t.dataset.form){ sheet=t.dataset.form; render(); return; }
   if(t.dataset.toast){ toast(t.dataset.toast); }
   if(t.dataset.close === "1" && (e.target===t || t.classList.contains("x") || t.classList.contains("btn"))){ sheet=null; render(); }
 });
 
-$("#tabBvb").onclick    = ()=>{ mode="bvb"; sheet=null; render(); };
-$("#tabPortal").onclick = ()=>{ mode="portal"; sheet=null; render(); };
-$("#tabBack").onclick   = ()=>{ mode="backoffice"; sheet=null; render(); };
+$("#tabConsole").onclick = ()=>{ mode="console"; sheet=null; render(); };
+$("#tabPortal").onclick  = ()=>{ mode="portal"; sheet=null; render(); };
+$("#tabBack").onclick    = ()=>{ mode="backoffice"; sheet=null; render(); };
 
 const q = $("#q"), results = $("#results");
+const matches = v => {
+  v = v.trim().toLowerCase();
+  return v ? CLIENTS.filter(c => (c.nome + " " + c.ruolo).toLowerCase().includes(v)) : [];
+};
 function drawResults(){
-  const v = q.value.trim().toLowerCase();
-  const hit = v && (C.nome + " " + C.ruolo).toLowerCase().includes(v);
-  results.hidden = !hit;
-  results.innerHTML = hit ? `<button data-open="1">
-      <span class="nm">${esc(C.nome)}</span>
-      <span class="meta num">Tappa ${C.fatte} di ${C.totali}</span></button>` : "";
+  const list = matches(q.value);
+  results.hidden = !list.length;
+  results.innerHTML = list.map((c,i)=>`<button data-open="${c.id}" class="${i===0?"on":""}">
+      <span class="nm">${esc(c.nome)}</span>
+      <span class="meta">${esc(c.avanzamento)}</span></button>`).join("");
 }
 q.addEventListener("input", drawResults);
 q.addEventListener("keydown", e=>{
-  if(e.key==="Enter"){ mode="bvb"; sheet=null; q.value=""; results.hidden=true; render(); }
+  if(e.key==="Enter"){
+    const first = matches(q.value)[0];
+    if(first){ current=first; mode="client"; sheet=null; q.value=""; results.hidden=true; render(); }
+  }
   if(e.key==="Escape"){ q.value=""; results.hidden=true; }
 });
 document.addEventListener("click", e=>{ if(!e.target.closest("#searchWrap")) results.hidden = true; });
 document.addEventListener("keydown", e=>{ if(e.key==="Escape" && sheet){ sheet=null; render(); } });
 
 render();
+
 </script>
