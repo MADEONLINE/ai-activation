@@ -9,8 +9,10 @@ Prototipo dell'MVP, popolato con i dati reali di tre clienti — Antonio Vigliet
 
 | Azione | Dove |
 |---|---|
-| Portafoglio dei tre percorsi e cose da fare oggi | vista **Lato BVB** |
+| Portafoglio dei tre percorsi e cose da fare oggi | vista **Lato BVB**, o **← Portafoglio** |
 | Percorso, incontri, azioni e cantieri di un cliente | clic sul suo nome, o ricerca "anto", "enri", "stef" |
+| Passare da un cliente all'altro senza tornare indietro | **barra clienti** sotto l'intestazione, sempre visibile |
+| Il report completo del progetto, da leggere o salvare in PDF | **Report di progetto** |
 | La stessa cosa come la vede il cliente, senza note interne né fatture | vista **Lato cliente** |
 | Risentire il minuto esatto in cui un'azione è stata decisa | clic su "vai al minuto" sotto ogni azione |
 | Registrazione e trascrizione di un incontro | **Registrazione e trascrizione** |

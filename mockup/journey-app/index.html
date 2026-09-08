@@ -280,6 +280,48 @@
   .fig span{font-size:11.5px;color:var(--mute)}
   .owner{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mute)}
   .warn{background:var(--coral-soft);border-left:2px solid var(--coral);padding:10px 12px;border-radius:0 8px 8px 0;font-size:12.5px}
+
+  /* ---------- v4: barra clienti e report di progetto ---------- */
+  .clientbar{
+    max-width:1280px;margin:0 auto;padding:0 22px 11px;
+    display:flex;gap:7px;align-items:center;flex-wrap:wrap;
+  }
+  .clientbar .lbl{margin-right:4px}
+  .cbtn{
+    display:inline-flex;align-items:center;gap:7px;
+    border:1px solid var(--rule-2);background:var(--surface);border-radius:99px;
+    padding:5px 13px 5px 9px;font-size:12.5px;font-weight:600;color:var(--mute);
+  }
+  .cbtn .ini{
+    width:19px;height:19px;border-radius:50%;background:var(--bg-sunk);color:var(--mute);
+    display:grid;place-items:center;font-size:9.5px;font-weight:700;flex:none;
+  }
+  .cbtn:hover{border-color:var(--ink);color:var(--ink)}
+  .cbtn[aria-current="true"]{background:var(--teal-deep);border-color:var(--teal-deep);color:var(--on-teal)}
+  .cbtn[aria-current="true"] .ini{background:rgba(255,255,255,.22);color:var(--on-teal)}
+  .cbtn .flag{width:6px;height:6px;border-radius:50%;background:var(--coral)}
+
+  .rep h4{
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--teal);margin:22px 0 9px;
+    padding-bottom:5px;border-bottom:1px solid var(--rule);
+  }
+  .rep h4:first-child{margin-top:0}
+  .rep p{margin:0 0 9px;font-size:13px}
+  .rep .line{display:flex;gap:10px;font-size:12.5px;padding:5px 0;border-bottom:1px solid var(--rule)}
+  .rep .line:last-child{border-bottom:0}
+  .rep .line .w{flex:none;width:88px;color:var(--mute);font-family:"IBM Plex Mono",monospace;font-size:11px}
+
+  @media print{
+    .topbar,.footnote,.tl-actions,.x,.sheet footer{display:none!important}
+    .overlay{position:static;background:none;padding:0;display:block;overflow:visible}
+    .sheet{box-shadow:none;border:0;max-width:none;border-radius:0}
+    .sheet header{padding:0 0 14px}
+    .sheet .body{padding:0}
+    #view > *:not(.overlay){display:none!important}
+    body{background:#fff;color:#111}
+    a.link{color:#111}
+  }
 </style>
 
 
@@ -305,6 +347,7 @@
       <button id="tabBack" aria-pressed="false">Back office</button>
     </div>
   </div>
+  <div class="clientbar" id="clientBar"></div>
 </header>
 
 <div class="shell">
@@ -843,6 +886,7 @@ function viewClient(){
       <div style="color:var(--mute)">${esc(c.ruolo)}</div>
     </div>
     <div style="margin-left:auto;display:flex;gap:8px">
+      <button class="btn" data-report="1">Report di progetto</button>
       <button class="btn" data-goportal="1">Vedi come ${esc(c.breve)}</button>
       <button class="btn primary" data-toast="Nuovo incontro creato sul calendario, con invito e link Meet.">Fissa un incontro</button>
     </div>
@@ -884,7 +928,7 @@ function viewClient(){
               </div>
               <div class="tl-meta">${esc(m.ora)} · ${esc(m.durata)} · ${esc(m.meet)}</div>
               <p style="margin:0 0 8px;font-size:12.5px">${esc(m.sintesi)}</p>
-              <div class="tl-meta">${esc(m.materiali)}</div>
+              ${m.materiali?`<div class="tl-meta">${esc(m.materiali)}</div>`:""}
               <div class="tl-actions">
                 <a class="btn sm" href="${FF(m.ff)}" target="_blank" rel="noopener" style="text-decoration:none">Registrazione e trascrizione</a>
                 <button class="btn sm ghost" data-toast="In V1 il report si apre qui dentro, senza cercarlo nella posta.">Apri il report</button>
@@ -1111,6 +1155,78 @@ function viewBack(){
   </div>`;
 }
 
+
+/* ═══════════════════ report di progetto ═══════════════════ */
+function reportSheet(){
+  const c = current;
+  const dubbi = c.origine.filter(o=>o.verifica).map(o=>o.t)
+    .concat(c.prossimo && c.prossimo.verifica ? ["Prossimo appuntamento: " + c.prossimo.quando + " — " + c.prossimo.nota] : []);
+  const azC = az(c,"cliente"), azB = az(c,"bvb");
+  const riga = a => `<div class="line">
+      <span class="w">${a.stato==="ok"?"fatta":a.stato==="late"?"in ritardo":a.stato==="wip"?"in corso":"aperta"}</span>
+      <span>${esc(a.t)}${a.nota?` <span style="color:var(--mute)">— ${esc(a.nota)}</span>`:""}
+        <span class="evid">${a.link?`<a class="link" href="${a.link}" target="_blank" rel="noopener">${esc(a.src)}</a>`:esc(a.src)}</span></span>
+    </div>`;
+  return `<div class="overlay" data-close="1"><div class="sheet" style="max-width:820px" role="dialog" aria-modal="true" aria-label="Report di progetto">
+    <header>
+      <div>
+        <div class="label">Report di progetto · aggiornato all'8 settembre 2026</div>
+        <h3 class="serif" style="font-size:24px;margin:5px 0 3px">${esc(c.nome)}</h3>
+        <div style="color:var(--mute);font-size:12.5px">${esc(c.ruolo)} · ${esc(c.percorso.nome)}, ${esc(c.percorso.forma)} · cliente dal ${esc(c.dal)}</div>
+      </div>
+      <button class="x" data-close="1" aria-label="Chiudi">×</button>
+    </header>
+    <div class="body rep">
+      <h4>Dove siamo</h4>
+      <p><b>${esc(c.avanzamento)}.</b> ${esc(c.percorso.regola)}.</p>
+      <p style="color:var(--coral)"><b>${esc(c.allerta.t)}.</b> ${esc(c.allerta.m)}</p>
+      <div class="figs" style="margin-top:12px">${c.figure.map(f=>`<div class="fig"><b class="num">${esc(f.n)}</b><span>${esc(f.l)}</span></div>`).join("")}</div>
+
+      <h4>Prossimo appuntamento</h4>
+      ${c.prossimo ? `<p><b>${esc(c.prossimo.quando)}</b> — ${esc(c.prossimo.t)}. ${esc(c.prossimo.nota)}</p>`
+                   : `<p>Nessun incontro a calendario. ${esc(c.daFissare.m)}.</p>`}
+
+      <h4>Come è nato il cliente</h4>
+      ${c.origine.map(o=>`<div class="line"><span class="w">${esc(o.data)}</span><span><b>${esc(o.t)}</b> — ${esc(o.m)}<span class="evid">${esc(o.src)}</span></span></div>`).join("")}
+
+      <h4>Le call registrate · ${c.call.length}</h4>
+      ${c.call.map(k=>`<div class="line"><span class="w">${esc(k.d)}</span><span>${k.tappa?`<b>${esc(k.t)}</b>`:esc(k.t)} · ${esc(k.m)}
+        <span class="evid"><a class="link" href="${FF(k.ff)}" target="_blank" rel="noopener">registrazione e trascrizione</a></span></span></div>`).join("")}
+
+      <h4>Gli incontri del percorso</h4>
+      ${c.incontri.map(m=>`<p><b>${esc(m.data)} — ${esc(m.t)}</b> (${esc(m.durata)})<br>${esc(m.sintesi)}
+        ${m.materiali?`<br><span class="evid">${esc(m.materiali)}</span>`:""}</p>`).join("")}
+
+      <h4>I cantieri aperti</h4>
+      ${c.sistemi.map(x=>`<p><b>${esc(x.nm)}</b> — ${esc(x.stato.txt)}.<br>${esc(x.desc)}<br>
+        <span class="evid">${x.punti.map(esc).join(" · ")}</span></p>`).join("")}
+
+      <h4>Azioni del cliente · ${azC.filter(a=>a.stato!=="ok").length} aperte su ${azC.length}</h4>
+      ${azC.map(riga).join("")}
+
+      <h4>Azioni BVB · ${azB.filter(a=>a.stato!=="ok").length} aperte su ${azB.length}</h4>
+      ${azB.map(riga).join("")}
+
+      <h4>Materiali consegnati</h4>
+      ${c.materiali.map(m=>`<div class="line"><span class="w">${esc(m.d)}</span><span>${esc(m.q)} <span style="color:var(--mute)">— ${esc(m.t)}${m.interno?" · interno":""}</span></span></div>`).join("")}
+
+      <h4>Integrazioni</h4>
+      ${c.integrazioni.map(i=>`<div class="line"><span class="w">${esc(i.st)}</span><span><b>${esc(i.nm)}</b> — ${esc(i.meta)}</span></div>`).join("")}
+
+      <h4>Nota interna</h4>
+      <p>${esc(c.note)}</p>
+
+      ${dubbi.length?`<h4>Da confermare</h4>${dubbi.map(d=>`<div class="line"><span class="w">verifica</span><span>${esc(d)}</span></div>`).join("")}`:""}
+
+      <p class="label" style="margin-top:22px">Fonti: Google Calendar · Gmail · Fireflies · Google Drive. Nessun campo compilato a mano.</p>
+    </div>
+    <footer>
+      <button class="btn primary" data-print="1">Stampa o salva in PDF</button>
+      <button class="btn ghost" data-close="1">Chiudi</button>
+    </footer>
+  </div></div>`;
+}
+
 /* ═══════════════════ moduli ═══════════════════ */
 function sheetForm(kind){
   const c = current, app = kind === "appuntamento";
@@ -1155,11 +1271,24 @@ function render(){
   $("#tabBack").setAttribute("aria-pressed", String(mode === "backoffice"));
   $("#tabPortal").textContent = mode === "console" ? "Lato cliente" : "Vista " + current.breve;
 
+  const bar = $("#clientBar");
+  if(mode === "console"){
+    bar.hidden = true; bar.innerHTML = "";
+  } else {
+    bar.hidden = false;
+    bar.innerHTML = `<span class="label lbl">Clienti</span>` + CLIENTS.map(c=>`
+      <button class="cbtn" data-switch="${c.id}" aria-current="${c.id===current.id}">
+        <span class="ini">${esc(c.breve[0])}${esc(c.nome.split(" ").slice(-1)[0][0])}</span>
+        ${esc(c.nome)}${late(c)?`<span class="flag" title="azioni in ritardo"></span>`:""}
+      </button>`).join("")
+      + `<button class="cbtn" data-back="1" style="margin-left:auto">← Portafoglio</button>`;
+  }
+
   const main = mode === "console" ? viewConsole()
              : mode === "client" ? viewClient()
              : mode === "portal" ? viewPortal()
              : viewBack();
-  view.innerHTML = main + (sheet ? sheetForm(sheet) : "");
+  view.innerHTML = main + (sheet === "report" ? reportSheet() : sheet ? sheetForm(sheet) : "");
   window.scrollTo({top:0, behavior:"instant"});
 }
 
@@ -1174,8 +1303,17 @@ function toast(msg){
 }
 
 document.addEventListener("click", e=>{
-  const t = e.target.closest("[data-open],[data-form],[data-goportal],[data-close],[data-toast]");
+  const t = e.target.closest("[data-open],[data-switch],[data-back],[data-print],[data-report],[data-form],[data-goportal],[data-close],[data-toast]");
   if(!t) return;
+  if(t.dataset.switch){
+    const found = CLIENTS.find(c=>c.id===t.dataset.switch);
+    if(found) current = found;
+    if(mode !== "portal") mode = "client";
+    sheet = null; render(); return;
+  }
+  if(t.dataset.back){ mode="console"; sheet=null; render(); return; }
+  if(t.dataset.print){ window.print(); return; }
+  if(t.dataset.report){ sheet="report"; render(); return; }
   if(t.dataset.open){
     const found = CLIENTS.find(c=>c.id===t.dataset.open);
     if(found) current = found;
